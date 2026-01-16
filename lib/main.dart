@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'controllers/sign_in_controller.dart';
 import 'dependencies/dependency_injection.dart';
 import 'globalcontroller/font_controller.dart';
 import 'globalcontroller/languages_controller.dart';
@@ -16,9 +17,9 @@ void main() async {
   await GetStorage.init();
 
   DependencyInjection.init();
-  Get.put(Mypagecontroller());
-  Get.put(FontController());
   Get.put(LanguagesController(), permanent: true);
+  Get.put(FontController(), permanent: true);
+  Get.put(Mypagecontroller(), permanent: true);
 
   runApp(
     EasyLocalization(

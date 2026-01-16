@@ -5,11 +5,13 @@ import 'package:busbooking/widgets/default_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../controllers/sign_in_controller.dart';
 import '../globalcontroller/languages_controller.dart';
 
 class SignInScreen extends StatelessWidget {
   SignInScreen({super.key});
   final languagesController = Get.find<LanguagesController>();
+  final signincController = Get.find<SignInController>();
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -59,13 +61,13 @@ class SignInScreen extends StatelessWidget {
               MyAuthTextfield(
                 height: screenHeight * 0.070,
                 hint: languagesController.tr("EMAIL_OR_PHONE"),
-                controller: emailController,
+                controller: signincController.usernameController,
               ),
               SizedBox(height: screenHeight * 0.010),
               MyAuthTextfield(
                 height: screenHeight * 0.070,
                 hint: languagesController.tr("PASSWORD"),
-                controller: emailController,
+                controller: signincController.passwordController,
               ),
               SizedBox(height: screenHeight * 0.0250),
               Row(
@@ -90,13 +92,17 @@ class SignInScreen extends StatelessWidget {
 
               DefaultButton(
                 onTap: () {
-                  Get.toNamed(basescreen);
+                  signincController.signIn();
                 },
-                child: KText(
-                  text: languagesController.tr("LOGIN"),
-                  color: Colors.white,
-                  fontWeight: FontWeight.w700,
-                  fontSize: screenHeight * 0.018,
+                child: Obx(
+                  () => KText(
+                    text: signincController.isLoading.value == false
+                        ? languagesController.tr("LOGIN")
+                        : languagesController.tr("PLEASE_WAIT"),
+                    color: Colors.white,
+                    fontWeight: FontWeight.w700,
+                    fontSize: screenHeight * 0.018,
+                  ),
                 ),
               ),
               SizedBox(height: screenHeight * 0.0250),
