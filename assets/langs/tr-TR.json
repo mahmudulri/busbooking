@@ -411,7 +411,31 @@
 "PLEASE_ENTER_YOUR_INFORMATION": "Lütfen bilgilerinizi girin",
 "EMAIL_OR_PHONE": "E-posta veya telefon",
 "PASSWORD_RECOVERY": "Şifre kurtarma",
-"HAVENT_REGISTER_YET_?": "Henüz kayıt olmadınız mı?"
+"HAVENT_REGISTER_YET_?": "Henüz kayıt olmadınız mı?",
+"ACCOUNT_CREDIT": "Alacak Hesabı",
+"ACCOUNT_DEBIT": "Borç Hesabı",
+"ACCOUNT_SALE": "Satış Hesabı",
+"ACCOUNT_PROFIT": "Kâr Hesabı",
+"BUS_RESERVATION": "Otobüs rezervasyonu",
+"FLIGHT_TICKET": "Uçak bileti",
+"TAXI_TICKET": "Taksi bileti",
+"CITY_TAXI": "Şehir taksisi",
+"INTERNET_PACKAGE": "İnternet paketi",
+"MONEY_TRANSFER": "Para transferi",
+"CONVERSATION_PACKAGE": "Konuşma paketi",
+"OTHER_SERVICES": "Diğer hizmetler",
+"CREDIT_TRANSFER": "Kredi transferi",
+"NETWORK": "Ağ",
+"ORIGIN": "Kalkış",
+"EXIT": "Çıkış",
+"DESTINATION": "Varış",
+"ENTER": "Gir",
+"NUMBER_OF_PASSENGERS": "Yolcu sayısı",
+"MOVE_DATE": "Seyahat tarihi",
+"SEARCH_BUS": "Otobüs ara",
+"RECENT_BOOKINGS": "Son rezervasyonlar",
+"SHOW_DETAILS": "Detayları göster",
+"SPECIAL_OFFER": "Özel teklif"
 
 
 

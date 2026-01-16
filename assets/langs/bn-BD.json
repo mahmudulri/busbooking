@@ -411,7 +411,32 @@
 "PLEASE_ENTER_YOUR_INFORMATION": "অনুগ্রহ করে আপনার তথ্য প্রদান করুন",
 "EMAIL_OR_PHONE": "ইমেইল বা ফোন নম্বর",
 "PASSWORD_RECOVERY": "পাসওয়ার্ড পুনরুদ্ধার",
-"HAVENT_REGISTER_YET_?": "এখনও নিবন্ধন করেননি?"
+"HAVENT_REGISTER_YET_?": "এখনও নিবন্ধন করেননি?",
+"ACCOUNT_CREDIT": "ক্রেডিট হিসাব",
+"ACCOUNT_DEBIT": "ডেবিট হিসাব",
+"ACCOUNT_SALE": "বিক্রয় হিসাব",
+"ACCOUNT_PROFIT": "লাভ হিসাব",
+"BUS_RESERVATION": "বাস রিজার্ভেশন",
+"FLIGHT_TICKET": "ফ্লাইট টিকিট",
+"TAXI_TICKET": "ট্যাক্সি টিকিট",
+"CITY_TAXI": "সিটি ট্যাক্সি",
+"INTERNET_PACKAGE": "ইন্টারনেট প্যাকেজ",
+"MONEY_TRANSFER": "মানি ট্রান্সফার",
+"CONVERSATION_PACKAGE": "কল প্যাকেজ",
+"OTHER_SERVICES": "অন্যান্য সেবা",
+"CREDIT_TRANSFER": "ক্রেডিট ট্রান্সফার",
+"NETWORK": "নেটওয়ার্ক",
+"ORIGIN": "উৎপত্তি",
+"EXIT": "প্রস্থান",
+"DESTINATION": "গন্তব্য",
+"ENTER": "প্রবেশ",
+"NUMBER_OF_PASSENGERS": "যাত্রীর সংখ্যা",
+"MOVE_DATE": "ভ্রমণের তারিখ",
+"SEARCH_BUS": "বাস অনুসন্ধান",
+"RECENT_BOOKINGS": "সাম্প্রতিক বুকিং",
+"SHOW_DETAILS": "বিস্তারিত দেখুন",
+"SPECIAL_OFFER": "বিশেষ অফার"
+
 
 
 

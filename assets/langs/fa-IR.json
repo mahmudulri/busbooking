@@ -411,7 +411,31 @@
 "PLEASE_ENTER_YOUR_INFORMATION": "لطفاً اطلاعات خود را وارد کنید",
 "EMAIL_OR_PHONE": "ایمیل یا شماره تلفن",
 "PASSWORD_RECOVERY": "بازیابی رمز عبور",
-"HAVENT_REGISTER_YET_?": "هنوز ثبت‌نام نکرده‌اید؟"
+"HAVENT_REGISTER_YET_?": "هنوز ثبت‌نام نکرده‌اید؟",
+"ACCOUNT_CREDIT": "حساب بستانکار",
+"ACCOUNT_DEBIT": "حساب بدهکار",
+"ACCOUNT_SALE": "حساب فروش",
+"ACCOUNT_PROFIT": "حساب سود",
+"BUS_RESERVATION": "رزرو اتوبوس",
+"FLIGHT_TICKET": "بلیط هواپیما",
+"TAXI_TICKET": "بلیط تاکسی",
+"CITY_TAXI": "تاکسی شهری",
+"INTERNET_PACKAGE": "بسته اینترنت",
+"MONEY_TRANSFER": "انتقال پول",
+"CONVERSATION_PACKAGE": "بسته مکالمه",
+"OTHER_SERVICES": "سایر خدمات",
+"CREDIT_TRANSFER": "انتقال اعتبار",
+"NETWORK": "شبکه",
+"ORIGIN": "مبدا",
+"EXIT": "خروج",
+"DESTINATION": "مقصد",
+"ENTER": "ورود",
+"NUMBER_OF_PASSENGERS": "تعداد مسافران",
+"MOVE_DATE": "تاریخ سفر",
+"SEARCH_BUS": "جستجوی اتوبوس",
+"RECENT_BOOKINGS": "رزروهای اخیر",
+"SHOW_DETAILS": "نمایش جزئیات",
+"SPECIAL_OFFER": "پیشنهاد ویژه"
 
 
 

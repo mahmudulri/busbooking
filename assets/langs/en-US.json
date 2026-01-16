@@ -412,7 +412,31 @@
 "PLEASE_ENTER_YOUR_INFORMATION": "Please enter your information",
 "EMAIL_OR_PHONE": "Email or phone",
 "PASSWORD_RECOVERY": "Password recovery",
-"HAVENT_REGISTER_YET_?": "Haven’t registered yet?"
+"HAVENT_REGISTER_YET_?": "Haven’t registered yet?",
+"ACCOUNT_CREDIT": "Account Credit",
+"ACCOUNT_DEBIT": "Account Debit",
+"ACCOUNT_SALE": "Account Sale",
+"ACCOUNT_PROFIT": "Account Profit",
+"BUS_RESERVATION": "Bus reservation",
+"FLIGHT_TICKET": "Flight ticket",
+"TAXI_TICKET": "Taxi ticket",
+"CITY_TAXI": "City taxi",
+"INTERNET_PACKAGE": "Internet package",
+"MONEY_TRANSFER": "Money transfer",
+"CONVERSATION_PACKAGE": "Call package",
+"OTHER_SERVICES": "Other services",
+"CREDIT_TRANSFER": "Credit transfer",
+"NETWORK": "Network",
+"ORIGIN": "Origin",
+"EXIT": "Exit",
+"DESTINATION": "Destination",
+"ENTER": "Enter",
+"NUMBER_OF_PASSENGERS": "Number of passengers",
+"MOVE_DATE": "Travel date",
+"SEARCH_BUS": "Search bus",
+"RECENT_BOOKINGS": "Recent bookings",
+"SHOW_DETAILS": "Show details",
+"SPECIAL_OFFER": "Special offer"
 
 
 

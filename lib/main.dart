@@ -5,6 +5,7 @@ import 'package:get_storage/get_storage.dart';
 import 'dependencies/dependency_injection.dart';
 import 'globalcontroller/font_controller.dart';
 import 'globalcontroller/languages_controller.dart';
+import 'globalcontroller/page_controller.dart';
 import 'globalcontroller/time_zone_controller.dart';
 import 'routes/routes.dart';
 
@@ -15,6 +16,7 @@ void main() async {
   await GetStorage.init();
 
   DependencyInjection.init();
+  Get.put(Mypagecontroller());
   Get.put(FontController());
   Get.put(LanguagesController(), permanent: true);
 

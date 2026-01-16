@@ -7,6 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 import '../globalcontroller/languages_controller.dart';
+import '../globalcontroller/page_controller.dart';
 import '../utils/colors.dart';
 
 class BaseScreen extends StatefulWidget {
@@ -17,22 +18,21 @@ class BaseScreen extends StatefulWidget {
 }
 
 class _BaseScreenState extends State<BaseScreen> {
+  final mypagecontroller = Get.find<Mypagecontroller>();
   final languagesController = Get.find<LanguagesController>();
-  int currentIndex = 0;
 
-  late Widget currentPage;
+  int _selectedIndex = 0;
 
-  final List<Widget> _pages = [
-    Homepage(),
-    TransactionPage(),
-    OrderPage(),
-    NetworkPage(),
-  ];
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
-    currentPage = Homepage();
+    mypagecontroller.setUpdateIndexCallback(_onItemTapped);
   }
 
   @override
@@ -40,7 +40,7 @@ class _BaseScreenState extends State<BaseScreen> {
     var screenHeight = MediaQuery.of(context).size.height;
     var screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      body: currentPage,
+      body: Obx(() => mypagecontroller.pageStack.last),
       bottomNavigationBar: SafeArea(
         child: Stack(
           clipBehavior: Clip.none,
@@ -140,30 +140,29 @@ class _BaseScreenState extends State<BaseScreen> {
     required String label,
     required Widget page,
   }) {
-    final isActive = currentIndex == index;
+    return Obx(() {
+      final isActive = mypagecontroller.lastSelectedIndex.value == index;
 
-    return MaterialButton(
-      minWidth: 40,
-      onPressed: () {
-        setState(() {
-          currentIndex = index;
-          currentPage = page;
-        });
-      },
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(icon.toString(), height: 25),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 10,
-              color: isActive ? AppColors.primaryColor : Colors.black,
-              fontWeight: isActive ? FontWeight.w700 : FontWeight.w400,
+      return MaterialButton(
+        minWidth: 40,
+        onPressed: () {
+          mypagecontroller.changePage(page);
+        },
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(icon, height: 25),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 10,
+                color: isActive ? AppColors.primaryColor : Colors.black,
+                fontWeight: isActive ? FontWeight.w700 : FontWeight.w400,
+              ),
             ),
-          ),
-        ],
-      ),
-    );
+          ],
+        ),
+      );
+    });
   }
 }

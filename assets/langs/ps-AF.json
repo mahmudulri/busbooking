@@ -411,7 +411,31 @@
 "PLEASE_ENTER_YOUR_INFORMATION": "مهرباني وکړئ خپل معلومات دننه کړئ",
 "EMAIL_OR_PHONE": "برېښنالیک یا د تلیفون شمېره",
 "PASSWORD_RECOVERY": "د پټنوم بیا ترلاسه کول",
-"HAVENT_REGISTER_YET_?": "تر اوسه ثبت‌نام نه دی کړی؟"
+"HAVENT_REGISTER_YET_?": "تر اوسه ثبت‌نام نه دی کړی؟",
+"ACCOUNT_CREDIT": "د کریډیټ حساب",
+"ACCOUNT_DEBIT": "د ډیبیټ حساب",
+"ACCOUNT_SALE": "د پلور حساب",
+"ACCOUNT_PROFIT": "د ګټې حساب",
+"BUS_RESERVATION": "د بس ریزرویشن",
+"FLIGHT_TICKET": "د الوتنې ټکټ",
+"TAXI_TICKET": "د ټکسي ټکټ",
+"CITY_TAXI": "ښاري ټکسي",
+"INTERNET_PACKAGE": "د انټرنېټ بسته",
+"MONEY_TRANSFER": "د پیسو لېږد",
+"CONVERSATION_PACKAGE": "د زنګ بسته",
+"OTHER_SERVICES": "نور خدمات",
+"CREDIT_TRANSFER": "د کریډیټ لېږد",
+"NETWORK": "شبکه",
+"ORIGIN": "مبدأ",
+"EXIT": "وتل",
+"DESTINATION": "منزل",
+"ENTER": "داخل کړئ",
+"NUMBER_OF_PASSENGERS": "د مسافرو شمېر",
+"MOVE_DATE": "د سفر نېټه",
+"SEARCH_BUS": "د بس لټون",
+"RECENT_BOOKINGS": "وروستي بکینګونه",
+"SHOW_DETAILS": "تفصیل وښایئ",
+"SPECIAL_OFFER": "ځانګړی وړاندیز"
 
 
 

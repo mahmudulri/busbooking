@@ -412,7 +412,31 @@
 "EMAIL_OR_PHONE": "البريد الإلكتروني أو رقم الهاتف",
 "PASSWORD_RECOVERY": "استعادة كلمة المرور",
 "HAVENT_REGISTER_YET": "لم تقم بالتسجيل بعد",
-"HAVENT_REGISTER_YET_?": "لم تقم بالتسجيل بعد؟"
+"HAVENT_REGISTER_YET_?": "لم تقم بالتسجيل بعد؟",
+"ACCOUNT_CREDIT": "حساب دائن",
+"ACCOUNT_DEBIT": "حساب مدين",
+"ACCOUNT_SALE": "حساب المبيعات",
+"ACCOUNT_PROFIT": "حساب الأرباح",
+"BUS_RESERVATION": "حجز الحافلة",
+"FLIGHT_TICKET": "تذكرة طيران",
+"TAXI_TICKET": "تذكرة تاكسي",
+"CITY_TAXI": "تاكسي المدينة",
+"INTERNET_PACKAGE": "باقة الإنترنت",
+"MONEY_TRANSFER": "تحويل الأموال",
+"CONVERSATION_PACKAGE": "باقة المكالمات",
+"OTHER_SERVICES": "خدمات أخرى",
+"CREDIT_TRANSFER": "تحويل رصيد",
+"NETWORK": "الشبكة",
+"ORIGIN": "نقطة الانطلاق",
+"EXIT": "خروج",
+"DESTINATION": "الوجهة",
+"ENTER": "إدخال",
+"NUMBER_OF_PASSENGERS": "عدد الركاب",
+"MOVE_DATE": "تاريخ السفر",
+"SEARCH_BUS": "بحث عن حافلة",
+"RECENT_BOOKINGS": "الحجوزات الأخيرة",
+"SHOW_DETAILS": "عرض التفاصيل",
+"SPECIAL_OFFER": "عرض خاص"
 
 
 
