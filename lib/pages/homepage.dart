@@ -443,7 +443,7 @@ class _HomepageState extends State<Homepage> {
                                 color: AppColors.primaryColor,
                               ),
                               SizedBox(
-                                height: box.read("direction") == "ltr" ? 5 : 0,
+                                height: box.read("direction") == "ltr" ? 2 : 0,
                               ),
 
                               KText(
@@ -452,7 +452,7 @@ class _HomepageState extends State<Homepage> {
                                     ? AppColors.primaryColor
                                     : Colors.grey.shade700,
                                 fontWeight: FontWeight.w500,
-                                fontSize: 12,
+                                fontSize: 13,
                               ),
                             ],
                           ),
@@ -474,7 +474,7 @@ class _HomepageState extends State<Homepage> {
                                 color: AppColors.primaryColor,
                               ),
                               SizedBox(
-                                height: box.read("direction") == "ltr" ? 5 : 0,
+                                height: box.read("direction") == "ltr" ? 2 : 0,
                               ),
 
                               KText(
@@ -505,7 +505,7 @@ class _HomepageState extends State<Homepage> {
                                 color: AppColors.primaryColor,
                               ),
                               SizedBox(
-                                height: box.read("direction") == "ltr" ? 5 : 0,
+                                height: box.read("direction") == "ltr" ? 2 : 0,
                               ),
                               KText(
                                 text: languagesController.tr("SALE"),
@@ -535,7 +535,7 @@ class _HomepageState extends State<Homepage> {
                                 color: AppColors.primaryColor,
                               ),
                               SizedBox(
-                                height: box.read("direction") == "ltr" ? 5 : 0,
+                                height: box.read("direction") == "ltr" ? 2 : 0,
                               ),
                               KText(
                                 text: languagesController.tr("PROFIT"),

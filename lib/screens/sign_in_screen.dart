@@ -1,4 +1,5 @@
 import 'package:busbooking/routes/routes.dart';
+import 'package:busbooking/screens/base_screen.dart';
 import 'package:busbooking/widgets/auth_textfield.dart';
 import 'package:busbooking/widgets/custom_text.dart';
 import 'package:busbooking/widgets/default_button.dart';
@@ -116,11 +117,16 @@ class SignInScreen extends StatelessWidget {
                     fontWeight: FontWeight.w400,
                   ),
                   SizedBox(width: 5),
-                  KText(
-                    text: languagesController.tr("REGISTER"),
-                    fontSize: screenHeight * 0.016,
-                    color: Color(0xff1890FF),
-                    fontWeight: FontWeight.w700,
+                  GestureDetector(
+                    onTap: () {
+                      Get.to(() => BaseScreen());
+                    },
+                    child: KText(
+                      text: languagesController.tr("REGISTER"),
+                      fontSize: screenHeight * 0.016,
+                      color: Color(0xff1890FF),
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ],
               ),

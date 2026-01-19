@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:busbooking/routes/routes.dart';
 import 'package:busbooking/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -18,13 +19,11 @@ class SignInController extends GetxController {
   TextEditingController passwordController = TextEditingController();
 
   RxBool isLoading = false.obs;
-  RxBool loginsuccess = false.obs;
 
   Future<void> signIn() async {
     try {
       isLoading.value = true;
-      loginsuccess.value = true;
-      print(loginsuccess.value);
+
       var headers = {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -40,7 +39,7 @@ class SignInController extends GetxController {
       //   'password': passwordController.text,
       // };
 
-      Map body = {'email_or_mobile': "ab@gmail.com", 'password': "1234560"};
+      Map body = {'email_or_mobile': "ab@gmail.com", 'password': "123456"};
 
       print("Request Body: $body");
 
@@ -51,20 +50,22 @@ class SignInController extends GetxController {
       );
 
       final results = jsonDecode(response.body);
-      // print("Response Status Code: ${response.statusCode}");
-      // print("Response Body: ${response.body}");
+      print("Response Status Code: ${response.statusCode}");
+      print("Response Body: ${response.body}");
 
       if (response.statusCode == 200) {
-        box.write("userToken", results["body"]["token"]);
+        final String token = results["body"]["token"].toString();
+        final cleanToken = token.replaceFirst('Bearer ', '');
+        print(cleanToken);
+        box.write("userToken", cleanToken);
 
         if (results["success"] == true) {
           // dashboardController.fetchDashboardData();
 
-          loginsuccess.value = false;
-          print(loginsuccess.value);
+          Get.offAllNamed(basescreen);
 
           Get.snackbar(
-            results["status"],
+            results["status"].toString(),
             languagesController.tr("LOG_IN_SUCCESSFULL"),
             snackPosition: SnackPosition.TOP,
             backgroundColor: AppColors.primaryColor,
@@ -75,17 +76,23 @@ class SignInController extends GetxController {
             duration: const Duration(seconds: 2),
           );
         } else {
+          final Map<String, dynamic> errors = Map<String, dynamic>.from(
+            results['errors'],
+          );
           Get.snackbar(
-            results["message"],
-            results["errors"],
+            results['status'].toString(), // title
+            errors.values.join('\n'), // message
             backgroundColor: Colors.red,
             colorText: Colors.white,
           );
         }
       } else {
+        final Map<String, dynamic> errors = Map<String, dynamic>.from(
+          results['errors'],
+        );
         Get.snackbar(
-          results["message"],
-          results["errors"],
+          results['status'].toString(), // title
+          errors.values.join('\n'), // message
           backgroundColor: Colors.red,
           colorText: Colors.white,
         );

@@ -1,13 +1,14 @@
 import 'package:busbooking/widgets/custom_text.dart';
 import 'package:busbooking/widgets/default_button.dart';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-
 import '../draft.dart';
 import '../globalcontroller/languages_controller.dart';
 import '../globalcontroller/page_controller.dart';
+import 'bus_search_result_screen.dart';
 
 class BusReserveScreen extends StatefulWidget {
   BusReserveScreen({super.key});
@@ -167,6 +168,25 @@ class _BusReserveScreenState extends State<BusReserveScreen> {
                             padding: EdgeInsets.all(12.0),
                             child: Column(
                               children: [
+                                // DottedBorder(
+                                //   options: RoundedRectDottedBorderOptions(
+                                //     radius: Radius.circular(
+                                //       12,
+                                //     ), // 👈 border radius
+                                //     color: Colors.red, // 👈 border color
+                                //     strokeWidth: 2, // optional
+                                //     dashPattern: [
+                                //       6,
+                                //       3,
+                                //     ], // optional: dot/space pattern
+                                //   ),
+                                //   child: Container(
+                                //     height: 50,
+                                //     width: 200,
+                                //     alignment: Alignment.center,
+                                //     child: Text('Dotted Border'),
+                                //   ),
+                                // ),
                                 Container(
                                   // color: Colors.red,
                                   child: Stack(
@@ -222,10 +242,14 @@ class _BusReserveScreenState extends State<BusReserveScreen> {
                                     ],
                                   ),
                                 ),
-                                Spacer(),
+
                                 DefaultButton(
                                   onTap: () {
-                                    // Get.to(() => LocationUI());
+                                    // Get.to(() => BusTrip());
+                                    mypagecontroller.changePage(
+                                      BusSearchResultScreen(),
+                                      isMainPage: false,
+                                    );
                                   },
                                   child: Center(
                                     child: KText(
@@ -265,12 +289,12 @@ Widget selectionCard({
   return Container(
     height: 60,
     decoration: BoxDecoration(
-      color: const Color(0xFFF9FAFB),
+      color: Color(0xFFF9FAFB),
       borderRadius: BorderRadius.circular(12),
-      border: Border.all(width: 1, color: const Color(0xFFE5E7EB)),
-      boxShadow: const [
+      border: Border.all(width: 1, color: Color(0xFFE5E7EB)),
+      boxShadow: [
         BoxShadow(
-          color: Color(0x33919EAB), // shadow with opacity
+          color: Color(0x33919EAB),
           offset: Offset(0, 0),
           blurRadius: 2,
           spreadRadius: 0,

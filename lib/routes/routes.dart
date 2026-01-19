@@ -1,3 +1,4 @@
+import 'package:busbooking/screens/base_screen.dart';
 import 'package:busbooking/screens/welcome_screen.dart';
 import 'package:get/get.dart';
 import '../bindings/signin_binding.dart';
@@ -18,5 +19,10 @@ List<GetPage> myroutes = [
     name: signinscreen,
     page: () => SignInScreen(),
     binding: SignInBinding(),
+  ),
+  GetPage(
+    name: basescreen,
+    page: () => BaseScreen(),
+    // binding: SignInBinding(),
   ),
 ];
