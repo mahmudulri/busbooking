@@ -4,12 +4,14 @@ import 'package:busbooking/pages/homepage.dart';
 import 'package:busbooking/pages/network_page.dart';
 import 'package:busbooking/pages/order_page.dart';
 import 'package:busbooking/pages/transaction_page.dart';
+import 'package:busbooking/widgets/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 import '../globalcontroller/languages_controller.dart';
 import '../globalcontroller/page_controller.dart';
+import '../globalcontroller/scaffold_controller.dart';
 import '../utils/colors.dart';
 
 class BaseScreen extends StatefulWidget {
@@ -20,6 +22,7 @@ class BaseScreen extends StatefulWidget {
 }
 
 class _BaseScreenState extends State<BaseScreen> {
+  final scaffoldController = Get.find<ScaffoldController>();
   final mypagecontroller = Get.find<Mypagecontroller>();
   final languagesController = Get.find<LanguagesController>();
 
@@ -150,6 +153,8 @@ class _BaseScreenState extends State<BaseScreen> {
     return WillPopScope(
       onWillPop: showExitPopup,
       child: Scaffold(
+        key: scaffoldController.scaffoldKey, // 🔑 VERY IMPORTANT
+        drawer: DrawerWidget(),
         body: Obx(() => mypagecontroller.pageStack.last),
         bottomNavigationBar: SafeArea(
           child: Stack(

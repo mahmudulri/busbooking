@@ -1,9 +1,9 @@
+import 'package:busbooking/models/wallet_model.dart';
+import 'package:busbooking/services/wallet_service.dart';
 import 'package:get/get.dart';
-
-import '../models/customer_profile_model.dart';
 import '../services/customer_profile_service.dart';
 
-class CustomerProfileController extends GetxController {
+class WalletController extends GetxController {
   // @override
   // void onInit() {
   //   fetchProfile();
@@ -12,13 +12,13 @@ class CustomerProfileController extends GetxController {
 
   var isLoading = false.obs;
 
-  var profileData = CustomerProfileModel().obs;
+  var wallet = WalletModel().obs;
 
-  void fetchProfile() async {
+  void fetchWallet() async {
     try {
       isLoading(true);
-      await CustomerProfileApi().fetchProfile().then((value) {
-        profileData.value = value;
+      await WalletApi().fetchwallet().then((value) {
+        wallet.value = value;
 
         isLoading(false);
       });

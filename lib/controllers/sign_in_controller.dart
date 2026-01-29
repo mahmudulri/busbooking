@@ -67,7 +67,7 @@ class SignInController extends GetxController {
           Get.snackbar(
             results["status"].toString(),
             languagesController.tr("LOG_IN_SUCCESSFULL"),
-            snackPosition: SnackPosition.TOP,
+            snackPosition: SnackPosition.BOTTOM,
             backgroundColor: AppColors.primaryColor,
             colorText: Colors.white,
             margin: const EdgeInsets.all(16),

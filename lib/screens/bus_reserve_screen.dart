@@ -1,3 +1,5 @@
+import 'package:busbooking/controllers/city_list_controller.dart';
+import 'package:busbooking/utils/colors.dart';
 import 'package:busbooking/widgets/custom_text.dart';
 import 'package:busbooking/widgets/default_button.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -5,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import '../controllers/search_bus_controller.dart';
 import '../draft.dart';
 import '../globalcontroller/languages_controller.dart';
 import '../globalcontroller/page_controller.dart';
@@ -22,17 +26,17 @@ class _BusReserveScreenState extends State<BusReserveScreen> {
 
   final languagesController = Get.find<LanguagesController>();
 
-  TextEditingController fromController = TextEditingController();
+  final citylistController = Get.find<CityListController>();
+  final searchBusController = Get.find<SearchBusController>();
 
-  String origin = "Fayzabad";
-  String destination = "Jur";
+  // String origin = "Fayzabad";
+  // String destination = "Jur";
 
-  void swapLocation() {
-    setState(() {
-      final temp = origin;
-      origin = destination;
-      destination = temp;
-    });
+  @override
+  void initState() {
+    super.initState();
+
+    citylistController.fetchAllCities();
   }
 
   @override
@@ -146,7 +150,7 @@ class _BusReserveScreenState extends State<BusReserveScreen> {
                       padding: EdgeInsets.all(0),
                       children: [
                         Container(
-                          height: 250,
+                          height: 275,
                           width: screenWidth,
                           decoration: BoxDecoration(
                             color: Colors.white,
@@ -194,24 +198,29 @@ class _BusReserveScreenState extends State<BusReserveScreen> {
                                     children: [
                                       Column(
                                         children: [
-                                          selectionCard(
+                                          originselectionCard(
                                             type: languagesController.tr(
                                               "ORIGIN",
                                             ),
                                             title: "Exit",
-                                            value: destination,
+                                            value: searchBusController
+                                                .originCityName
+                                                .value,
+                                            cityController: citylistController,
 
-                                            controller: fromController,
+                                            context: context,
                                           ),
                                           SizedBox(height: 5),
-                                          selectionCard(
+                                          destiselectionCard(
+                                            context: context,
                                             type: languagesController.tr(
                                               "DESTINATION",
                                             ),
                                             title: "Enter",
-                                            value: origin,
-
-                                            controller: fromController,
+                                            value: searchBusController
+                                                .destinationCityName
+                                                .value,
+                                            cityController: citylistController,
                                           ),
                                         ],
                                       ),
@@ -235,14 +244,141 @@ class _BusReserveScreenState extends State<BusReserveScreen> {
                                               Icons.swap_vert,
                                               color: Colors.grey,
                                             ),
-                                            onPressed: swapLocation,
+                                            onPressed: searchBusController
+                                                .swapLocation,
                                           ),
                                         ),
                                       ),
                                     ],
                                   ),
                                 ),
-
+                                SizedBox(height: 5),
+                                Container(
+                                  height: 60,
+                                  width: screenWidth,
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        flex: 1,
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: Color(0xFFF9FAFB),
+                                            borderRadius: BorderRadius.circular(
+                                              12,
+                                            ),
+                                            border: Border.all(
+                                              width: 1,
+                                              color: Color(0xFFE5E7EB),
+                                            ),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Color(0x33919EAB),
+                                                offset: Offset(0, 0),
+                                                blurRadius: 2,
+                                                spreadRadius: 0,
+                                              ),
+                                            ],
+                                          ),
+                                          child: Padding(
+                                            padding: EdgeInsets.all(5.0),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                KText(
+                                                  text: 'Number of passenger',
+                                                  fontSize: 12,
+                                                  color: Colors.grey,
+                                                  fontWeight: FontWeight.w700,
+                                                ),
+                                                KText(
+                                                  text: '1 passenger (s)',
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 13,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(width: 5),
+                                      Expanded(
+                                        flex: 1,
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: Color(0xFFF9FAFB),
+                                            borderRadius: BorderRadius.circular(
+                                              12,
+                                            ),
+                                            border: Border.all(
+                                              width: 1,
+                                              color: Color(0xFFE5E7EB),
+                                            ),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Color(0x33919EAB),
+                                                offset: Offset(0, 0),
+                                                blurRadius: 2,
+                                                spreadRadius: 0,
+                                              ),
+                                            ],
+                                          ),
+                                          child: Padding(
+                                            padding: EdgeInsets.all(5.0),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    KText(
+                                                      text: 'Move date',
+                                                      fontSize: 12,
+                                                      color: Colors.grey,
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                    ),
+                                                    Obx(
+                                                      () => KText(
+                                                        text:
+                                                            searchBusController
+                                                                .selectedDate
+                                                                .value,
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                        fontSize: 13,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                GestureDetector(
+                                                  onTap: () =>
+                                                      searchBusController
+                                                          .pickDate(context),
+                                                  child: Icon(
+                                                    Icons
+                                                        .calendar_month_outlined,
+                                                    color: AppColors
+                                                        .primaryColor
+                                                        .withOpacity(0.50),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(height: 5),
                                 DefaultButton(
                                   onTap: () {
                                     // Get.to(() => BusTrip());
@@ -280,11 +416,15 @@ class _BusReserveScreenState extends State<BusReserveScreen> {
   }
 }
 
-Widget selectionCard({
+final searchBusController = Get.find<SearchBusController>();
+
+Widget originselectionCard({
+  required BuildContext context,
   required String title,
   required String type,
   required String value,
-  required TextEditingController controller,
+
+  required CityListController cityController,
 }) {
   return Container(
     height: 60,
@@ -333,24 +473,388 @@ Widget selectionCard({
 
           Expanded(
             flex: 5,
-            child: Container(
-              // color: Colors.red,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text(
-                    title,
-                    style: TextStyle(fontSize: 12, color: Colors.grey),
-                  ),
-                  Text(
-                    value,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
+            child: GestureDetector(
+              onTap: () {
+                showDialog(
+                  context: context,
+                  barrierDismissible: true,
+                  builder: (context) {
+                    return Dialog(
+                      backgroundColor: Colors.white,
+                      insetPadding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                      ), // full width
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Container(
+                        height: 550,
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Origin",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            SizedBox(height: 8),
+                            Container(
+                              height: 50,
+
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  width: 1,
+                                  color: Colors.grey,
+                                ),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 10),
+                                child: Row(
+                                  children: [
+                                    Image.asset(
+                                      "assets/icons/location.png",
+                                      height: 22,
+                                      color: Colors.grey.shade800,
+                                    ),
+                                    SizedBox(width: 10),
+                                    Expanded(
+                                      child: TextField(
+                                        controller:
+                                            cityController.searchController,
+                                        decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          hintText: "Search for city",
+                                          hintStyle: TextStyle(
+                                            color: Colors.grey.shade600,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 8),
+
+                            Expanded(
+                              child: Obx(
+                                () => ListView.separated(
+                                  itemCount:
+                                      cityController.filteredCities.length,
+                                  separatorBuilder: (_, __) => Divider(),
+                                  itemBuilder: (context, index) {
+                                    final city =
+                                        cityController.filteredCities[index];
+                                    return InkWell(
+                                      onTap: () {
+                                        searchBusController
+                                                .originCityName
+                                                .value =
+                                            city.name ?? '';
+                                        searchBusController.originCityId.value =
+                                            city.id.toString();
+                                        print(
+                                          searchBusController
+                                              .originCityId
+                                              .value,
+                                        );
+                                        print(
+                                          searchBusController
+                                              .originCityName
+                                              .value,
+                                        );
+                                        Navigator.pop(context);
+                                      },
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                          vertical: 8,
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            Icon(Icons.location_on, size: 20),
+                                            SizedBox(width: 10),
+                                            Text(
+                                              city.name ?? '',
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                            // SizedBox(width: 10),
+                                            // Text("-"),
+                                            // SizedBox(width: 10),
+                                            // Text(
+                                            //   city.id.toString(),
+                                            //   style: TextStyle(
+                                            //     fontSize: 16,
+                                            //     fontWeight: FontWeight.w500,
+                                            //   ),
+                                            // ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+              child: Container(
+                color: Colors.transparent,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      title,
+                      style: TextStyle(fontSize: 12, color: Colors.grey),
                     ),
-                  ),
-                ],
+                    Obx(
+                      () => Text(
+                        searchBusController.originCityName.value,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+Widget destiselectionCard({
+  required BuildContext context,
+  required String title,
+  required String type,
+  required String value,
+
+  required CityListController cityController,
+}) {
+  return Container(
+    height: 60,
+    decoration: BoxDecoration(
+      color: Color(0xFFF9FAFB),
+      borderRadius: BorderRadius.circular(12),
+      border: Border.all(width: 1, color: Color(0xFFE5E7EB)),
+      boxShadow: [
+        BoxShadow(
+          color: Color(0x33919EAB),
+          offset: Offset(0, 0),
+          blurRadius: 2,
+          spreadRadius: 0,
+        ),
+      ],
+    ),
+
+    child: Padding(
+      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+      child: Row(
+        children: [
+          Expanded(
+            flex: 3,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Image.asset("assets/icons/car.png", height: 23),
+                SizedBox(width: 3),
+                KText(
+                  text: type.toString(),
+                  fontSize: 13,
+                  fontWeight: FontWeight.w700,
+                  color: Color(0xff161C24),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(width: 8),
+          VerticalDivider(
+            width: 2,
+            color: Colors.grey.shade500,
+            endIndent: 10,
+            indent: 10,
+          ),
+          SizedBox(width: 8),
+
+          Expanded(
+            flex: 5,
+            child: GestureDetector(
+              onTap: () {
+                showDialog(
+                  context: context,
+                  barrierDismissible: true,
+                  builder: (context) {
+                    return Dialog(
+                      backgroundColor: Colors.white,
+                      insetPadding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                      ), // full width
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Container(
+                        height: 550,
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Destination",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            SizedBox(height: 8),
+                            Container(
+                              height: 50,
+
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  width: 1,
+                                  color: Colors.grey,
+                                ),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 10),
+                                child: Row(
+                                  children: [
+                                    Image.asset(
+                                      "assets/icons/location.png",
+                                      height: 22,
+                                      color: Colors.grey.shade800,
+                                    ),
+                                    SizedBox(width: 10),
+                                    Expanded(
+                                      child: TextField(
+                                        controller:
+                                            cityController.searchController,
+                                        decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          hintText: "Search for city",
+                                          hintStyle: TextStyle(
+                                            color: Colors.grey.shade600,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 8),
+
+                            Expanded(
+                              child: Obx(
+                                () => ListView.separated(
+                                  itemCount:
+                                      cityController.filteredCities.length,
+                                  separatorBuilder: (_, __) => Divider(),
+                                  itemBuilder: (context, index) {
+                                    final city =
+                                        cityController.filteredCities[index];
+                                    return InkWell(
+                                      onTap: () {
+                                        searchBusController
+                                                .destinationCityName
+                                                .value =
+                                            city.name ?? '';
+                                        searchBusController
+                                            .destinationCityId
+                                            .value = city.id
+                                            .toString();
+                                        print(
+                                          searchBusController
+                                              .destinationCityId
+                                              .value,
+                                        );
+                                        print(
+                                          searchBusController
+                                              .destinationCityName
+                                              .value,
+                                        );
+                                        Navigator.pop(context);
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 8,
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            Icon(Icons.location_on, size: 20),
+                                            SizedBox(width: 10),
+                                            Text(
+                                              city.name ?? '',
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+              child: Container(
+                color: Colors.transparent,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      title,
+                      style: TextStyle(fontSize: 12, color: Colors.grey),
+                    ),
+                    Obx(
+                      () => Text(
+                        searchBusController.destinationCityName.value,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

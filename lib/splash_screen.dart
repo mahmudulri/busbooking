@@ -80,7 +80,7 @@ class _SplashScreenState extends State<SplashScreen> {
       // Fetch initial data
       // dashboardController.fetchDashboardData();
 
-      Get.toNamed(welcome);
+      Get.toNamed(basescreen);
     }
   }
 

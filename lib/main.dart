@@ -1,12 +1,16 @@
+import 'package:busbooking/controllers/city_list_controller.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'controllers/search_bus_controller.dart';
 import 'controllers/sign_in_controller.dart';
+import 'controllers/wallet_controller.dart';
 import 'dependencies/dependency_injection.dart';
 import 'globalcontroller/font_controller.dart';
 import 'globalcontroller/languages_controller.dart';
 import 'globalcontroller/page_controller.dart';
+import 'globalcontroller/scaffold_controller.dart';
 import 'globalcontroller/time_zone_controller.dart';
 import 'routes/routes.dart';
 
@@ -20,6 +24,10 @@ void main() async {
   Get.put(LanguagesController(), permanent: true);
   Get.put(FontController(), permanent: true);
   Get.put(Mypagecontroller(), permanent: true);
+  Get.put(ScaffoldController());
+  Get.put(WalletController(), permanent: true);
+  Get.put(CityListController(), permanent: true);
+  Get.put(SearchBusController(), permanent: true);
 
   runApp(
     EasyLocalization(

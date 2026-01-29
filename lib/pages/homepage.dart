@@ -1,3 +1,4 @@
+import 'package:busbooking/controllers/city_list_controller.dart';
 import 'package:busbooking/screens/bus_reserve_screen.dart';
 import 'package:busbooking/utils/colors.dart';
 import 'package:busbooking/widgets/custom_text.dart';
@@ -7,8 +8,12 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
+import '../controllers/search_bus_controller.dart';
+import '../controllers/wallet_controller.dart';
 import '../globalcontroller/languages_controller.dart';
 import '../globalcontroller/page_controller.dart';
+import '../globalcontroller/scaffold_controller.dart';
+import '../widgets/drawer.dart';
 import '../widgets/homeservicebox.dart';
 
 class Homepage extends StatefulWidget {
@@ -19,14 +24,18 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+  final searchBusController = Get.find<SearchBusController>();
+  final scaffoldController = Get.find<ScaffoldController>();
   final languagesController = Get.find<LanguagesController>();
   final mypagecontroller = Get.find<Mypagecontroller>();
+  final walletcontroller = Get.find<WalletController>();
+  final citylistController = Get.find<CityListController>();
 
   int currentIndex = 0;
   @override
   void initState() {
     super.initState();
-    print(currentIndex.toString());
+    walletcontroller.fetchWallet();
   }
 
   final box = GetStorage();
@@ -48,6 +57,7 @@ class _HomepageState extends State<Homepage> {
         statusBarIconBrightness: Brightness.light, // Android icons
       ),
       child: Scaffold(
+        drawer: DrawerWidget(),
         body: SizedBox(
           height: screenHeight,
           width: screenWidth,
@@ -72,17 +82,22 @@ class _HomepageState extends State<Homepage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Container(
-                              height: 40,
-                              width: 40,
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  width: 1,
-                                  color: Colors.white,
+                            GestureDetector(
+                              onTap: () {
+                                scaffoldController.openDrawer();
+                              },
+                              child: Container(
+                                height: 40,
+                                width: 40,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    width: 1,
+                                    color: Colors.white,
+                                  ),
+                                  shape: BoxShape.circle,
                                 ),
-                                shape: BoxShape.circle,
+                                child: Icon(Icons.menu, color: Colors.white),
                               ),
-                              child: Icon(Icons.menu, color: Colors.white),
                             ),
                             GestureDetector(
                               onTap: () {
@@ -251,30 +266,51 @@ class _HomepageState extends State<Homepage> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            KText(
-                              text: languagesController.tr("ACCOUNT_CREDIT"),
-                              color: Colors.grey.shade300,
-                              fontSize: 14,
+                            GestureDetector(
+                              onTap: () {
+                                // walletcontroller.fetchWallet();
+                                // citylistController.fetchallcities();
+                              },
+                              child: KText(
+                                text: languagesController.tr("ACCOUNT_CREDIT"),
+                                color: Colors.grey.shade300,
+                                fontSize: 14,
+                              ),
                             ),
                             SizedBox(height: 5),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                KText(
-                                  text: "7581",
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 18,
-                                ),
-                                SizedBox(width: 10),
+                            Obx(
+                              () => walletcontroller.isLoading.value == false
+                                  ? Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        KText(
+                                          text: walletcontroller
+                                              .wallet
+                                              .value
+                                              .body!
+                                              .balance
+                                              .toString(),
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 18,
+                                        ),
+                                        SizedBox(width: 10),
 
-                                KText(
-                                  text: "AFN",
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 10,
-                                ),
-                              ],
+                                        KText(
+                                          text: "AFN",
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 10,
+                                        ),
+                                      ],
+                                    )
+                                  : Center(
+                                      child: Text(
+                                        "---",
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    ),
                             ),
                           ],
                         ),
@@ -330,6 +366,20 @@ class _HomepageState extends State<Homepage> {
                                         "BUS_RESERVATION",
                                       ),
                                       onpressed: () {
+                                        searchBusController.originCityId.value =
+                                            '';
+                                        searchBusController
+                                                .originCityName
+                                                .value =
+                                            'Select';
+                                        searchBusController
+                                                .destinationCityId
+                                                .value =
+                                            '';
+                                        searchBusController
+                                                .destinationCityName
+                                                .value =
+                                            'Select';
                                         mypagecontroller.changePage(
                                           BusReserveScreen(),
                                           isMainPage: false,

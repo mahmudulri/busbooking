@@ -6,6 +6,7 @@ class ApiEndPoints {
 
 class OtherendPoints {
   final String signin = "auth";
-  final String customerprofile = "customer/wallets/profile";
-  final String customerbalance = "customer/wallets/balance";
+  final String customerprofile = "customer/profile";
+  final String customerwallet = "customer/wallets/balance";
+  final String cities = "web/location/cities";
 }
