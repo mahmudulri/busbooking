@@ -436,7 +436,12 @@
 "RECENT_BOOKINGS": "Son rezervasyonlar",
 "SHOW_DETAILS": "Detayları göster",
 "SPECIAL_OFFER": "Özel teklif",
-"LOG_IN_SUCCESSFULL": "Giriş başarılı"
+"LOG_IN_SUCCESSFULL": "Giriş başarılı",
+"NO_TRIP_FOUND": "Seyahat bulunamadı",
+"EMPTY_SEAT": "Boş koltuk",
+"TOTAL_PRICE": "Toplam fiyat",
+"FROM": "Nereden",
+"TO": "Nereye"
 
 
 

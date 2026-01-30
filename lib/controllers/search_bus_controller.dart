@@ -1,6 +1,9 @@
+import 'package:busbooking/models/bus_list_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+
+import '../services/search_bus_service.dart';
 
 class SearchBusController extends GetxController {
   @override
@@ -31,6 +34,7 @@ class SearchBusController extends GetxController {
     );
     if (pickedDate != null) {
       selectedDate.value = DateFormat('yyyy-MM-dd').format(pickedDate);
+      print(selectedDate.toString());
     }
   }
 
@@ -45,5 +49,31 @@ class SearchBusController extends GetxController {
 
     destinationCityName.value = tempName;
     destinationCityId.value = tempId;
+  }
+
+  int initialpage = 1;
+  var isLoading = false.obs;
+
+  var alltriplist = BusListModel().obs;
+
+  void fetchBusTrip() async {
+    try {
+      isLoading(true);
+      await BuslistApi()
+          .fetchTrip(
+            originCityId.toString(),
+            destinationCityId.toString(),
+            selectedDate.toString(),
+          )
+          .then((value) {
+            alltriplist.value = value;
+
+            isLoading(false);
+          });
+
+      isLoading(false);
+    } catch (e) {
+      print(e.toString());
+    }
   }
 }

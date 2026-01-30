@@ -381,11 +381,11 @@ class _BusReserveScreenState extends State<BusReserveScreen> {
                                 SizedBox(height: 5),
                                 DefaultButton(
                                   onTap: () {
-                                    // Get.to(() => BusTrip());
                                     mypagecontroller.changePage(
                                       BusSearchResultScreen(),
                                       isMainPage: false,
                                     );
+                                    searchBusController.fetchBusTrip();
                                   },
                                   child: Center(
                                     child: KText(

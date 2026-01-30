@@ -436,7 +436,12 @@
 "RECENT_BOOKINGS": "সাম্প্রতিক বুকিং",
 "SHOW_DETAILS": "বিস্তারিত দেখুন",
 "SPECIAL_OFFER": "বিশেষ অফার",
-"LOG_IN_SUCCESSFULL": "লগইন সফল হয়েছে"
+"LOG_IN_SUCCESSFULL": "লগইন সফল হয়েছে",
+"NO_TRIP_FOUND": "কোনো ভ্রমণ পাওয়া যায়নি",
+"EMPTY_SEAT": "খালি আসন",
+"TOTAL_PRICE": "মোট মূল্য",
+"FROM": "থেকে",
+"TO": "পর্যন্ত"
 
 
 

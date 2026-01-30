@@ -437,7 +437,13 @@
 "RECENT_BOOKINGS": "Recent bookings",
 "SHOW_DETAILS": "Show details",
 "SPECIAL_OFFER": "Special offer",
-"LOG_IN_SUCCESSFULL": "Login successful"
+"LOG_IN_SUCCESSFULL": "Login successful",
+"NO_TRIP_FOUND": "No trip found",
+"EMPTY_SEAT": "Empty seat",
+"TOTAL_PRICE": "Total price",
+"FROM": "From",
+"TO": "To"
+
 
 
 

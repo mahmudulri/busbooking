@@ -436,7 +436,12 @@
 "RECENT_BOOKINGS": "وروستي بکینګونه",
 "SHOW_DETAILS": "تفصیل وښایئ",
 "SPECIAL_OFFER": "ځانګړی وړاندیز",
-"LOG_IN_SUCCESSFULL": "ننوتل په بریالیتوب سره ترسره شول"
+"LOG_IN_SUCCESSFULL": "ننوتل په بریالیتوب سره ترسره شول",
+"NO_TRIP_FOUND": "هیڅ سفر ونه موندل شو",
+"EMPTY_SEAT": "خالي څوکۍ",
+"TOTAL_PRICE": "ټول قیمت",
+"FROM": "له",
+"TO": "ته"
 
 
 

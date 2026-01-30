@@ -437,7 +437,12 @@
 "RECENT_BOOKINGS": "الحجوزات الأخيرة",
 "SHOW_DETAILS": "عرض التفاصيل",
 "SPECIAL_OFFER": "عرض خاص",
-"LOG_IN_SUCCESSFULL": "تم تسجيل الدخول بنجاح"
+"LOG_IN_SUCCESSFULL": "تم تسجيل الدخول بنجاح",
+"NO_TRIP_FOUND": "لم يتم العثور على رحلة",
+"EMPTY_SEAT": "مقعد فارغ",
+"TOTAL_PRICE": "السعر الإجمالي",
+"FROM": "من",
+"TO": "إلى"
 
 
 

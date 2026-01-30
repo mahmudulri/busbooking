@@ -436,7 +436,12 @@
 "RECENT_BOOKINGS": "رزروهای اخیر",
 "SHOW_DETAILS": "نمایش جزئیات",
 "SPECIAL_OFFER": "پیشنهاد ویژه",
-"LOG_IN_SUCCESSFULL": "ورود با موفقیت انجام شد"
+"LOG_IN_SUCCESSFULL": "ورود با موفقیت انجام شد",
+"NO_TRIP_FOUND": "هیچ سفری یافت نشد",
+"EMPTY_SEAT": "صندلی خالی",
+"TOTAL_PRICE": "قیمت کل",
+"FROM": "از",
+"TO": "به"
 
 
 

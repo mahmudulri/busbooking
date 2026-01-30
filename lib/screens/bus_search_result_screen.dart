@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import '../controllers/search_bus_controller.dart';
 import '../draft.dart';
 
 import '../globalcontroller/languages_controller.dart';
@@ -20,22 +21,12 @@ class BusSearchResultScreen extends StatefulWidget {
 }
 
 class _BusSearchResultScreenState extends State<BusSearchResultScreen> {
+  final searchBusController = Get.find<SearchBusController>();
   final mypagecontroller = Get.find<Mypagecontroller>();
 
   final languagesController = Get.find<LanguagesController>();
 
   TextEditingController fromController = TextEditingController();
-
-  String origin = "Fayzabad";
-  String destination = "Jur";
-
-  void swapLocation() {
-    setState(() {
-      final temp = origin;
-      origin = destination;
-      destination = temp;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -140,355 +131,417 @@ class _BusSearchResultScreenState extends State<BusSearchResultScreen> {
                         top: 18,
                         bottom: 300,
                       ),
-                      child: ListView.builder(
-                        physics: BouncingScrollPhysics(),
-                        padding: EdgeInsets.all(0.0),
-                        itemCount: 10,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onTap: () {
-                              Get.to(() => Draftseatscreen());
-                            },
-                            child: Container(
-                              margin: EdgeInsets.only(bottom: 8),
-                              height: 250,
-                              width: screenWidth,
-                              color: Colors.transparent,
+                      child: Obx(() {
+                        // loading state
+                        if (searchBusController.isLoading.value) {
+                          return Center(child: CircularProgressIndicator());
+                        }
+
+                        final items =
+                            searchBusController.alltriplist.value.body?.items;
+
+                        // empty state
+                        if (items == null || items.isEmpty) {
+                          return Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.directions_bus_outlined,
+                                  size: 60,
+                                  color: Colors.grey,
+                                ),
+                                SizedBox(height: 10),
+                                Text(
+                                  languagesController.tr("NO_TRIP_FOUND"),
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+
+                        // data state
+                        return ListView.builder(
+                          physics: BouncingScrollPhysics(),
+                          padding: EdgeInsets.all(0.0),
+                          itemCount: searchBusController
+                              .alltriplist
+                              .value
+                              .body!
+                              .items!
+                              .length,
+                          itemBuilder: (context, index) {
+                            final data = searchBusController
+                                .alltriplist
+                                .value
+                                .body!
+                                .items![index];
+                            return GestureDetector(
+                              onTap: () {
+                                Get.to(() => Draftseatscreen());
+                              },
                               child: Container(
+                                margin: EdgeInsets.only(bottom: 8),
                                 height: 250,
-                                child: Stack(
-                                  children: [
-                                    Container(
-                                      height: 250,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        border: Border.all(
-                                          width: 1,
-                                          color: Color(0xFFE5E7EB),
-                                        ),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Color(0x33919EAB),
-                                            offset: Offset(0, 0),
-                                            blurRadius: 2,
-                                            spreadRadius: 0,
+                                width: screenWidth,
+                                color: Colors.transparent,
+                                child: Container(
+                                  height: 250,
+                                  child: Stack(
+                                    children: [
+                                      Container(
+                                        height: 250,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          border: Border.all(
+                                            width: 1,
+                                            color: Color(0xFFE5E7EB),
                                           ),
-                                        ],
-                                        borderRadius: BorderRadius.circular(25),
-                                      ),
-                                      child: Padding(
-                                        padding: EdgeInsets.symmetric(
-                                          horizontal: 15,
-                                          vertical: 10,
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Color(0x33919EAB),
+                                              offset: Offset(0, 0),
+                                              blurRadius: 2,
+                                              spreadRadius: 0,
+                                            ),
+                                          ],
+                                          borderRadius: BorderRadius.circular(
+                                            25,
+                                          ),
                                         ),
-                                        child: Column(
-                                          children: [
-                                            Expanded(
-                                              flex: 2,
-                                              child: Column(
-                                                children: [
-                                                  Expanded(
-                                                    flex: 1,
-                                                    child: Container(
-                                                      child: Row(
-                                                        children: [
-                                                          CircleAvatar(
-                                                            radius: 20,
-                                                            backgroundColor:
-                                                                Colors.teal,
-                                                          ),
-                                                          SizedBox(width: 5),
-                                                          Column(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-
-                                                            children: [
-                                                              KText(
-                                                                text:
-                                                                    "Bus Company",
-                                                                fontSize: 12,
-                                                              ),
-                                                              KText(
-                                                                text:
-                                                                    "Etihad Bus Company",
-                                                                fontSize: 12,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w700,
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          Spacer(),
-                                                          Column(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-
-                                                            children: [
-                                                              KText(
-                                                                text:
-                                                                    "1 Adult, 2 Children",
-                                                                fontSize: 12,
-                                                              ),
-                                                              KText(
-                                                                text:
-                                                                    "Bus Model",
-                                                                fontSize: 13,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Expanded(
-                                                    flex: 1,
-                                                    child: Container(
-                                                      child: Row(
-                                                        children: [
-                                                          Expanded(
-                                                            flex: 2,
-                                                            child: Column(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .start,
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(
+                                            horizontal: 15,
+                                            vertical: 10,
+                                          ),
+                                          child: Column(
+                                            children: [
+                                              Expanded(
+                                                flex: 2,
+                                                child: Column(
+                                                  children: [
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child: Container(
+                                                        child: Row(
+                                                          children: [
+                                                            CircleAvatar(
+                                                              radius: 20,
+                                                              backgroundColor:
+                                                                  Colors.teal,
+                                                            ),
+                                                            SizedBox(width: 5),
+                                                            Column(
                                                               crossAxisAlignment:
                                                                   CrossAxisAlignment
                                                                       .start,
-                                                              children: [
-                                                                KText(
-                                                                  text:
-                                                                      "Taleqan",
-                                                                  fontSize: 12,
-                                                                ),
-                                                                KText(
-                                                                  text: "02:00",
-                                                                  fontSize: 12,
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
 
-                                                          Expanded(
-                                                            flex: 1,
-                                                            child: Column(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
                                                               children: [
-                                                                Image.asset(
-                                                                  "assets/images/goingicon.png",
-                                                                  height: 20,
+                                                                KText(
+                                                                  text:
+                                                                      "Bus Company",
+                                                                  fontSize: 12,
                                                                 ),
                                                                 KText(
                                                                   text:
-                                                                      "3 h 14m",
-                                                                  fontSize: 10,
+                                                                      "Etihad Bus Company",
+                                                                  fontSize: 12,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w700,
                                                                 ),
                                                               ],
                                                             ),
-                                                          ),
-                                                          Expanded(
-                                                            flex: 2,
-                                                            child: Container(
-                                                              // color: Colors.red,
+                                                            Spacer(),
+                                                            Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+
+                                                              children: [
+                                                                KText(
+                                                                  text:
+                                                                      "1 Adult, 2 Children",
+                                                                  fontSize: 12,
+                                                                ),
+                                                                KText(
+                                                                  text:
+                                                                      "Bus Model",
+                                                                  fontSize: 13,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child: Container(
+                                                        child: Row(
+                                                          children: [
+                                                            Expanded(
+                                                              flex: 2,
                                                               child: Column(
                                                                 mainAxisAlignment:
                                                                     MainAxisAlignment
                                                                         .start,
                                                                 crossAxisAlignment:
                                                                     CrossAxisAlignment
-                                                                        .end,
+                                                                        .start,
                                                                 children: [
                                                                   KText(
                                                                     text:
-                                                                        "Mazandaran Sharif",
+                                                                        "Taleqan",
                                                                     fontSize:
                                                                         12,
                                                                   ),
                                                                   KText(
                                                                     text:
-                                                                        "24:00",
+                                                                        "02:00",
                                                                     fontSize:
                                                                         12,
                                                                   ),
                                                                 ],
                                                               ),
                                                             ),
-                                                          ),
-                                                        ],
+
+                                                            Expanded(
+                                                              flex: 1,
+                                                              child: Column(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .center,
+                                                                children: [
+                                                                  Image.asset(
+                                                                    "assets/images/goingicon.png",
+                                                                    height: 20,
+                                                                  ),
+                                                                  KText(
+                                                                    text:
+                                                                        "3 h 14m",
+                                                                    fontSize:
+                                                                        10,
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                            Expanded(
+                                                              flex: 2,
+                                                              child: Container(
+                                                                // color: Colors.red,
+                                                                child: Column(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .start,
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .end,
+                                                                  children: [
+                                                                    KText(
+                                                                      text:
+                                                                          "Mazandaran Sharif",
+                                                                      fontSize:
+                                                                          12,
+                                                                    ),
+                                                                    KText(
+                                                                      text:
+                                                                          "24:00",
+                                                                      fontSize:
+                                                                          12,
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                  Expanded(
-                                                    flex: 1,
-                                                    child: Container(
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        children: [
-                                                          Column(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              KText(
-                                                                text: "From",
-                                                                fontSize: 12,
-                                                              ),
-                                                              KText(
-                                                                text: "Taleqan",
-                                                                fontSize: 12,
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          Column(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .end,
-                                                            children: [
-                                                              KText(
-                                                                text: "To",
-                                                                fontSize: 12,
-                                                              ),
-                                                              KText(
-                                                                text:
-                                                                    "Mazandaran Sharif",
-                                                                fontSize: 12,
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-
-                                            DottedLine(),
-
-                                            Container(
-                                              height: 70,
-                                              width: screenWidth,
-                                              // color: Colors.cyan,
-                                              child: Row(
-                                                children: [
-                                                  Expanded(
-                                                    flex: 1,
-                                                    child: Container(
-                                                      child: Center(
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child: Container(
                                                         child: Row(
                                                           mainAxisAlignment:
                                                               MainAxisAlignment
-                                                                  .start,
+                                                                  .spaceBetween,
                                                           children: [
-                                                            Image.asset(
-                                                              "assets/icons/ticket.png",
-                                                              height: 20,
+                                                            Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                KText(
+                                                                  text: "From",
+                                                                  fontSize: 12,
+                                                                ),
+                                                                KText(
+                                                                  text:
+                                                                      "Taleqan",
+                                                                  fontSize: 12,
+                                                                ),
+                                                              ],
                                                             ),
-                                                            SizedBox(width: 8),
+                                                            Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .end,
+                                                              children: [
+                                                                KText(
+                                                                  text: "To",
+                                                                  fontSize: 12,
+                                                                ),
+                                                                KText(
+                                                                  text:
+                                                                      "Mazandaran Sharif",
+                                                                  fontSize: 12,
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+
+                                              DottedLine(),
+
+                                              Container(
+                                                height: 70,
+                                                width: screenWidth,
+                                                // color: Colors.cyan,
+                                                child: Row(
+                                                  children: [
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child: Container(
+                                                        child: Center(
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Image.asset(
+                                                                "assets/icons/ticket.png",
+                                                                height: 20,
+                                                              ),
+                                                              SizedBox(
+                                                                width: 8,
+                                                              ),
+                                                              KText(
+                                                                text:
+                                                                    data.availableSeats
+                                                                        .toString() +
+                                                                    languagesController.tr(
+                                                                      "EMPTY_SEAT",
+                                                                    ),
+                                                                fontSize: 13,
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child: Container(
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .end,
+                                                          children: [
                                                             KText(
-                                                              text:
-                                                                  "7 Seats Available",
+                                                              text: languagesController
+                                                                  .tr(
+                                                                    "TOTAL_PRICE",
+                                                                  ),
+                                                              fontSize: 13,
+                                                            ),
+                                                            Text(" : "),
+                                                            KText(
+                                                              text: "1000 Afn",
                                                               fontSize: 13,
                                                             ),
                                                           ],
                                                         ),
                                                       ),
                                                     ),
-                                                  ),
-                                                  Expanded(
-                                                    flex: 1,
-                                                    child: Container(
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .end,
-                                                        children: [
-                                                          KText(
-                                                            text:
-                                                                "Total Price : ",
-                                                            fontSize: 13,
-                                                          ),
-                                                          KText(
-                                                            text: "1000 Afn",
-                                                            fontSize: 13,
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
+                                                  ],
+                                                ),
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    // ...............................Main Box......................//
-                                    Positioned(
-                                      left: -25,
-                                      top: 90,
-                                      bottom: 0,
-                                      child: Container(
-                                        height: 50,
-                                        width: 50,
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          border: Border.all(
-                                            width: 1,
-                                            color: Color(0xFFE5E7EB),
+                                            ],
                                           ),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Color(0x33919EAB),
-                                              offset: Offset(0, 0),
-                                              blurRadius: 2,
-                                              spreadRadius: 0,
-                                            ),
-                                          ],
-                                          shape: BoxShape.circle,
                                         ),
                                       ),
-                                    ),
-                                    Positioned(
-                                      right: -25,
-                                      top: 90,
-                                      bottom: 0,
-                                      child: Container(
-                                        height: 50,
-                                        width: 50,
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          border: Border.all(
-                                            width: 1,
-                                            color: Color(0xFFE5E7EB),
+                                      // ...............................Main Box......................//
+                                      Positioned(
+                                        left: -25,
+                                        top: 90,
+                                        bottom: 0,
+                                        child: Container(
+                                          height: 50,
+                                          width: 50,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            border: Border.all(
+                                              width: 1,
+                                              color: Color(0xFFE5E7EB),
+                                            ),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Color(0x33919EAB),
+                                                offset: Offset(0, 0),
+                                                blurRadius: 2,
+                                                spreadRadius: 0,
+                                              ),
+                                            ],
+                                            shape: BoxShape.circle,
                                           ),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Color(0x33919EAB),
-                                              offset: Offset(0, 0),
-                                              blurRadius: 2,
-                                              spreadRadius: 0,
-                                            ),
-                                          ],
-                                          shape: BoxShape.circle,
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                      Positioned(
+                                        right: -25,
+                                        top: 90,
+                                        bottom: 0,
+                                        child: Container(
+                                          height: 50,
+                                          width: 50,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            border: Border.all(
+                                              width: 1,
+                                              color: Color(0xFFE5E7EB),
+                                            ),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Color(0x33919EAB),
+                                                offset: Offset(0, 0),
+                                                blurRadius: 2,
+                                                spreadRadius: 0,
+                                              ),
+                                            ],
+                                            shape: BoxShape.circle,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          );
-                        },
-                      ),
+                            );
+                          },
+                        );
+                      }),
                     ),
                   ),
                 ),
