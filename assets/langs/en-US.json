@@ -442,7 +442,26 @@
 "EMPTY_SEAT": "Empty seat",
 "TOTAL_PRICE": "Total price",
 "FROM": "From",
-"TO": "To"
+"TO": "To",
+"COMFORT_OF_TRAVEL": "Comfort of travel",
+"FAST_AND_EASY_PAYMENT": "Fast and easy payment",
+"24_HOURS_SUPPORT": "24 hours support",
+"REFUND_POLICY": "Refund policy",
+"COMFORT_TITLE": "From ticket selection to arrival, we ensure a smooth and comfortable experience",
+"PAYMENT_SYSTEM_TITLE": "Pay for tickets without a bank card using your digital wallet",
+"24_SUPPORT_TITLE": "Fast and secure payment via digital wallet without a bank card",
+"REFUND_TITLE": "In case of cancellation, the ticket amount will be refunded to your wallet according to the rules",
+"NUMBER_OF_PASSENGER": "Number of passengers",
+"PASSENGER": "Passenger",
+"SEARCH_FOR_CITY": "Search for city",
+"PREVIOUS_DAY": "Previous day",
+"NEXT_DAY": "Next day",
+"BUS_MODEL": "Bus model",
+"BUS_COMPANY": "Bus company",
+"ADULT": "Adult",
+"CHILDREN": "Children"
+
+
 
 
 

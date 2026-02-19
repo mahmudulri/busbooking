@@ -1,12 +1,15 @@
 import 'package:busbooking/controllers/city_list_controller.dart';
+import 'package:busbooking/controllers/sign_in_controller.dart';
 import 'package:busbooking/utils/colors.dart';
 import 'package:busbooking/widgets/custom_text.dart';
 import 'package:busbooking/widgets/default_button.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import '../controllers/search_bus_controller.dart';
 import '../draft.dart';
@@ -31,6 +34,8 @@ class _BusReserveScreenState extends State<BusReserveScreen> {
 
   // String origin = "Fayzabad";
   // String destination = "Jur";
+
+  final box = GetStorage();
 
   @override
   void initState() {
@@ -106,17 +111,167 @@ class _BusReserveScreenState extends State<BusReserveScreen> {
                                 fontSize: 22,
                                 fontWeight: FontWeight.w700,
                               ),
-                              Container(
-                                height: 40,
-                                width: 40,
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    width: 1,
-                                    color: Colors.white,
+                              GestureDetector(
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: Text(
+                                          languagesController.tr("LANGUAGES"),
+                                        ),
+                                        content: SizedBox(
+                                          height: 350,
+                                          width: MediaQuery.of(
+                                            context,
+                                          ).size.width,
+                                          child: ListView.builder(
+                                            shrinkWrap: true,
+                                            itemCount: languagesController
+                                                .alllanguagedata
+                                                .length,
+                                            itemBuilder: (context, index) {
+                                              final data = languagesController
+                                                  .alllanguagedata[index];
+
+                                              return GestureDetector(
+                                                onTap: () {
+                                                  final languageName =
+                                                      data["name"].toString();
+
+                                                  final matched =
+                                                      languagesController
+                                                          .alllanguagedata
+                                                          .firstWhere(
+                                                            (lang) =>
+                                                                lang["name"] ==
+                                                                languageName,
+                                                            orElse: () => {
+                                                              "isoCode": "en",
+                                                              "direction":
+                                                                  "ltr",
+                                                            },
+                                                          );
+
+                                                  final languageISO =
+                                                      matched["isoCode"]!;
+                                                  final languageDirection =
+                                                      matched["direction"]!;
+
+                                                  // Save & apply
+                                                  languagesController
+                                                      .changeLanguage(
+                                                        languageName,
+                                                      );
+                                                  box.write(
+                                                    "language",
+                                                    languageName,
+                                                  );
+                                                  box.write(
+                                                    "direction",
+                                                    languageDirection,
+                                                  );
+
+                                                  // Map iso → Locale
+                                                  Locale locale;
+                                                  switch (languageISO) {
+                                                    case "fa":
+                                                      locale = const Locale(
+                                                        "fa",
+                                                        "IR",
+                                                      );
+                                                      break;
+                                                    case "ar":
+                                                      locale = const Locale(
+                                                        "ar",
+                                                        "AE",
+                                                      );
+                                                      break;
+                                                    case "ps":
+                                                      locale = const Locale(
+                                                        "ps",
+                                                        "AF",
+                                                      );
+                                                      break;
+                                                    case "tr":
+                                                      locale = const Locale(
+                                                        "tr",
+                                                        "TR",
+                                                      );
+                                                      break;
+                                                    case "bn":
+                                                      locale = const Locale(
+                                                        "bn",
+                                                        "BD",
+                                                      );
+                                                      break;
+                                                    case "en":
+                                                    default:
+                                                      locale = const Locale(
+                                                        "en",
+                                                        "US",
+                                                      );
+                                                  }
+
+                                                  setState(() {
+                                                    EasyLocalization.of(
+                                                      context,
+                                                    )!.setLocale(locale);
+                                                  });
+
+                                                  Navigator.pop(context);
+                                                  debugPrint(
+                                                    "🌐 Language: $languageName ($languageISO), dir: $languageDirection",
+                                                  );
+                                                },
+                                                child: Container(
+                                                  margin: EdgeInsets.only(
+                                                    bottom: 5,
+                                                  ),
+                                                  height: 45,
+                                                  decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                      width: 1,
+                                                      color:
+                                                          Colors.grey.shade300,
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                          8,
+                                                        ),
+                                                  ),
+                                                  padding: EdgeInsets.symmetric(
+                                                    horizontal: 10,
+                                                  ),
+                                                  alignment:
+                                                      Alignment.centerLeft,
+                                                  child: Text(
+                                                    data["fullname"].toString(),
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                    ),
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                                child: Container(
+                                  height: 40,
+                                  width: 40,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      width: 1,
+                                      color: Colors.white,
+                                    ),
+                                    shape: BoxShape.circle,
                                   ),
-                                  shape: BoxShape.circle,
+                                  child: Icon(Icons.menu, color: Colors.white),
                                 ),
-                                child: Icon(Icons.menu, color: Colors.white),
                               ),
                             ],
                           ),
@@ -143,10 +298,11 @@ class _BusReserveScreenState extends State<BusReserveScreen> {
                   right: 15,
                   top: 100,
                   child: Container(
-                    height: screenHeight,
+                    height: 600,
                     width: screenWidth,
                     // color: Colors.red,
                     child: ListView(
+                      physics: BouncingScrollPhysics(),
                       padding: EdgeInsets.all(0),
                       children: [
                         Container(
@@ -202,7 +358,9 @@ class _BusReserveScreenState extends State<BusReserveScreen> {
                                             type: languagesController.tr(
                                               "ORIGIN",
                                             ),
-                                            title: "Exit",
+                                            title: languagesController.tr(
+                                              "EXIT",
+                                            ),
                                             value: searchBusController
                                                 .originCityName
                                                 .value,
@@ -216,7 +374,9 @@ class _BusReserveScreenState extends State<BusReserveScreen> {
                                             type: languagesController.tr(
                                               "DESTINATION",
                                             ),
-                                            title: "Enter",
+                                            title: languagesController.tr(
+                                              "ENTER",
+                                            ),
                                             value: searchBusController
                                                 .destinationCityName
                                                 .value,
@@ -224,31 +384,55 @@ class _BusReserveScreenState extends State<BusReserveScreen> {
                                           ),
                                         ],
                                       ),
-                                      Positioned(
-                                        right: 8,
-                                        child: Container(
-                                          height: 45,
-                                          width: 45,
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            border: Border.all(
-                                              width: 1,
-                                              color: Colors.grey.shade300,
+                                      box.read("direction") == "ltr"
+                                          ? Positioned(
+                                              right: 8,
+                                              child: Container(
+                                                height: 45,
+                                                width: 45,
+                                                decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  border: Border.all(
+                                                    width: 1,
+                                                    color: Colors.grey.shade300,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
+                                                ),
+                                                child: IconButton(
+                                                  icon: const Icon(
+                                                    Icons.swap_vert,
+                                                    color: Colors.grey,
+                                                  ),
+                                                  onPressed: searchBusController
+                                                      .swapLocation,
+                                                ),
+                                              ),
+                                            )
+                                          : Positioned(
+                                              left: 8,
+                                              child: Container(
+                                                height: 45,
+                                                width: 45,
+                                                decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  border: Border.all(
+                                                    width: 1,
+                                                    color: Colors.grey.shade300,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
+                                                ),
+                                                child: IconButton(
+                                                  icon: const Icon(
+                                                    Icons.swap_vert,
+                                                    color: Colors.grey,
+                                                  ),
+                                                  onPressed: searchBusController
+                                                      .swapLocation,
+                                                ),
+                                              ),
                                             ),
-                                            borderRadius: BorderRadius.circular(
-                                              8,
-                                            ),
-                                          ),
-                                          child: IconButton(
-                                            icon: const Icon(
-                                              Icons.swap_vert,
-                                              color: Colors.grey,
-                                            ),
-                                            onPressed: searchBusController
-                                                .swapLocation,
-                                          ),
-                                        ),
-                                      ),
                                     ],
                                   ),
                                 ),
@@ -288,15 +472,18 @@ class _BusReserveScreenState extends State<BusReserveScreen> {
                                                   MainAxisAlignment.center,
                                               children: [
                                                 KText(
-                                                  text: 'Number of passenger',
-                                                  fontSize: 12,
+                                                  text: languagesController.tr(
+                                                    "NUMBER_OF_PASSENGER",
+                                                  ),
+                                                  fontSize: 11,
                                                   color: Colors.grey,
                                                   fontWeight: FontWeight.w700,
                                                 ),
                                                 KText(
-                                                  text: '1 passenger (s)',
+                                                  text:
+                                                      '(1) ${languagesController.tr("PASSENGER")}',
                                                   fontWeight: FontWeight.w700,
-                                                  fontSize: 13,
+                                                  fontSize: 11,
                                                 ),
                                               ],
                                             ),
@@ -339,8 +526,9 @@ class _BusReserveScreenState extends State<BusReserveScreen> {
                                                       MainAxisAlignment.center,
                                                   children: [
                                                     KText(
-                                                      text: 'Move date',
-                                                      fontSize: 12,
+                                                      text: languagesController
+                                                          .tr("MOVE_DATE"),
+                                                      fontSize: 11,
                                                       color: Colors.grey,
                                                       fontWeight:
                                                           FontWeight.w700,
@@ -353,7 +541,7 @@ class _BusReserveScreenState extends State<BusReserveScreen> {
                                                                 .value,
                                                         fontWeight:
                                                             FontWeight.w700,
-                                                        fontSize: 13,
+                                                        fontSize: 11,
                                                       ),
                                                     ),
                                                   ],
@@ -403,6 +591,221 @@ class _BusReserveScreenState extends State<BusReserveScreen> {
                           ),
                         ),
                         SizedBox(height: 10),
+                        Container(
+                          width: screenWidth,
+                          color: Colors.white,
+                          child: Column(
+                            children: [
+                              Container(
+                                height: 80,
+                                width: screenWidth,
+                                color: Colors.white,
+                                child: Row(
+                                  children: [
+                                    Image.asset(
+                                      "assets/icons/comfort.png",
+                                      width: 80,
+                                    ),
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          KText(
+                                            text: languagesController.tr(
+                                              "COMFORT_OF_TRAVEL",
+                                            ),
+                                            color: Color(0xff1890FF),
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                          Expanded(
+                                            child: KText(
+                                              text: languagesController.tr(
+                                                "COMFORT_TITLE",
+                                              ),
+                                              fontSize: 10,
+                                              color: Color(0xff637381),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+
+                              Container(
+                                height: 80,
+                                width: screenWidth,
+                                color: Colors.white,
+                                child: Row(
+                                  children: [
+                                    Image.asset(
+                                      "assets/icons/paymentsystem.png",
+                                      width: 80,
+                                    ),
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          KText(
+                                            text: languagesController.tr(
+                                              "FAST_AND_EASY_PAYMENT",
+                                            ),
+                                            color: Color(0xff00AB55),
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                          Expanded(
+                                            child: KText(
+                                              text: languagesController.tr(
+                                                "PAYMENT_SYSTEM_TITLE",
+                                              ),
+                                              fontSize: 10,
+                                              color: Color(0xff637381),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+
+                              Container(
+                                height: 80,
+                                width: screenWidth,
+                                color: Colors.white,
+                                child: Row(
+                                  children: [
+                                    Image.asset(
+                                      "assets/icons/24hours.png",
+                                      width: 80,
+                                    ),
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          KText(
+                                            text: languagesController.tr(
+                                              "24_HOURS_SUPPORT",
+                                            ),
+                                            color: Color(0xffFF4842),
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                          Expanded(
+                                            child: KText(
+                                              text: languagesController.tr(
+                                                "24_SUPPORT_TITLE",
+                                              ),
+                                              fontSize: 10,
+                                              color: Color(0xff637381),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+
+                              Container(
+                                height: 80,
+                                width: screenWidth,
+                                color: Colors.white,
+                                child: Row(
+                                  children: [
+                                    Image.asset(
+                                      "assets/icons/refundpolicy.png",
+                                      width: 80,
+                                    ),
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          KText(
+                                            text: languagesController.tr(
+                                              "REFUND_POLICY",
+                                            ),
+                                            color: Color(0xff00CED1),
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                          Expanded(
+                                            child: KText(
+                                              text: languagesController.tr(
+                                                "REFUND_TITLE",
+                                              ),
+                                              fontSize: 10,
+                                              color: Color(0xff637381),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        Row(
+                          children: [
+                            CircleAvatar(
+                              backgroundColor: Color(0xff00CED1),
+                              radius: 8,
+                              child: CircleAvatar(
+                                backgroundColor: Colors.white,
+                                radius: 3,
+                              ),
+                            ),
+                            SizedBox(width: 5),
+                            KText(
+                              text: languagesController.tr("RECENT_BOOKINGS"),
+                              color: AppColors.boldfontColor,
+                              fontWeight: FontWeight.w700,
+                            ),
+                            Spacer(),
+                            Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  width: 1,
+                                  color: Colors.grey.shade300,
+                                ),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                  vertical: 5,
+                                ),
+                                child: KText(
+                                  text: languagesController.tr("SHOW_DETAILS"),
+                                  color: AppColors.boldfontColor,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 10),
+                        Container(
+                          height: 150,
+                          width: screenWidth,
+                          color: Colors.red,
+                        ),
                       ],
                     ),
                   ),
@@ -498,13 +901,12 @@ Widget originselectionCard({
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              "Origin",
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                              ),
+                            KText(
+                              text: languagesController.tr("ORIGIN"),
+                              fontSize: 18,
+                              fontWeight: FontWeight.w700,
                             ),
+
                             SizedBox(height: 8),
                             Container(
                               height: 50,
@@ -533,7 +935,9 @@ Widget originselectionCard({
                                             cityController.searchController,
                                         decoration: InputDecoration(
                                           border: InputBorder.none,
-                                          hintText: "Search for city",
+                                          hintText: languagesController.tr(
+                                            "SEARCH_FOR_CITY",
+                                          ),
                                           hintStyle: TextStyle(
                                             color: Colors.grey.shade600,
                                           ),
@@ -627,7 +1031,9 @@ Widget originselectionCard({
                     ),
                     Obx(
                       () => Text(
-                        searchBusController.originCityName.value,
+                        searchBusController.originCityName.value == "Select"
+                            ? languagesController.tr("SELECT")
+                            : searchBusController.originCityName.value,
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
@@ -725,12 +1131,10 @@ Widget destiselectionCard({
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              "Destination",
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                              ),
+                            KText(
+                              text: languagesController.tr("DESTINATION"),
+                              fontSize: 18,
+                              fontWeight: FontWeight.w700,
                             ),
                             SizedBox(height: 8),
                             Container(
@@ -760,7 +1164,9 @@ Widget destiselectionCard({
                                             cityController.searchController,
                                         decoration: InputDecoration(
                                           border: InputBorder.none,
-                                          hintText: "Search for city",
+                                          hintText: languagesController.tr(
+                                            "SEARCH_FOR_CITY",
+                                          ),
                                           hintStyle: TextStyle(
                                             color: Colors.grey.shade600,
                                           ),
@@ -846,7 +1252,10 @@ Widget destiselectionCard({
                     ),
                     Obx(
                       () => Text(
-                        searchBusController.destinationCityName.value,
+                        searchBusController.destinationCityName.value ==
+                                "Select"
+                            ? languagesController.tr("SELECT")
+                            : searchBusController.destinationCityName.value,
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,

@@ -380,6 +380,7 @@ class _HomepageState extends State<Homepage> {
                                                 .destinationCityName
                                                 .value =
                                             'Select';
+
                                         mypagecontroller.changePage(
                                           BusReserveScreen(),
                                           isMainPage: false,

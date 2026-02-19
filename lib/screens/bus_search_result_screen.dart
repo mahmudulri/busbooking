@@ -1,3 +1,5 @@
+import 'package:busbooking/helpers/datetime_helper.dart';
+import 'package:busbooking/utils/colors.dart';
 import 'package:busbooking/widgets/custom_text.dart';
 import 'package:busbooking/widgets/default_button.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -195,7 +197,7 @@ class _BusSearchResultScreenState extends State<BusSearchResultScreen> {
                                   child: Stack(
                                     children: [
                                       Container(
-                                        height: 250,
+                                        height: 230,
                                         decoration: BoxDecoration(
                                           color: Colors.white,
                                           border: Border.all(
@@ -223,11 +225,13 @@ class _BusSearchResultScreenState extends State<BusSearchResultScreen> {
                                             children: [
                                               Expanded(
                                                 flex: 2,
-                                                child: Column(
-                                                  children: [
-                                                    Expanded(
-                                                      flex: 1,
-                                                      child: Container(
+                                                child: Container(
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Container(
                                                         child: Row(
                                                           children: [
                                                             CircleAvatar(
@@ -236,181 +240,133 @@ class _BusSearchResultScreenState extends State<BusSearchResultScreen> {
                                                                   Colors.teal,
                                                             ),
                                                             SizedBox(width: 5),
-                                                            Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-
-                                                              children: [
-                                                                KText(
-                                                                  text:
-                                                                      "Bus Company",
-                                                                  fontSize: 12,
-                                                                ),
-                                                                KText(
-                                                                  text:
-                                                                      "Etihad Bus Company",
-                                                                  fontSize: 12,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w700,
-                                                                ),
-                                                              ],
-                                                            ),
-                                                            Spacer(),
-                                                            Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-
-                                                              children: [
-                                                                KText(
-                                                                  text:
-                                                                      "1 Adult, 2 Children",
-                                                                  fontSize: 12,
-                                                                ),
-                                                                KText(
-                                                                  text:
-                                                                      "Bus Model",
-                                                                  fontSize: 13,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                ),
-                                                              ],
+                                                            KText(
+                                                              text:
+                                                                  data
+                                                                      .bus!
+                                                                      .busNumber
+                                                                      .toString() +
+                                                                  data
+                                                                      .vendor!
+                                                                      .longName
+                                                                      .toString(),
+                                                              fontSize: 12,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
                                                             ),
                                                           ],
                                                         ),
                                                       ),
-                                                    ),
-                                                    Expanded(
-                                                      flex: 1,
-                                                      child: Container(
-                                                        child: Row(
-                                                          children: [
-                                                            Expanded(
-                                                              flex: 2,
-                                                              child: Column(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .start,
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .start,
-                                                                children: [
-                                                                  KText(
-                                                                    text:
-                                                                        "Taleqan",
-                                                                    fontSize:
-                                                                        12,
-                                                                  ),
-                                                                  KText(
-                                                                    text:
-                                                                        "02:00",
-                                                                    fontSize:
-                                                                        12,
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ),
-
-                                                            Expanded(
-                                                              flex: 1,
-                                                              child: Column(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .center,
-                                                                children: [
-                                                                  Image.asset(
-                                                                    "assets/images/goingicon.png",
-                                                                    height: 20,
-                                                                  ),
-                                                                  KText(
-                                                                    text:
-                                                                        "3 h 14m",
-                                                                    fontSize:
-                                                                        10,
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                            Expanded(
-                                                              flex: 2,
-                                                              child: Container(
-                                                                // color: Colors.red,
+                                                      Expanded(
+                                                        flex: 1,
+                                                        child: Container(
+                                                          child: Row(
+                                                            children: [
+                                                              Expanded(
+                                                                flex: 2,
                                                                 child: Column(
                                                                   mainAxisAlignment:
                                                                       MainAxisAlignment
                                                                           .start,
                                                                   crossAxisAlignment:
                                                                       CrossAxisAlignment
-                                                                          .end,
+                                                                          .start,
                                                                   children: [
                                                                     KText(
-                                                                      text:
-                                                                          "Mazandaran Sharif",
+                                                                      text: data
+                                                                          .route!
+                                                                          .originCity!
+                                                                          .name
+                                                                          .toString(),
+                                                                      fontSize:
+                                                                          12,
+                                                                    ),
+
+                                                                    KText(
+                                                                      text: convertToLocalTime(
+                                                                        data.departureTime
+                                                                            .toString(),
+                                                                      ),
                                                                       fontSize:
                                                                           12,
                                                                     ),
                                                                     KText(
-                                                                      text:
-                                                                          "24:00",
+                                                                      text: data
+                                                                          .route!
+                                                                          .originStation!
+                                                                          .name
+                                                                          .toString(),
                                                                       fontSize:
                                                                           12,
                                                                     ),
                                                                   ],
                                                                 ),
                                                               ),
-                                                            ),
-                                                          ],
+
+                                                              Expanded(
+                                                                flex: 1,
+                                                                child: Column(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .center,
+                                                                  children: [
+                                                                    Image.asset(
+                                                                      "assets/images/goingicon.png",
+                                                                      height:
+                                                                          20,
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                              Expanded(
+                                                                flex: 2,
+                                                                child: Container(
+                                                                  // color: Colors.red,
+                                                                  child: Column(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .start,
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .end,
+                                                                    children: [
+                                                                      KText(
+                                                                        text: data
+                                                                            .route!
+                                                                            .destinationCity!
+                                                                            .name
+                                                                            .toString(),
+                                                                        fontSize:
+                                                                            12,
+                                                                      ),
+                                                                      KText(
+                                                                        text: convertToLocalTime(
+                                                                          data.arrivalTime
+                                                                              .toString(),
+                                                                        ),
+                                                                        fontSize:
+                                                                            12,
+                                                                      ),
+                                                                      KText(
+                                                                        text: data
+                                                                            .route!
+                                                                            .destinationStation!
+                                                                            .name
+                                                                            .toString(),
+                                                                        fontSize:
+                                                                            12,
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
                                                         ),
                                                       ),
-                                                    ),
-                                                    Expanded(
-                                                      flex: 1,
-                                                      child: Container(
-                                                        child: Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: [
-                                                            Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                KText(
-                                                                  text: "From",
-                                                                  fontSize: 12,
-                                                                ),
-                                                                KText(
-                                                                  text:
-                                                                      "Taleqan",
-                                                                  fontSize: 12,
-                                                                ),
-                                                              ],
-                                                            ),
-                                                            Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .end,
-                                                              children: [
-                                                                KText(
-                                                                  text: "To",
-                                                                  fontSize: 12,
-                                                                ),
-                                                                KText(
-                                                                  text:
-                                                                      "Mazandaran Sharif",
-                                                                  fontSize: 12,
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
 
@@ -420,62 +376,81 @@ class _BusSearchResultScreenState extends State<BusSearchResultScreen> {
                                                 height: 70,
                                                 width: screenWidth,
                                                 // color: Colors.cyan,
-                                                child: Row(
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.end,
                                                   children: [
-                                                    Expanded(
-                                                      flex: 1,
-                                                      child: Container(
-                                                        child: Center(
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              Image.asset(
-                                                                "assets/icons/ticket.png",
-                                                                height: 20,
+                                                    Row(
+                                                      children: [
+                                                        Expanded(
+                                                          flex: 1,
+                                                          child: Container(
+                                                            child: Center(
+                                                              child: Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Image.asset(
+                                                                    "assets/icons/ticket.png",
+                                                                    height: 20,
+                                                                  ),
+                                                                  SizedBox(
+                                                                    width: 8,
+                                                                  ),
+                                                                  KText(
+                                                                    text:
+                                                                        data.availableSeats
+                                                                            .toString() +
+                                                                        " " +
+                                                                        languagesController.tr(
+                                                                          "EMPTY_SEAT",
+                                                                        ),
+                                                                    fontSize:
+                                                                        13,
+                                                                    color: AppColors
+                                                                        .defaultFontColor,
+                                                                  ),
+                                                                ],
                                                               ),
-                                                              SizedBox(
-                                                                width: 8,
-                                                              ),
-                                                              KText(
-                                                                text:
-                                                                    data.availableSeats
-                                                                        .toString() +
-                                                                    languagesController.tr(
-                                                                      "EMPTY_SEAT",
-                                                                    ),
-                                                                fontSize: 13,
-                                                              ),
-                                                            ],
+                                                            ),
                                                           ),
                                                         ),
-                                                      ),
-                                                    ),
-                                                    Expanded(
-                                                      flex: 1,
-                                                      child: Container(
-                                                        child: Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .end,
-                                                          children: [
-                                                            KText(
-                                                              text: languagesController
-                                                                  .tr(
+                                                        Expanded(
+                                                          flex: 1,
+                                                          child: Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .end,
+                                                              children: [
+                                                                KText(
+                                                                  text: languagesController.tr(
                                                                     "TOTAL_PRICE",
                                                                   ),
-                                                              fontSize: 13,
+                                                                  fontSize: 13,
+                                                                  color: AppColors
+                                                                      .defaultFontColor,
+                                                                ),
+                                                                Text(" : "),
+                                                                KText(
+                                                                  text: data
+                                                                      .ticketPrice
+                                                                      .toString(),
+                                                                  fontSize: 13,
+                                                                  color: AppColors
+                                                                      .boldfontColor,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                ),
+                                                              ],
                                                             ),
-                                                            Text(" : "),
-                                                            KText(
-                                                              text: "1000 Afn",
-                                                              fontSize: 13,
-                                                            ),
-                                                          ],
+                                                          ),
                                                         ),
-                                                      ),
+                                                      ],
                                                     ),
+                                                    SizedBox(height: 15),
                                                   ],
                                                 ),
                                               ),
@@ -486,7 +461,7 @@ class _BusSearchResultScreenState extends State<BusSearchResultScreen> {
                                       // ...............................Main Box......................//
                                       Positioned(
                                         left: -25,
-                                        top: 90,
+                                        top: 50,
                                         bottom: 0,
                                         child: Container(
                                           height: 50,
@@ -511,7 +486,7 @@ class _BusSearchResultScreenState extends State<BusSearchResultScreen> {
                                       ),
                                       Positioned(
                                         right: -25,
-                                        top: 90,
+                                        top: 50,
                                         bottom: 0,
                                         child: Container(
                                           height: 50,
@@ -542,6 +517,92 @@ class _BusSearchResultScreenState extends State<BusSearchResultScreen> {
                           },
                         );
                       }),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  bottom: 0,
+                  child: Container(
+                    height: 50,
+                    width: screenWidth,
+                    decoration: BoxDecoration(
+                      color: Color(0xff2D2882),
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(30),
+                      ),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 15),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: Row(
+                              children: [
+                                Icon(
+                                  FontAwesomeIcons.chevronLeft,
+                                  color: Colors.white,
+                                  size: 16,
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    searchBusController.previousDate();
+                                    searchBusController.fetchBusTrip();
+                                  },
+                                  child: KText(
+                                    text: languagesController.tr(
+                                      "PREVIOUS_DAY",
+                                    ),
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          Expanded(
+                            flex: 1,
+                            child: Obx(
+                              () => KText(
+                                textAlign: TextAlign.center,
+                                text: searchBusController.selectedDate.value
+                                    .toString(),
+                                color: Colors.white,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ),
+
+                          Expanded(
+                            flex: 1,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    searchBusController.nextDate();
+                                    searchBusController.fetchBusTrip();
+                                  },
+                                  child: KText(
+                                    text: languagesController.tr("NEXT_DAY"),
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                Icon(
+                                  FontAwesomeIcons.chevronRight,
+                                  color: Colors.white,
+                                  size: 16,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

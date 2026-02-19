@@ -38,6 +38,22 @@ class SearchBusController extends GetxController {
     }
   }
 
+  void previousDate() {
+    DateTime current = DateFormat('yyyy-MM-dd').parse(selectedDate.value);
+
+    DateTime prevDay = current.subtract(Duration(days: 1));
+
+    selectedDate.value = DateFormat('yyyy-MM-dd').format(prevDay);
+  }
+
+  void nextDate() {
+    DateTime current = DateFormat('yyyy-MM-dd').parse(selectedDate.value);
+
+    DateTime nextDay = current.add(Duration(days: 1));
+
+    selectedDate.value = DateFormat('yyyy-MM-dd').format(nextDay);
+  }
+
   void swapLocation() {
     // temp variables
     final tempName = originCityName.value;

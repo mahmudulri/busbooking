@@ -4,7 +4,10 @@ class AppColors {
   // static const defaultColor = Color(0xff16a085);
   static const primaryColor = Color(0xff8576FF);
   static const backgroundColor = Color(0xffecf0f1);
+  static const defaultFontColor = Color(0xff919EAB919EAB);
+
   static const borderColor = Color(0xffA9A5A5);
+  static const boldfontColor = Color(0xff212B36);
   static const socialButtonColor = Color(0xffECECEC);
   static const categoryBoxColor = Color(0xffF2F2F2);
   static const listbuilderboxColor = Color(0xffEFEFEF);

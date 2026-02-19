@@ -152,98 +152,103 @@ class _BaseScreenState extends State<BaseScreen> {
     var screenWidth = MediaQuery.of(context).size.width;
     return WillPopScope(
       onWillPop: showExitPopup,
-      child: Scaffold(
-        key: scaffoldController.scaffoldKey, // 🔑 VERY IMPORTANT
-        drawer: DrawerWidget(),
-        body: Obx(() => mypagecontroller.pageStack.last),
-        bottomNavigationBar: SafeArea(
-          child: Stack(
-            clipBehavior: Clip.none,
-            alignment: Alignment.bottomCenter,
-            children: [
-              /// 🟢 Bottom White Navigation Bar
-              Container(
-                height: 75,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30),
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.15),
-                      blurRadius: 12,
-                      offset: const Offset(0, -4),
-                    ),
-                  ],
-                ),
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30),
-                  ),
-                  child: BottomAppBar(
-                    elevation: 0,
-                    shape: const CircularNotchedRectangle(),
-                    notchMargin: 12,
-                    color: Colors.white,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        _navItem(
-                          icon: "assets/icons/newhome.png",
-                          index: 0,
-                          label: languagesController.tr("HOME"),
-                          page: Homepage(),
-                        ),
-                        _navItem(
-                          icon: "assets/icons/newtrans.png",
-                          index: 1,
-                          label: languagesController.tr("TRANSACTIONS"),
-                          page: TransactionPage(),
-                        ),
-
-                        SizedBox(width: 45),
-                        _navItem(
-                          icon: "assets/icons/neworder.png",
-                          index: 2,
-                          label: languagesController.tr("ORDERS"),
-                          page: OrderPage(),
-                        ),
-                        _navItem(
-                          icon: "assets/icons/newnetwork.png",
-                          index: 3,
-                          label: languagesController.tr("NETWORK"),
-                          page: NetworkPage(),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-
-              /// 🔴 Floating Red Button (INSIDE GREEN)
-              Positioned(
-                bottom: 22, // 🔑 green container-এর ভিতরে থাকবে
-                child: Container(
-                  height: 60,
-                  width: 60,
+      child: SafeArea(
+        top: false,
+        child: Scaffold(
+          backgroundColor: mypagecontroller.backgroundColor.value,
+          // backgroundColor: Colors.white,
+          key: scaffoldController.scaffoldKey, // 🔑 VERY IMPORTANT
+          drawer: DrawerWidget(),
+          body: Obx(() => mypagecontroller.pageStack.last),
+          bottomNavigationBar: SafeArea(
+            child: Stack(
+              clipBehavior: Clip.none,
+              alignment: Alignment.bottomCenter,
+              children: [
+                /// 🟢 Bottom White Navigation Bar
+                Container(
+                  height: 75,
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    shape: BoxShape.circle,
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30),
+                    ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.white.withOpacity(0.4),
+                        color: Colors.black.withOpacity(0.15),
                         blurRadius: 12,
-                        offset: const Offset(0, 6),
+                        offset: const Offset(0, -4),
                       ),
                     ],
                   ),
-                  child: Icon(FontAwesomeIcons.user, size: 30),
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30),
+                    ),
+                    child: BottomAppBar(
+                      elevation: 0,
+                      shape: const CircularNotchedRectangle(),
+                      notchMargin: 12,
+                      color: Colors.white,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          _navItem(
+                            icon: "assets/icons/newhome.png",
+                            index: 0,
+                            label: languagesController.tr("HOME"),
+                            page: Homepage(),
+                          ),
+                          _navItem(
+                            icon: "assets/icons/newtrans.png",
+                            index: 1,
+                            label: languagesController.tr("TRANSACTIONS"),
+                            page: TransactionPage(),
+                          ),
+
+                          SizedBox(width: 45),
+                          _navItem(
+                            icon: "assets/icons/neworder.png",
+                            index: 2,
+                            label: languagesController.tr("ORDERS"),
+                            page: OrderPage(),
+                          ),
+                          _navItem(
+                            icon: "assets/icons/newnetwork.png",
+                            index: 3,
+                            label: languagesController.tr("NETWORK"),
+                            page: NetworkPage(),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ],
+
+                /// 🔴 Floating Red Button (INSIDE GREEN)
+                Positioned(
+                  bottom: 22, // 🔑 green container-এর ভিতরে থাকবে
+                  child: Container(
+                    height: 60,
+                    width: 60,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.white.withOpacity(0.4),
+                          blurRadius: 12,
+                          offset: const Offset(0, 6),
+                        ),
+                      ],
+                    ),
+                    child: Icon(FontAwesomeIcons.user, size: 30),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

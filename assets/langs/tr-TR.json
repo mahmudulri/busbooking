@@ -441,7 +441,24 @@
 "EMPTY_SEAT": "Boş koltuk",
 "TOTAL_PRICE": "Toplam fiyat",
 "FROM": "Nereden",
-"TO": "Nereye"
+"TO": "Nereye",
+"COMFORT_OF_TRAVEL": "Seyahat konforu",
+"FAST_AND_EASY_PAYMENT": "Hızlı ve kolay ödeme",
+"24_HOURS_SUPPORT": "24 saat destek",
+"REFUND_POLICY": "İade politikası",
+"COMFORT_TITLE": "Bilet seçiminden varış noktasına kadar sorunsuz ve konforlu bir deneyim sunuyoruz",
+"PAYMENT_SYSTEM_TITLE": "Banka kartına gerek olmadan dijital cüzdan ile biletinizi kolayca ödeyin",
+"24_SUPPORT_TITLE": "Banka kartına gerek olmadan dijital cüzdan ile hızlı ve güvenli ödeme",
+"REFUND_TITLE": "İptal durumunda bilet tutarı kurallara göre cüzdanınıza iade edilir",
+"NUMBER_OF_PASSENGER": "Yolcu sayısı",
+"PASSENGER": "Yolcu",
+"SEARCH_FOR_CITY": "Şehir ara",
+"PREVIOUS_DAY": "Önceki gün",
+"NEXT_DAY": "Sonraki gün",
+"BUS_MODEL": "Otobüs modeli",
+"BUS_COMPANY": "Otobüs firması",
+"ADULT": "Yetişkin",
+"CHILDREN": "Çocuklar"
 
 
 
