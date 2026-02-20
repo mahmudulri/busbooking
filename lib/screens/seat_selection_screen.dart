@@ -277,7 +277,7 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
                     child: Obx(
                       () => seatPlanController.isLoading.value == false
                           ? GridView.builder(
-                              physics: BouncingScrollPhysics(),
+                              physics: const BouncingScrollPhysics(),
                               gridDelegate:
                                   SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount:
@@ -290,8 +290,20 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
                                             .seats!
                                             .columns ??
                                         1,
-                                    crossAxisSpacing: 30,
-                                    mainAxisSpacing: 30,
+                                    crossAxisSpacing:
+                                        seatPlanController
+                                                .allseatlist
+                                                .value
+                                                .body!
+                                                .item!
+                                                .bus!
+                                                .seats!
+                                                .columns
+                                                .toString() ==
+                                            "3"
+                                        ? 70
+                                        : 30,
+                                    mainAxisSpacing: 15,
                                     childAspectRatio: 1,
                                   ),
                               itemCount: seatPlanController
@@ -301,29 +313,80 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
                                   .item!
                                   .totalSeats,
                               itemBuilder: (context, index) {
-                                final data = seatPlanController
+                                // 🔹 original seats
+                                final originalSeats = seatPlanController
                                     .allseatlist
                                     .value
                                     .body!
                                     .item!
                                     .bus!
                                     .seats!
-                                    .seats![index];
+                                    .seats!;
+
+                                // 🔹 remove empty {} + sort row → column
+                                final seats =
+                                    originalSeats
+                                        .where(
+                                          (s) =>
+                                              s.seatNumber != null &&
+                                              s.row != null &&
+                                              s.column != null,
+                                        )
+                                        .toList()
+                                      ..sort((a, b) {
+                                        if (a.row != b.row) {
+                                          return a.row!.compareTo(b.row!);
+                                        }
+                                        return a.column!.compareTo(b.column!);
+                                      });
+
+                                // safety (index overflow)
+                                if (index >= seats.length) {
+                                  return const SizedBox();
+                                }
+
+                                final data = seats[index];
+
+                                final seatPrices = seatPlanController
+                                    .allseatlist
+                                    .value
+                                    .body!
+                                    .item!
+                                    .seatPrices!;
+
+                                final seatStatus = seatPrices.firstWhere(
+                                  (sp) =>
+                                      sp["seat_number"].toString() ==
+                                      data.seatNumber.toString(),
+                                  orElse: () => {"status": "unknown"},
+                                )["status"];
+
+                                // row number → A/B/C
+                                final rowLetter = String.fromCharCode(
+                                  64 + data.row!,
+                                );
+
+                                // A1, B3, etc
+                                final seatLabel = "$rowLetter${data.column}";
 
                                 return Container(
                                   decoration: BoxDecoration(
-                                    color: Colors.white,
                                     image: DecorationImage(
                                       image: AssetImage(
-                                        "assets/icons/seat.png",
+                                        seatStatus == "booked"
+                                            ? "assets/icons/seatbooked.png"
+                                            : "assets/icons/seat.png",
                                       ),
                                     ),
                                   ),
                                   child: Center(
                                     child: Text(
-                                      "A1",
+                                      seatLabel,
                                       style: TextStyle(
-                                        color: Color(0xff8576FF),
+                                        color: seatStatus == "booked"
+                                            ? Colors.white
+                                            : Color(0xff8576FF),
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                   ),
@@ -373,14 +436,14 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
                                           CrossAxisAlignment.center,
                                       children: [
                                         Text(
-                                          "A1",
+                                          "Not Selected",
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 11,
                                           ),
                                         ),
                                         Text(
-                                          "A2",
+                                          "",
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 11,
@@ -411,7 +474,16 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
                                   ),
                                   KText(
                                     textAlign: TextAlign.center,
-                                    text: "104 People",
+                                    text:
+                                        seatPlanController
+                                            .allseatlist
+                                            .value
+                                            .body!
+                                            .item!
+                                            .totalSeats
+                                            .toString() +
+                                        " "
+                                            "People",
                                     color: Colors.white,
                                     fontWeight: FontWeight.w700,
                                     fontSize: 12,
@@ -433,11 +505,19 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
                                       color: Colors.white,
                                       fontSize: 11,
                                     ),
-                                    Text(
-                                      "700",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 11,
+                                    Obx(
+                                      () => Text(
+                                        seatPlanController
+                                            .allseatlist
+                                            .value
+                                            .body!
+                                            .item!
+                                            .ticketPrice
+                                            .toString(),
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 11,
+                                        ),
                                       ),
                                     ),
                                   ],
