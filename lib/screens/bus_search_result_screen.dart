@@ -14,6 +14,7 @@ import '../globalcontroller/languages_controller.dart';
 import '../globalcontroller/page_controller.dart';
 import '../widgets/dottedline.dart';
 import 'draftseatscreen.dart';
+import 'seat_selection_screen.dart';
 
 class BusSearchResultScreen extends StatefulWidget {
   BusSearchResultScreen({super.key});
@@ -93,7 +94,7 @@ class _BusSearchResultScreenState extends State<BusSearchResultScreen> {
                               KText(
                                 text: "بلیط اتوبوس تالقان به هرات",
                                 color: Colors.white,
-                                fontSize: 20,
+                                fontSize: 18,
                                 fontWeight: FontWeight.w700,
                               ),
                               Container(
@@ -185,7 +186,10 @@ class _BusSearchResultScreenState extends State<BusSearchResultScreen> {
                                 .items![index];
                             return GestureDetector(
                               onTap: () {
-                                Get.to(() => Draftseatscreen());
+                                mypagecontroller.changePage(
+                                  SeatSelectionScreen(),
+                                  isMainPage: false,
+                                );
                               },
                               child: Container(
                                 margin: EdgeInsets.only(bottom: 8),

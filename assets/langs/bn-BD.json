@@ -458,8 +458,13 @@
 "BUS_MODEL": "বাসের মডেল",
 "BUS_COMPANY": "বাস কোম্পানি",
 "ADULT": "প্রাপ্তবয়স্ক",
-"CHILDREN": "শিশু"
-
+"CHILDREN": "শিশু",
+"SEAT": "আসন",
+"CONFIRMATION_AND_PAYMENT": "নিশ্চিতকরণ ও পেমেন্ট",
+"SELECT_SEAT": "আসন নির্বাচন করুন",
+"SELECTED": "নির্বাচিত",
+"INACTIVE": "নিষ্ক্রিয়",
+"YOU_CAN_CHOOSE_MAXIMUM_TWO_SEAT": "আপনি সর্বোচ্চ দুইটি আসন নির্বাচন করতে পারেন"
 
 
 

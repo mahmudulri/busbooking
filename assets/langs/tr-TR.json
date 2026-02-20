@@ -458,8 +458,13 @@
 "BUS_MODEL": "Otobüs modeli",
 "BUS_COMPANY": "Otobüs firması",
 "ADULT": "Yetişkin",
-"CHILDREN": "Çocuklar"
-
+"CHILDREN": "Çocuklar",
+"SEAT": "Koltuk",
+"CONFIRMATION_AND_PAYMENT": "Onay ve ödeme",
+"SELECT_SEAT": "Koltuk seç",
+"SELECTED": "Seçili",
+"INACTIVE": "Pasif",
+"YOU_CAN_CHOOSE_MAXIMUM_TWO_SEAT": "En fazla iki koltuk seçebilirsiniz"
 
 
 

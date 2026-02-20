@@ -459,8 +459,13 @@
 "BUS_MODEL": "Bus model",
 "BUS_COMPANY": "Bus company",
 "ADULT": "Adult",
-"CHILDREN": "Children"
-
+"CHILDREN": "Children",
+"SEAT": "Seat",
+"CONFIRMATION_AND_PAYMENT": "Confirmation and payment",
+"SELECT_SEAT": "Select seat",
+"SELECTED": "Selected",
+"INACTIVE": "Inactive",
+"YOU_CAN_CHOOSE_MAXIMUM_TWO_SEAT": "You can choose a maximum of two seats"
 
 
 

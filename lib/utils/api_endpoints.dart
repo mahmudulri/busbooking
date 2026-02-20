@@ -9,5 +9,6 @@ class OtherendPoints {
   final String customerprofile = "customer/profile";
   final String customerwallet = "customer/wallets/balance";
   final String cities = "web/location/cities";
+  final String seaitsplan = "web/trips/";
   final String trips = "web/trips?";
 }

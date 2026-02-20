@@ -458,8 +458,13 @@
 "BUS_MODEL": "د بس ماډل",
 "BUS_COMPANY": "د بس شرکت",
 "ADULT": "لوی",
-"CHILDREN": "ماشومان"
-
+"CHILDREN": "ماشومان",
+"SEAT": "څوکۍ",
+"CONFIRMATION_AND_PAYMENT": "تایید او تادیه",
+"SELECT_SEAT": "څوکۍ وټاکئ",
+"SELECTED": "ټاکل شوی",
+"INACTIVE": "غیر فعال",
+"YOU_CAN_CHOOSE_MAXIMUM_TWO_SEAT": "تاسو کولی شئ تر دوو څوکيو پورې وټاکئ"
 
 
 

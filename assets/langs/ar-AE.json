@@ -459,7 +459,13 @@
 "BUS_MODEL": "طراز الحافلة",
 "BUS_COMPANY": "شركة الحافلات",
 "ADULT": "بالغ",
-"CHILDREN": "أطفال"
+"CHILDREN": "أطفال",
+"SEAT": "مقعد",
+"CONFIRMATION_AND_PAYMENT": "التأكيد والدفع",
+"SELECT_SEAT": "اختر المقعد",
+"SELECTED": "محدد",
+"INACTIVE": "غير نشط",
+"YOU_CAN_CHOOSE_MAXIMUM_TWO_SEAT": "يمكنك اختيار مقعدين كحد أقصى"
 
 
 

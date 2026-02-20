@@ -458,8 +458,13 @@
 "BUS_MODEL": "مدل اتوبوس",
 "BUS_COMPANY": "شرکت اتوبوس‌رانی",
 "ADULT": "بزرگسال",
-"CHILDREN": "کودکان"
-
+"CHILDREN": "کودکان",
+"SEAT": "صندلی",
+"CONFIRMATION_AND_PAYMENT": "تأیید و پرداخت",
+"SELECT_SEAT": "انتخاب صندلی",
+"SELECTED": "انتخاب‌شده",
+"INACTIVE": "غیرفعال",
+"YOU_CAN_CHOOSE_MAXIMUM_TWO_SEAT": "می‌توانید حداکثر دو صندلی انتخاب کنید"
 
 
 
