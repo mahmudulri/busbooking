@@ -10,7 +10,9 @@ import '../globalcontroller/page_controller.dart';
 import '../widgets/custom_text.dart';
 
 class SeatSelectionScreen extends StatefulWidget {
-  SeatSelectionScreen({super.key});
+  SeatSelectionScreen({super.key, this.tripId});
+
+  String? tripId;
 
   @override
   State<SeatSelectionScreen> createState() => _SeatSelectionScreenState();
@@ -27,7 +29,7 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
   @override
   void initState() {
     super.initState();
-    seatPlanController.fetchallseat();
+    seatPlanController.fetchallseat(widget.tripId);
   }
 
   @override
@@ -255,6 +257,7 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
               ),
               Positioned(
                 top: 120,
+
                 child: Container(
                   height: screenHeight,
                   width: screenWidth,
@@ -270,6 +273,64 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
                       right: 18,
                       top: 18,
                       bottom: 300,
+                    ),
+                    child: Obx(
+                      () => seatPlanController.isLoading.value == false
+                          ? GridView.builder(
+                              physics: BouncingScrollPhysics(),
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount:
+                                        seatPlanController
+                                            .allseatlist
+                                            .value
+                                            .body!
+                                            .item!
+                                            .bus!
+                                            .seats!
+                                            .columns ??
+                                        1,
+                                    crossAxisSpacing: 30,
+                                    mainAxisSpacing: 30,
+                                    childAspectRatio: 1,
+                                  ),
+                              itemCount: seatPlanController
+                                  .allseatlist
+                                  .value
+                                  .body!
+                                  .item!
+                                  .totalSeats,
+                              itemBuilder: (context, index) {
+                                final data = seatPlanController
+                                    .allseatlist
+                                    .value
+                                    .body!
+                                    .item!
+                                    .bus!
+                                    .seats!
+                                    .seats![index];
+
+                                return Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    image: DecorationImage(
+                                      image: AssetImage(
+                                        "assets/icons/seat.png",
+                                      ),
+                                    ),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      "A1",
+                                      style: TextStyle(
+                                        color: Color(0xff8576FF),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            )
+                          : Center(child: CircularProgressIndicator()),
                     ),
                   ),
                 ),

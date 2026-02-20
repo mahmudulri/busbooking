@@ -8,10 +8,10 @@ class SeatPlanController extends GetxController {
 
   var allseatlist = SeatListModel().obs;
 
-  void fetchallseat() async {
+  void fetchallseat(id) async {
     try {
       isLoading(true);
-      await SeatplanApi().fetchseats(22).then((value) {
+      await SeatplanApi().fetchseats(id).then((value) {
         allseatlist.value = value;
 
         isLoading(false);

@@ -187,7 +187,9 @@ class _BusSearchResultScreenState extends State<BusSearchResultScreen> {
                             return GestureDetector(
                               onTap: () {
                                 mypagecontroller.changePage(
-                                  SeatSelectionScreen(),
+                                  SeatSelectionScreen(
+                                    tripId: data.id.toString(),
+                                  ),
                                   isMainPage: false,
                                 );
                               },
