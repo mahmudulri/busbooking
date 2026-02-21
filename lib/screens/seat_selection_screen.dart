@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
+import '../controllers/seat_select_controller.dart';
 import '../globalcontroller/languages_controller.dart';
 import '../globalcontroller/page_controller.dart';
 import '../widgets/custom_text.dart';
@@ -21,6 +22,10 @@ class SeatSelectionScreen extends StatefulWidget {
 class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
   final mypagecontroller = Get.find<Mypagecontroller>();
 
+  final SeatSelectionController seatSelectionController = Get.put(
+    SeatSelectionController(),
+  );
+
   final languagesController = Get.find<LanguagesController>();
 
   final SeatPlanController seatPlanController = Get.put(SeatPlanController());
@@ -29,6 +34,7 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
   @override
   void initState() {
     super.initState();
+    seatSelectionController.clearSelection();
     seatPlanController.fetchallseat(widget.tripId);
   }
 
@@ -284,112 +290,134 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
                                         seatPlanController
                                             .allseatlist
                                             .value
-                                            .body!
-                                            .item!
-                                            .bus!
-                                            .seats!
-                                            .columns ??
+                                            .body
+                                            ?.item
+                                            ?.bus
+                                            ?.seats
+                                            ?.columns ??
                                         1,
                                     crossAxisSpacing:
                                         seatPlanController
                                                 .allseatlist
                                                 .value
-                                                .body!
-                                                .item!
-                                                .bus!
-                                                .seats!
-                                                .columns
-                                                .toString() ==
-                                            "3"
+                                                .body
+                                                ?.item
+                                                ?.bus
+                                                ?.seats
+                                                ?.columns ==
+                                            3
                                         ? 70
                                         : 30,
                                     mainAxisSpacing: 15,
                                     childAspectRatio: 1,
                                   ),
-                              itemCount: seatPlanController
-                                  .allseatlist
-                                  .value
-                                  .body!
-                                  .item!
-                                  .totalSeats,
+                              itemCount:
+                                  seatPlanController
+                                      .allseatlist
+                                      .value
+                                      .body
+                                      ?.item
+                                      ?.totalSeats ??
+                                  0,
                               itemBuilder: (context, index) {
-                                // 🔹 original seats
-                                final originalSeats = seatPlanController
-                                    .allseatlist
-                                    .value
-                                    .body!
-                                    .item!
-                                    .bus!
-                                    .seats!
-                                    .seats!;
+                                final layoutSeats =
+                                    seatPlanController
+                                        .allseatlist
+                                        .value
+                                        .body
+                                        ?.item
+                                        ?.bus
+                                        ?.seats
+                                        ?.seats ??
+                                    [];
 
-                                // 🔹 remove empty {} + sort row → column
                                 final seats =
-                                    originalSeats
+                                    layoutSeats
                                         .where(
                                           (s) =>
-                                              s.seatNumber != null &&
-                                              s.row != null &&
-                                              s.column != null,
+                                              s.row != null && s.column != null,
                                         )
                                         .toList()
                                       ..sort((a, b) {
-                                        if (a.row != b.row) {
+                                        if (a.row != b.row)
                                           return a.row!.compareTo(b.row!);
-                                        }
                                         return a.column!.compareTo(b.column!);
                                       });
 
-                                // safety (index overflow)
-                                if (index >= seats.length) {
+                                if (index >= seats.length)
                                   return const SizedBox();
-                                }
 
                                 final data = seats[index];
 
-                                final seatPrices = seatPlanController
-                                    .allseatlist
-                                    .value
-                                    .body!
-                                    .item!
-                                    .seatPrices!;
-
-                                final seatStatus = seatPrices.firstWhere(
-                                  (sp) =>
-                                      sp["seat_number"].toString() ==
-                                      data.seatNumber.toString(),
-                                  orElse: () => {"status": "unknown"},
-                                )["status"];
-
-                                // row number → A/B/C
                                 final rowLetter = String.fromCharCode(
                                   64 + data.row!,
                                 );
-
-                                // A1, B3, etc
                                 final seatLabel = "$rowLetter${data.column}";
 
-                                return Container(
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: AssetImage(
-                                        seatStatus == "booked"
-                                            ? "assets/icons/seatbooked.png"
-                                            : "assets/icons/seat.png",
+                                final double seatPrice = data.price is num
+                                    ? (data.price as num).toDouble()
+                                    : double.tryParse(
+                                            data.price?.toString() ?? "0",
+                                          ) ??
+                                          0;
+
+                                /// 🔹 booked info from seat_prices
+                                final seatPrices =
+                                    seatPlanController
+                                        .allseatlist
+                                        .value
+                                        .body
+                                        ?.item
+                                        ?.seatPrices ??
+                                    [];
+
+                                final seatPriceObj = seatPrices.firstWhere(
+                                  (sp) => sp["seat_number"] == data.seatNumber,
+                                  orElse: () => null,
+                                );
+
+                                final bool isBooked =
+                                    seatPriceObj != null &&
+                                    seatPriceObj["status"] == "booked";
+
+                                return GestureDetector(
+                                  onTap: isBooked
+                                      ? null
+                                      : () {
+                                          seatSelectionController.toggleSeat(
+                                            seatLabel: seatLabel,
+                                            price: seatPrice,
+                                          );
+                                        },
+                                  child: Obx(() {
+                                    final isSelected = seatSelectionController
+                                        .isSelected(seatLabel);
+
+                                    return Container(
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image: AssetImage(
+                                            isBooked
+                                                ? "assets/icons/seatbooked.png"
+                                                : isSelected
+                                                ? "assets/icons/seatfill.png"
+                                                : "assets/icons/seat.png",
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      seatLabel,
-                                      style: TextStyle(
-                                        color: seatStatus == "booked"
-                                            ? Colors.white
-                                            : Color(0xff8576FF),
-                                        fontWeight: FontWeight.bold,
+                                      child: Center(
+                                        child: Text(
+                                          seatLabel,
+                                          style: TextStyle(
+                                            color: (isBooked || isSelected)
+                                                ? Colors.white
+                                                : const Color(0xff8576FF),
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
+                                    );
+                                  }),
                                 );
                               },
                             )
@@ -429,27 +457,27 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
                                       color: Colors.white,
                                       fontSize: 11,
                                     ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          "Not Selected",
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 11,
-                                          ),
-                                        ),
-                                        Text(
-                                          "",
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 11,
-                                          ),
-                                        ),
-                                      ],
+                                    Obx(
+                                      () =>
+                                          seatSelectionController
+                                              .selectedSeats
+                                              .isEmpty
+                                          ? Text(
+                                              "Not Selected",
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 11,
+                                              ),
+                                            )
+                                          : Text(
+                                              seatSelectionController
+                                                  .selectedSeats
+                                                  .join(", "),
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 11,
+                                              ),
+                                            ),
                                     ),
                                   ],
                                 ),
@@ -472,21 +500,27 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
                                     fontWeight: FontWeight.w700,
                                     fontSize: 10,
                                   ),
-                                  KText(
-                                    textAlign: TextAlign.center,
-                                    text:
-                                        seatPlanController
-                                            .allseatlist
-                                            .value
-                                            .body!
-                                            .item!
-                                            .totalSeats
-                                            .toString() +
-                                        " "
-                                            "People",
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 12,
+                                  Obx(
+                                    () =>
+                                        seatPlanController.isLoading.value ==
+                                            false
+                                        ? KText(
+                                            textAlign: TextAlign.center,
+                                            text:
+                                                seatPlanController
+                                                    .allseatlist
+                                                    .value
+                                                    .body!
+                                                    .item!
+                                                    .totalSeats
+                                                    .toString() +
+                                                " "
+                                                    "People",
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 12,
+                                          )
+                                        : SizedBox(),
                                   ),
                                 ],
                               ),
@@ -494,34 +528,27 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
 
                             Expanded(
                               flex: 1,
-                              child: Container(
-                                // color: Colors.red,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    KText(
-                                      text: languagesController.tr("AMOUNT"),
-                                      color: Colors.white,
-                                      fontSize: 11,
-                                    ),
-                                    Obx(
-                                      () => Text(
-                                        seatPlanController
-                                            .allseatlist
-                                            .value
-                                            .body!
-                                            .item!
-                                            .ticketPrice
-                                            .toString(),
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 11,
-                                        ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  KText(
+                                    text: languagesController.tr("AMOUNT"),
+                                    color: Colors.white,
+                                    fontSize: 11,
+                                  ),
+                                  Obx(
+                                    () => Text(
+                                      seatSelectionController.totalAmount
+                                          .toStringAsFixed(0),
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.w600,
                                       ),
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],

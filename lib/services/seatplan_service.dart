@@ -24,7 +24,7 @@ class SeatplanApi {
     );
 
     if (response.statusCode == 200) {
-      print(response.body.toString());
+      // print(response.body.toString());
 
       final seatplanModel = SeatListModel.fromJson(json.decode(response.body));
 
