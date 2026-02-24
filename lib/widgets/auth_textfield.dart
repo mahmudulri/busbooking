@@ -27,27 +27,29 @@ class AuthTextfield extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 80,
+      height: height,
       width: double.infinity,
       color: backgroundColor ?? Colors.white,
-      child: TextField(
-        controller: controller,
-        keyboardType: keyboardType,
-        decoration: InputDecoration(
-          hintText: hint,
-          floatingLabelBehavior: FloatingLabelBehavior.always,
-          hintStyle: TextStyle(
-            fontFamily: box.read("language").toString() == "Fa"
-                ? Get.find<FontController>().currentFont
-                : null,
-          ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(borderRadius),
-          ),
-          isDense: false,
-          contentPadding: EdgeInsets.symmetric(
-            vertical: box.read("direction") == "rtl" ? 12 : 20,
-            horizontal: 12,
+      child: Center(
+        child: TextField(
+          controller: controller,
+          keyboardType: keyboardType,
+          decoration: InputDecoration(
+            hintText: hint,
+            floatingLabelBehavior: FloatingLabelBehavior.always,
+            hintStyle: TextStyle(
+              fontFamily: box.read("language").toString() == "Fa"
+                  ? Get.find<FontController>().currentFont
+                  : null,
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(borderRadius),
+            ),
+            isDense: false,
+            contentPadding: EdgeInsets.symmetric(
+              vertical: box.read("direction") == "rtl" ? 12 : 15,
+              horizontal: 12,
+            ),
           ),
         ),
       ),

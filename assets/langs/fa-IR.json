@@ -472,8 +472,13 @@
 "DROP_OFF_LOCATION": "محل پیاده شدن",
 "TICKET_PRICE": "قیمت بلیط",
 "SEAT_RESERVAATION": "رزرو صندلی",
-"RETURN": "بازگشت"
-
+"RETURN": "بازگشت",
+"DESTINATION_PHONE_NUMBER": "شماره تلفن مقصد",
+"TRANSFER_AMOUNT": "مبلغ انتقال",
+"WITH_COMMISSION": "با کارمزد",
+"WITHOUT_COMMISSION": "بدون کارمزد",
+"TRANSFER_HISTORY": "تاریخچه انتقال",
+"TRANSFER_DATE": "تاریخ انتقال"
 
 
 

@@ -13,6 +13,7 @@ import '../controllers/wallet_controller.dart';
 import '../globalcontroller/languages_controller.dart';
 import '../globalcontroller/page_controller.dart';
 import '../globalcontroller/scaffold_controller.dart';
+import '../screens/credit_transfer_screen.dart';
 import '../widgets/drawer.dart';
 import '../widgets/homeservicebox.dart';
 
@@ -419,6 +420,13 @@ class _HomepageState extends State<Homepage> {
                                         "CREDIT_TRANSFER",
                                       ),
                                       imglink: "assets/images/credittrans.png",
+                                      isActive: "yes",
+                                      onpressed: () {
+                                        mypagecontroller.changePage(
+                                          CreditTransferScreen(),
+                                          isMainPage: false,
+                                        );
+                                      },
                                     ),
                                     Homeservicebox(
                                       btnName: languagesController.tr(

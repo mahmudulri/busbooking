@@ -473,8 +473,13 @@
 "DROP_OFF_LOCATION": "Drop-off Location",
 "TICKET_PRICE": "Ticket Price",
 "SEAT_RESERVAATION": "Seat Reservation",
-"RETURN": "Return"
-
+"RETURN": "Return",
+"DESTINATION_PHONE_NUMBER": "Destination Phone Number",
+"TRANSFER_AMOUNT": "Transfer Amount",
+"WITH_COMMISSION": "With Commission",
+"WITHOUT_COMMISSION": "Without Commission",
+"TRANSFER_HISTORY": "Transfer History",
+"TRANSFER_DATE": "Transfer Date"
 
 
 

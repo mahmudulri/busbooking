@@ -472,8 +472,13 @@
 "DROP_OFF_LOCATION": "İniş Noktası",
 "TICKET_PRICE": "Bilet Fiyatı",
 "SEAT_RESERVAATION": "Koltuk Rezervasyonu",
-"RETURN": "İade"
-
+"RETURN": "İade",
+"DESTINATION_PHONE_NUMBER": "Alıcı Telefon Numarası",
+"TRANSFER_AMOUNT": "Transfer Tutarı",
+"WITH_COMMISSION": "Komisyonlu",
+"WITHOUT_COMMISSION": "Komisyonsuz",
+"TRANSFER_HISTORY": "Transfer Geçmişi",
+"TRANSFER_DATE": "Transfer Tarihi"
 
 
 

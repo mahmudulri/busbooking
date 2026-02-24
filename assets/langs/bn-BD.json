@@ -472,8 +472,13 @@
 "DROP_OFF_LOCATION": "নামার স্থান",
 "TICKET_PRICE": "টিকিটের মূল্য",
 "SEAT_RESERVAATION": "সিট সংরক্ষণ",
-"RETURN": "ফেরত"
-
+"RETURN": "ফেরত",
+"DESTINATION_PHONE_NUMBER": "প্রাপকের ফোন নম্বর",
+"TRANSFER_AMOUNT": "ট্রান্সফারের পরিমাণ",
+"WITH_COMMISSION": "কমিশনসহ",
+"WITHOUT_COMMISSION": "কমিশন ছাড়া",
+"TRANSFER_HISTORY": "ট্রান্সফার ইতিহাস",
+"TRANSFER_DATE": "ট্রান্সফারের তারিখ"
 
 
 

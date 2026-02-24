@@ -472,8 +472,13 @@
 "DROP_OFF_LOCATION": "د کوزېدو ځای",
 "TICKET_PRICE": "د ټکټ بیه",
 "SEAT_RESERVAATION": "د څوکۍ ریزرف",
-"RETURN": "بېرته ستنیدل"
-
+"RETURN": "بېرته ستنیدل",
+"DESTINATION_PHONE_NUMBER": "د ترلاسه کوونکي د تلیفون شمېره",
+"TRANSFER_AMOUNT": "د لېږد اندازه",
+"WITH_COMMISSION": "د کمېسیون سره",
+"WITHOUT_COMMISSION": "بې له کمېسیون",
+"TRANSFER_HISTORY": "د لېږد تاریخچه",
+"TRANSFER_DATE": "د لېږد نېټه"
 
 
 

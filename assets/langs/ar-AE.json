@@ -473,8 +473,13 @@
 "DROP_OFF_LOCATION": "مكان النزول",
 "TICKET_PRICE": "سعر التذكرة",
 "SEAT_RESERVAATION": "حجز المقعد",
-"RETURN": "العودة"
-
+"RETURN": "العودة",
+"DESTINATION_PHONE_NUMBER": "رقم هاتف المستلم",
+"TRANSFER_AMOUNT": "مبلغ التحويل",
+"WITH_COMMISSION": "مع العمولة",
+"WITHOUT_COMMISSION": "بدون عمولة",
+"TRANSFER_HISTORY": "سجل التحويلات",
+"TRANSFER_DATE": "تاريخ التحويل"
 
 
 
