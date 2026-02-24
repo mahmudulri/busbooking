@@ -350,10 +350,8 @@ class Route {
   final int? id;
   final String? name;
   final int? distance;
-  final NCity? originCity;
-  final NCity? destinationCity;
-  final NStation? originStation;
-  final NStation? destinationStation;
+  final Origincity? originCity;
+  final Destinationcity? destinationCity;
 
   Route({
     this.id,
@@ -361,8 +359,6 @@ class Route {
     this.distance,
     this.originCity,
     this.destinationCity,
-    this.originStation,
-    this.destinationStation,
   });
 
   factory Route.fromJson(Map<String, dynamic> json) => Route(
@@ -371,16 +367,10 @@ class Route {
     distance: json["distance"] == null ? null : json["distance"],
     originCity: json["origin_city"] == null
         ? null
-        : NCity.fromJson(json["origin_city"]),
+        : Origincity.fromJson(json["origin_city"]),
     destinationCity: json["destination_city"] == null
         ? null
-        : NCity.fromJson(json["destination_city"]),
-    originStation: json["origin_station"] == null
-        ? null
-        : NStation.fromJson(json["origin_station"]),
-    destinationStation: json["destination_station"] == null
-        ? null
-        : NStation.fromJson(json["destination_station"]),
+        : Destinationcity.fromJson(json["destination_city"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -389,20 +379,18 @@ class Route {
     "distance": distance,
     "origin_city": originCity!.toJson(),
     "destination_city": destinationCity!.toJson(),
-    "origin_station": originStation!.toJson(),
-    "destination_station": destinationStation!.toJson(),
   };
 }
 
-class NCity {
+class Origincity {
   final int? id;
-  final DestinationCityName? name;
-  final DestinationCityCode? code;
+  final String? name;
+  final String? code;
   final int? sort;
   final Country? country;
-  final Country? province;
+  final Province? province;
 
-  NCity({
+  Origincity({
     this.id,
     this.name,
     this.code,
@@ -411,104 +399,107 @@ class NCity {
     this.province,
   });
 
-  factory NCity.fromJson(Map<String, dynamic> json) => NCity(
+  factory Origincity.fromJson(Map<String, dynamic> json) => Origincity(
     id: json["id"] == null ? null : json["id"],
-    name: json["name"] == null
-        ? null
-        : destinationCityNameValues.map[json["name"]],
-    code: json["code"] == null
-        ? null
-        : destinationCityCodeValues.map[json["code"]],
+    name: json["name"] == null ? null : json["name"],
+    code: json["code"] == null ? null : json["code"],
     sort: json["sort"] == null ? null : json["sort"],
     country: json["country"] == null ? null : Country.fromJson(json["country"]),
     province: json["province"] == null
         ? null
-        : Country.fromJson(json["province"]),
+        : Province.fromJson(json["province"]),
   );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "name": destinationCityNameValues.reverse[name],
-    "code": destinationCityCodeValues.reverse[code],
-    "sort": sort,
-    "country": country!.toJson(),
-    "province": province!.toJson(),
+    "id": id == null ? null : id,
+    "name": name == null ? null : name,
+    "code": code == null ? null : code,
+    "sort": sort == null ? null : sort,
+    "country": country == null ? null : country!.toJson(),
+    "province": province == null ? null : province!.toJson(),
   };
 }
 
-enum DestinationCityCode { KABUL, TALOQAN }
-
-final destinationCityCodeValues = EnumValues({
-  "kabul": DestinationCityCode.KABUL,
-  "taloqan": DestinationCityCode.TALOQAN,
-});
-
 class Country {
   final int? id;
-  final CountryName? name;
-  final CountryCode? code;
+  final String? name;
+  final String? code;
 
   Country({this.id, this.name, this.code});
 
   factory Country.fromJson(Map<String, dynamic> json) => Country(
     id: json["id"] == null ? null : json["id"],
-    name: json["name"] == null ? null : countryNameValues.map[json["name"]],
-    code: json["code"] == null ? null : countryCodeValues.map[json["code"]],
+    name: json["name"] == null ? null : json["name"],
+    code: json["code"] == null ? null : json["code"],
   );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "name": countryNameValues.reverse[name],
-    "code": countryCodeValues.reverse[code],
+    "id": id == null ? null : id,
+    "name": name == null ? null : name,
+    "code": code == null ? null : code,
   };
 }
 
-enum CountryCode { AF, KABUL, TAKHAR }
-
-final countryCodeValues = EnumValues({
-  "af": CountryCode.AF,
-  "kabul": CountryCode.KABUL,
-  "takhar": CountryCode.TAKHAR,
-});
-
-enum CountryName { AFGHANISTAN, EMPTY, NAME }
-
-final countryNameValues = EnumValues({
-  "afghanistan": CountryName.AFGHANISTAN,
-  "کابل": CountryName.EMPTY,
-  "تخار": CountryName.NAME,
-});
-
-enum DestinationCityName { KABUL, TALOQAN }
-
-final destinationCityNameValues = EnumValues({
-  "kabul": DestinationCityName.KABUL,
-  "Taloqan": DestinationCityName.TALOQAN,
-});
-
-class NStation {
+class Province {
   final int? id;
-  final DestinationStationName? name;
+  final String? name;
+  final String? code;
 
-  NStation({this.id, this.name});
+  Province({this.id, this.name, this.code});
 
-  factory NStation.fromJson(Map<String, dynamic> json) => NStation(
-    id: json["id"],
-    name: destinationStationNameValues.map[json["name"]],
+  factory Province.fromJson(Map<String, dynamic> json) => Province(
+    id: json["id"] == null ? null : json["id"],
+    name: json["name"] == null ? null : json["name"],
+    code: json["code"] == null ? null : json["code"],
   );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "name": destinationStationNameValues.reverse[name],
+    "id": id == null ? null : id,
+    "name": name == null ? null : name,
+    "code": code == null ? null : code,
   };
 }
 
-enum DestinationStationName { EMPTY, NAME }
+class Destinationcity {
+  final int? id;
+  final String? name;
+  final String? code;
+  final int? sort;
+  final Country? country;
+  final Province? province;
 
-final destinationStationNameValues = EnumValues({
-  "ترمنال لوای بابه جان": DestinationStationName.EMPTY,
-  "ترمینال گولایی": DestinationStationName.NAME,
-});
+  Destinationcity({
+    this.id,
+    this.name,
+    this.code,
+    this.sort,
+    this.country,
+    this.province,
+  });
+
+  factory Destinationcity.fromJson(Map<String, dynamic> json) =>
+      Destinationcity(
+        id: json["id"] == null ? null : json["id"],
+        name: json["name"] == null ? null : json["name"],
+        code: json["code"] == null ? null : json["code"],
+        sort: json["sort"] == null ? null : json["sort"],
+        country: json["country"] == null
+            ? null
+            : Country.fromJson(json["country"]),
+        province: json["province"] == null
+            ? null
+            : Province.fromJson(json["province"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+    "id": id == null ? null : id,
+    "name": name == null ? null : name,
+    "code": code == null ? null : code,
+    "sort": sort == null ? null : sort,
+    "country": country == null ? null : country!.toJson(),
+    "province": province == null ? null : province!.toJson(),
+  };
+}
 
 class User {
   final int? id;
@@ -684,16 +675,4 @@ class Vendor {
     "created_at": createdAt!.toIso8601String(),
     "updated_at": updatedAt!.toIso8601String(),
   };
-}
-
-class EnumValues<T> {
-  Map<String, T> map;
-  late Map<T, String> reverseMap;
-
-  EnumValues(this.map);
-
-  Map<T, String> get reverse {
-    reverseMap = map.map((k, v) => MapEntry(v, k));
-    return reverseMap;
-  }
 }

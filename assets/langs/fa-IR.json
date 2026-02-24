@@ -464,8 +464,9 @@
 "SELECT_SEAT": "انتخاب صندلی",
 "SELECTED": "انتخاب‌شده",
 "INACTIVE": "غیرفعال",
-"YOU_CAN_CHOOSE_MAXIMUM_TWO_SEAT": "می‌توانید حداکثر دو صندلی انتخاب کنید"
-
+"YOU_CAN_CHOOSE_MAXIMUM_TWO_SEAT": "می‌توانید حداکثر دو صندلی انتخاب کنید",
+"TICKET_CANCELLATION_REQUEST": "درخواست لغو بلیت",
+"CANCELL_REQUEST": "لغو درخواست"
 
 
 

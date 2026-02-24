@@ -465,8 +465,9 @@
 "SELECT_SEAT": "Select seat",
 "SELECTED": "Selected",
 "INACTIVE": "Inactive",
-"YOU_CAN_CHOOSE_MAXIMUM_TWO_SEAT": "You can choose a maximum of two seats"
-
+"YOU_CAN_CHOOSE_MAXIMUM_TWO_SEAT": "You can choose a maximum of two seats",
+"TICKET_CANCELLATION_REQUEST": "Ticket cancellation request",
+"CANCELL_REQUEST": "Cancel request"
 
 
 

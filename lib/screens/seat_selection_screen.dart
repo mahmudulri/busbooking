@@ -10,10 +10,12 @@ import '../globalcontroller/languages_controller.dart';
 import '../globalcontroller/page_controller.dart';
 import '../widgets/custom_text.dart';
 
-class SeatSelectionScreen extends StatefulWidget {
-  SeatSelectionScreen({super.key, this.tripId});
+const double kSeatSize = 52;
+const double kSeatGap = 8;
 
-  String? tripId;
+class SeatSelectionScreen extends StatefulWidget {
+  const SeatSelectionScreen({super.key, this.tripId});
+  final String? tripId;
 
   @override
   State<SeatSelectionScreen> createState() => _SeatSelectionScreenState();
@@ -21,14 +23,11 @@ class SeatSelectionScreen extends StatefulWidget {
 
 class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
   final mypagecontroller = Get.find<Mypagecontroller>();
-
   final SeatSelectionController seatSelectionController = Get.put(
     SeatSelectionController(),
   );
-
-  final languagesController = Get.find<LanguagesController>();
-
   final SeatPlanController seatPlanController = Get.put(SeatPlanController());
+  final languagesController = Get.find<LanguagesController>();
   final box = GetStorage();
 
   @override
@@ -38,23 +37,153 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
     seatPlanController.fetchallseat(widget.tripId);
   }
 
+  // ───────────────── Seat layout config ─────────────────
+  ({int left, int right}) splitConfig(int column) => switch (column) {
+    3 => (left: 1, right: 2),
+    4 => (left: 2, right: 2),
+    5 => (left: 2, right: 3),
+    _ => (left: 2, right: 2),
+  };
+
+  double aisleGap(int column) => column == 5 ? 20 : 32;
+
+  // ───────────────── Single seat widget (image based) ─────────────────
+  Widget buildSeat(dynamic data) {
+    final int row = data.row ?? 0;
+    final int col = data.column ?? 0;
+
+    final seatLabel = "${String.fromCharCode(64 + row)}$col";
+
+    final double seatPrice = data.price is num
+        ? (data.price as num).toDouble()
+        : double.tryParse(data.price?.toString() ?? "0") ?? 0;
+
+    final seatPrices =
+        seatPlanController.allseatlist.value.body?.item?.seatPrices ?? [];
+
+    final seatPriceObj = seatPrices.firstWhere(
+      (sp) => sp["seat_number"] == data.seatNumber,
+      orElse: () => null,
+    );
+
+    final bool isBooked =
+        seatPriceObj != null &&
+        (seatPriceObj["status"] != "available" ||
+            seatPriceObj["is_avaiable"] == false);
+
+    final bool isSelected = seatSelectionController.isSelected(seatLabel);
+
+    return GestureDetector(
+      onTap: isBooked
+          ? null
+          : () {
+              seatSelectionController.toggleSeat(
+                seatLabel: seatLabel,
+                price: seatPrice,
+              );
+            },
+      child: Container(
+        width: kSeatSize,
+        height: kSeatSize,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(
+              isBooked
+                  ? "assets/icons/seatbooked.png"
+                  : isSelected
+                  ? "assets/icons/seatfill.png"
+                  : "assets/icons/seat.png",
+            ),
+            fit: BoxFit.contain,
+          ),
+        ),
+        alignment: Alignment.center,
+        child: Text(
+          seatLabel,
+          style: TextStyle(
+            color: (isBooked || isSelected)
+                ? Colors.white
+                : const Color(0xff8576FF),
+            fontWeight: FontWeight.bold,
+            fontSize: 12,
+          ),
+        ),
+      ),
+    );
+  }
+
+  // ───────────────── Row builder ─────────────────
+  Widget buildRow(List seats, int startIndex, int count, int column) {
+    final (:left, :right) = splitConfig(column);
+    final leftCount = count < left ? count : left;
+    final rightCount = count - leftCount;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: List.generate(left, (i) {
+              if (i >= leftCount) {
+                return const SizedBox(width: kSeatSize);
+              }
+              return Padding(
+                padding: EdgeInsets.only(right: i < left - 1 ? kSeatGap : 0),
+                child: buildSeat(seats[startIndex + i]),
+              );
+            }),
+          ),
+          SizedBox(width: aisleGap(column)),
+          Row(
+            children: List.generate(right, (i) {
+              if (i >= rightCount) {
+                return const SizedBox(width: kSeatSize);
+              }
+              return Padding(
+                padding: EdgeInsets.only(left: i > 0 ? kSeatGap : 0),
+                child: buildSeat(seats[startIndex + leftCount + i]),
+              );
+            }),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ───────────────── Full seat grid ─────────────────
+  List<Widget> buildSeatGrid(List seats, int column) {
+    final rows = <Widget>[];
+    final fullRows = seats.length ~/ column;
+    final lastRowSeats = seats.length % column;
+
+    for (int i = 0; i < fullRows; i++) {
+      rows.add(buildRow(seats, i * column, column, column));
+    }
+
+    if (lastRowSeats > 0) {
+      rows.add(buildRow(seats, fullRows * column, lastRowSeats, column));
+    }
+
+    return rows;
+  }
+
+  // ───────────────── BUILD ─────────────────
   @override
   Widget build(BuildContext context) {
     var screenHeight = MediaQuery.of(context).size.height;
     var screenWidth = MediaQuery.of(context).size.width;
+
     return PopScope(
       canPop: false,
-
       onPopInvokedWithResult: (didPop, result) {
         if (didPop) return;
-
         mypagecontroller.goBack();
       },
       child: Scaffold(
         body: Container(
           height: screenHeight,
           width: screenWidth,
-
           child: Stack(
             children: [
               Container(
@@ -261,171 +390,69 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
                   ),
                 ),
               ),
+              // ───────── Seat container ─────────
               Positioned(
                 top: 120,
+                left: 0,
+                right: 0,
 
                 child: Container(
                   height: screenHeight,
                   width: screenWidth,
-                  decoration: BoxDecoration(
+                  padding: EdgeInsets.fromLTRB(18, 18, 18, 0),
+                  decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.vertical(
                       top: Radius.circular(40),
                     ),
                   ),
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                      left: 18,
-                      right: 18,
-                      top: 18,
-                      bottom: 300,
-                    ),
-                    child: Obx(
-                      () => seatPlanController.isLoading.value == false
-                          ? GridView.builder(
-                              physics: const BouncingScrollPhysics(),
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount:
-                                        seatPlanController
-                                            .allseatlist
-                                            .value
-                                            .body
-                                            ?.item
-                                            ?.bus
-                                            ?.seats
-                                            ?.columns ??
-                                        1,
-                                    crossAxisSpacing:
-                                        seatPlanController
-                                                .allseatlist
-                                                .value
-                                                .body
-                                                ?.item
-                                                ?.bus
-                                                ?.seats
-                                                ?.columns ==
-                                            3
-                                        ? 70
-                                        : 30,
-                                    mainAxisSpacing: 15,
-                                    childAspectRatio: 1,
-                                  ),
-                              itemCount:
-                                  seatPlanController
-                                      .allseatlist
-                                      .value
-                                      .body
-                                      ?.item
-                                      ?.totalSeats ??
-                                  0,
-                              itemBuilder: (context, index) {
-                                final layoutSeats =
-                                    seatPlanController
-                                        .allseatlist
-                                        .value
-                                        .body
-                                        ?.item
-                                        ?.bus
-                                        ?.seats
-                                        ?.seats ??
-                                    [];
+                  child: Obx(() {
+                    if (seatPlanController.isLoading.value) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
 
-                                final seats =
-                                    layoutSeats
-                                        .where(
-                                          (s) =>
-                                              s.row != null && s.column != null,
-                                        )
-                                        .toList()
-                                      ..sort((a, b) {
-                                        if (a.row != b.row)
-                                          return a.row!.compareTo(b.row!);
-                                        return a.column!.compareTo(b.column!);
-                                      });
+                    final int column =
+                        seatPlanController
+                            .allseatlist
+                            .value
+                            .body
+                            ?.item
+                            ?.bus
+                            ?.seats
+                            ?.columns ??
+                        1;
 
-                                if (index >= seats.length)
-                                  return const SizedBox();
+                    final seats =
+                        seatPlanController
+                            .allseatlist
+                            .value
+                            .body
+                            ?.item
+                            ?.bus
+                            ?.seats
+                            ?.seats
+                            ?.where((s) => s.row != null && s.column != null)
+                            .toList() ??
+                        [];
 
-                                final data = seats[index];
+                    seats.sort((a, b) {
+                      final ar = a.row ?? 0;
+                      final br = b.row ?? 0;
+                      if (ar != br) return ar.compareTo(br);
 
-                                final rowLetter = String.fromCharCode(
-                                  64 + data.row!,
-                                );
-                                final seatLabel = "$rowLetter${data.column}";
+                      final ac = a.column ?? 0;
+                      final bc = b.column ?? 0;
+                      return ac.compareTo(bc);
+                    });
 
-                                final double seatPrice = data.price is num
-                                    ? (data.price as num).toDouble()
-                                    : double.tryParse(
-                                            data.price?.toString() ?? "0",
-                                          ) ??
-                                          0;
-
-                                /// 🔹 booked info from seat_prices
-                                final seatPrices =
-                                    seatPlanController
-                                        .allseatlist
-                                        .value
-                                        .body
-                                        ?.item
-                                        ?.seatPrices ??
-                                    [];
-
-                                final seatPriceObj = seatPrices.firstWhere(
-                                  (sp) => sp["seat_number"] == data.seatNumber,
-                                  orElse: () => null,
-                                );
-
-                                final bool isBooked =
-                                    seatPriceObj != null &&
-                                    seatPriceObj["status"] == "booked";
-
-                                return GestureDetector(
-                                  onTap: isBooked
-                                      ? null
-                                      : () {
-                                          seatSelectionController.toggleSeat(
-                                            seatLabel: seatLabel,
-                                            price: seatPrice,
-                                          );
-                                        },
-                                  child: Obx(() {
-                                    final isSelected = seatSelectionController
-                                        .isSelected(seatLabel);
-
-                                    return Container(
-                                      decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                            isBooked
-                                                ? "assets/icons/seatbooked.png"
-                                                : isSelected
-                                                ? "assets/icons/seatfill.png"
-                                                : "assets/icons/seat.png",
-                                          ),
-                                        ),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          seatLabel,
-                                          style: TextStyle(
-                                            color: (isBooked || isSelected)
-                                                ? Colors.white
-                                                : const Color(0xff8576FF),
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  }),
-                                );
-                              },
-                            )
-                          : Center(child: CircularProgressIndicator()),
-                    ),
-                  ),
+                    return SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      child: Column(children: buildSeatGrid(seats, column)),
+                    );
+                  }),
                 ),
               ),
+
               Positioned(
                 bottom: 0,
                 child: Container(
@@ -553,24 +580,34 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
                             ),
                           ],
                         ),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Colors.green,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 10,
-                              vertical: 10,
+                        GestureDetector(
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(content: BookingDialogBox());
+                              },
+                            );
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.green,
+                              borderRadius: BorderRadius.circular(10),
                             ),
-                            child: Center(
-                              child: KText(
-                                text: languagesController.tr(
-                                  "CONFIRMATION_AND_PAYMENT",
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 10,
+                                vertical: 10,
+                              ),
+                              child: Center(
+                                child: KText(
+                                  text: languagesController.tr(
+                                    "CONFIRMATION_AND_PAYMENT",
+                                  ),
+                                  color: Colors.white,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w500,
                                 ),
-                                color: Colors.white,
-                                fontSize: 13,
-                                fontWeight: FontWeight.w500,
                               ),
                             ),
                           ),
@@ -584,6 +621,21 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class BookingDialogBox extends StatelessWidget {
+  BookingDialogBox({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    var screenHeight = MediaQuery.of(context).size.height;
+    var screenWidth = MediaQuery.of(context).size.width;
+    return Container(
+      height: 500,
+      width: screenWidth,
+      decoration: BoxDecoration(color: Colors.red),
     );
   }
 }

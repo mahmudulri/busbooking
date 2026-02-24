@@ -464,8 +464,9 @@
 "SELECT_SEAT": "څوکۍ وټاکئ",
 "SELECTED": "ټاکل شوی",
 "INACTIVE": "غیر فعال",
-"YOU_CAN_CHOOSE_MAXIMUM_TWO_SEAT": "تاسو کولی شئ تر دوو څوکيو پورې وټاکئ"
-
+"YOU_CAN_CHOOSE_MAXIMUM_TWO_SEAT": "تاسو کولی شئ تر دوو څوکيو پورې وټاکئ",
+"TICKET_CANCELLATION_REQUEST": "د ټکټ لغوه کولو غوښتنه",
+"CANCELL_REQUEST": "غوښتنه لغوه کړئ"
 
 
 

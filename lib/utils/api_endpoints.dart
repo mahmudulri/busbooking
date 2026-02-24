@@ -11,4 +11,5 @@ class OtherendPoints {
   final String cities = "web/location/cities";
   final String seaitsplan = "web/trips/";
   final String trips = "web/trips?";
+  final String customerbookinglist = "customer/bookings";
 }

@@ -464,8 +464,9 @@
 "SELECT_SEAT": "আসন নির্বাচন করুন",
 "SELECTED": "নির্বাচিত",
 "INACTIVE": "নিষ্ক্রিয়",
-"YOU_CAN_CHOOSE_MAXIMUM_TWO_SEAT": "আপনি সর্বোচ্চ দুইটি আসন নির্বাচন করতে পারেন"
-
+"YOU_CAN_CHOOSE_MAXIMUM_TWO_SEAT": "আপনি সর্বোচ্চ দুইটি আসন নির্বাচন করতে পারেন",
+"TICKET_CANCELLATION_REQUEST": "টিকিট বাতিলের অনুরোধ",
+"CANCELL_REQUEST": "অনুরোধ বাতিল"
 
 
 

@@ -1,3 +1,4 @@
+import 'package:busbooking/controllers/sign_in_controller.dart';
 import 'package:busbooking/helpers/datetime_helper.dart';
 import 'package:busbooking/utils/colors.dart';
 import 'package:busbooking/widgets/custom_text.dart';
@@ -8,10 +9,12 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import '../controllers/search_bus_controller.dart';
+import '../controllers/seat_plan_controller.dart';
 import '../draft.dart';
 
 import '../globalcontroller/languages_controller.dart';
 import '../globalcontroller/page_controller.dart';
+import '../models/bus_list_model.dart';
 import '../widgets/dottedline.dart';
 import 'draftseatscreen.dart';
 import 'seat_selection_screen.dart';
@@ -28,6 +31,10 @@ class _BusSearchResultScreenState extends State<BusSearchResultScreen> {
   final mypagecontroller = Get.find<Mypagecontroller>();
 
   final languagesController = Get.find<LanguagesController>();
+
+  final SeatPlanController tripDetailsController = Get.put(
+    SeatPlanController(),
+  );
 
   TextEditingController fromController = TextEditingController();
 
@@ -186,12 +193,33 @@ class _BusSearchResultScreenState extends State<BusSearchResultScreen> {
                                 .items![index];
                             return GestureDetector(
                               onTap: () {
-                                mypagecontroller.changePage(
-                                  SeatSelectionScreen(
-                                    tripId: data.id.toString(),
-                                  ),
-                                  isMainPage: false,
+                                tripDetailsController.fetchallseat(
+                                  data.id.toString(),
                                 );
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return TripDetailDialog();
+                                  },
+                                );
+                                // showDialog(
+                                //   context: context,
+                                //   builder: (context) {
+                                //     return AlertDialog(
+                                //       insetPadding:
+                                //           EdgeInsets.zero, // important
+                                //       contentPadding: EdgeInsets.zero,
+                                //       content: TripDetailDialog(),
+                                //     );
+                                //   },
+                                // );
+
+                                // mypagecontroller.changePage(
+                                //   SeatSelectionScreen(
+                                //     tripId: data.id.toString(),
+                                //   ),
+                                //   isMainPage: false,
+                                // );
                               },
                               child: Container(
                                 margin: EdgeInsets.only(bottom: 8),
@@ -615,6 +643,162 @@ class _BusSearchResultScreenState extends State<BusSearchResultScreen> {
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class TripDetailDialog extends StatelessWidget {
+  TripDetailDialog({super.key});
+
+  // final Item? data;
+
+  final SeatPlanController tripDetailsController = Get.put(
+    SeatPlanController(),
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    var screenHeight = MediaQuery.of(context).size.height;
+    var screenWidth = MediaQuery.of(context).size.width;
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+      child: Container(
+        height: 500,
+        width: screenWidth,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Obx(() {
+            if (tripDetailsController.isLoading.value) {
+              return Center(child: CircularProgressIndicator());
+            }
+
+            final data = tripDetailsController.allseatlist.value.body!;
+            final bus = data.item!.bus!;
+
+            // Convert facilities string → List
+            final facilitiesList = (bus.facilities ?? "")
+                .split(",")
+                .map((e) => e.trim())
+                .where((e) => e.isNotEmpty)
+                .toList();
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    CircleAvatar(
+                      radius: 20,
+                      backgroundColor: Colors.grey,
+                      backgroundImage: AssetImage("assets/images/bus2.png"),
+                    ),
+                    SizedBox(width: 8),
+                    Flexible(
+                      child: KText(
+                        text:
+                            "${bus.branch!.vendor!.longName} - ${bus.name} - ${bus.busNumber}",
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+
+                SizedBox(height: 12),
+
+                // Facilities UI
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: facilitiesList.map((facility) {
+                    return Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 6,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Color(0xffE3F2FF),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: KText(
+                        text: facility,
+                        fontSize: 12,
+                        color: Color(0xff2094FF),
+                        fontWeight: FontWeight.w600,
+                      ),
+                    );
+                  }).toList(),
+                ),
+                SizedBox(height: 12),
+
+                Card(
+                  color: Colors.white,
+                  child: Container(
+                    height: 180,
+                    width: screenWidth,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage(
+                          "assets/images/bus-booking-vector.png",
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 12),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    KText(
+                      text: data.item!.route!.originCity!.province!.name
+                          .toString(),
+                      color: Colors.grey.shade600,
+                      fontSize: 15,
+                    ),
+                    Icon(
+                      Icons.arrow_forward,
+                      size: 18,
+                      color: Colors.grey.shade600,
+                    ),
+                    KText(
+                      text: data.item!.route!.originCity!.name.toString(),
+                      color: Colors.grey.shade600,
+                      fontSize: 15,
+                    ),
+
+                    Icon(
+                      Icons.arrow_forward,
+                      size: 18,
+                      color: Colors.grey.shade600,
+                    ),
+                    SizedBox(width: 12),
+                    KText(
+                      text: data.item!.route!.destinationCity!.province!.name
+                          .toString(),
+                      color: Colors.grey.shade600,
+                      fontSize: 15,
+                    ),
+                    Icon(
+                      Icons.arrow_forward,
+                      size: 18,
+                      color: Colors.grey.shade600,
+                    ),
+                    KText(
+                      text: data.item!.route!.destinationCity!.name.toString(),
+                      color: Colors.grey.shade600,
+                      fontSize: 15,
+                    ),
+                  ],
+                ),
+              ],
+            );
+          }),
         ),
       ),
     );

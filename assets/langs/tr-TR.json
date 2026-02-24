@@ -464,8 +464,9 @@
 "SELECT_SEAT": "Koltuk seç",
 "SELECTED": "Seçili",
 "INACTIVE": "Pasif",
-"YOU_CAN_CHOOSE_MAXIMUM_TWO_SEAT": "En fazla iki koltuk seçebilirsiniz"
-
+"YOU_CAN_CHOOSE_MAXIMUM_TWO_SEAT": "En fazla iki koltuk seçebilirsiniz",
+"TICKET_CANCELLATION_REQUEST": "Bilet iptal talebi",
+"CANCELL_REQUEST": "Talebi iptal et"
 
 
 

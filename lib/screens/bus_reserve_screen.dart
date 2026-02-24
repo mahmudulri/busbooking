@@ -11,10 +11,12 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
+import '../controllers/customer_bookinglist_controller.dart';
 import '../controllers/search_bus_controller.dart';
 import '../draft.dart';
 import '../globalcontroller/languages_controller.dart';
 import '../globalcontroller/page_controller.dart';
+import '../helpers/datetime_helper.dart';
 import 'bus_search_result_screen.dart';
 
 class BusReserveScreen extends StatefulWidget {
@@ -32,6 +34,10 @@ class _BusReserveScreenState extends State<BusReserveScreen> {
   final citylistController = Get.find<CityListController>();
   final searchBusController = Get.find<SearchBusController>();
 
+  final CustomerBookinglistController bookinglistController = Get.put(
+    CustomerBookinglistController(),
+  );
+
   // String origin = "Fayzabad";
   // String destination = "Jur";
 
@@ -42,6 +48,7 @@ class _BusReserveScreenState extends State<BusReserveScreen> {
     super.initState();
 
     citylistController.fetchAllCities();
+    bookinglistController.fetchbookinglist();
   }
 
   @override
@@ -105,11 +112,16 @@ class _BusReserveScreenState extends State<BusReserveScreen> {
                                   color: Colors.white,
                                 ),
                               ),
-                              KText(
-                                text: "رزرو اتوبوس",
-                                color: Colors.white,
-                                fontSize: 22,
-                                fontWeight: FontWeight.w700,
+                              GestureDetector(
+                                onTap: () {
+                                  bookinglistController.fetchbookinglist();
+                                },
+                                child: KText(
+                                  text: "رزرو اتوبوس",
+                                  color: Colors.white,
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w700,
+                                ),
                               ),
                               GestureDetector(
                                 onTap: () {
@@ -802,10 +814,246 @@ class _BusReserveScreenState extends State<BusReserveScreen> {
                         ),
                         SizedBox(height: 10),
                         Container(
-                          height: 150,
+                          height: 180,
                           width: screenWidth,
-                          color: Colors.red,
+
+                          child: Obx(
+                            () => bookinglistController.isLoading.value == false
+                                ? ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: bookinglistController
+                                        .allbookinglist
+                                        .value
+                                        .body!
+                                        .items!
+                                        .length,
+                                    itemBuilder: (context, index) {
+                                      final data = bookinglistController
+                                          .allbookinglist
+                                          .value
+                                          .body!
+                                          .items![index];
+                                      return GestureDetector(
+                                        onTap: () {
+                                          print(
+                                            bookinglistController
+                                                .allbookinglist
+                                                .value
+                                                .body!
+                                                .items!
+                                                .length
+                                                .toString(),
+                                          );
+                                        },
+                                        child: Container(
+                                          margin: EdgeInsets.only(right: 8),
+
+                                          width: screenWidth - 80,
+                                          decoration: BoxDecoration(
+                                            color: Color(0xffF4F6F8),
+                                            borderRadius: BorderRadius.circular(
+                                              10,
+                                            ),
+                                          ),
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                              horizontal: 8,
+                                              vertical: 8,
+                                            ),
+                                            child: Column(
+                                              children: [
+                                                Expanded(
+                                                  flex: 1,
+                                                  child: Container(
+                                                    child: Row(
+                                                      children: [
+                                                        CircleAvatar(
+                                                          radius: 23,
+                                                          backgroundColor:
+                                                              Colors.grey,
+                                                          backgroundImage:
+                                                              AssetImage(
+                                                                "assets/images/bus2.png",
+                                                              ),
+                                                        ),
+
+                                                        SizedBox(width: 5),
+                                                        KText(
+                                                          text: data
+                                                              .trip!
+                                                              .bus!
+                                                              .name
+                                                              .toString(),
+                                                        ),
+                                                        Spacer(),
+                                                        KText(
+                                                          text: data.totalPrice
+                                                              .toString(),
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 14,
+                                                          color: Colors.red,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(height: 5),
+                                                Expanded(
+                                                  flex: 1,
+                                                  child: Container(
+                                                    // color: Colors.cyan,
+                                                    child: Row(
+                                                      children: [
+                                                        Expanded(
+                                                          flex: 3,
+                                                          child: Container(
+                                                            // color: Colors.red,
+                                                            child: Column(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                KText(
+                                                                  text: data
+                                                                      .trip!
+                                                                      .route!
+                                                                      .originCity!
+                                                                      .name
+                                                                      .toString(),
+                                                                  fontSize: 10,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w700,
+                                                                ),
+                                                                KText(
+                                                                  text: convertToLocalTime(
+                                                                    data
+                                                                        .trip!
+                                                                        .departureTime
+                                                                        .toString(),
+                                                                  ),
+                                                                  fontSize: 12,
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        Expanded(
+                                                          flex: 2,
+                                                          child: Column(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              Image.asset(
+                                                                "assets/images/goingicon.png",
+                                                                height: 20,
+                                                              ),
+                                                              KText(
+                                                                text: convertToDate(
+                                                                  data
+                                                                      .trip!
+                                                                      .departureTime
+                                                                      .toString(),
+                                                                ),
+                                                                fontSize: 12,
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        Expanded(
+                                                          flex: 3,
+                                                          child: Container(
+                                                            // color: Colors.red,
+                                                            child: Column(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .end,
+                                                              children: [
+                                                                KText(
+                                                                  text: data
+                                                                      .trip!
+                                                                      .route!
+                                                                      .destinationCity!
+                                                                      .name
+                                                                      .toString(),
+                                                                  fontSize: 10,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w700,
+                                                                ),
+                                                                KText(
+                                                                  text: convertToLocalTime(
+                                                                    data
+                                                                        .trip!
+                                                                        .arrivalTime
+                                                                        .toString(),
+                                                                  ),
+                                                                  fontSize: 12,
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  flex: 1,
+                                                  child: Center(
+                                                    child: Padding(
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                            horizontal: 20,
+                                                            vertical: 8,
+                                                          ),
+                                                      child: Container(
+                                                        decoration: BoxDecoration(
+                                                          color: Colors.red,
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                10,
+                                                              ),
+                                                        ),
+                                                        child: Center(
+                                                          child: KText(
+                                                            text: languagesController.tr(
+                                                              "TICKET_CANCELLATION_REQUEST",
+                                                            ),
+                                                            color: Colors.white,
+                                                            fontSize: 13,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  )
+                                : Center(
+                                    child: CircularProgressIndicator(
+                                      color: Colors.grey.shade300,
+                                    ),
+                                  ),
+                          ),
                         ),
+
+                        SizedBox(height: 20),
                       ],
                     ),
                   ),

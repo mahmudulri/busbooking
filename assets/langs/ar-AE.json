@@ -465,8 +465,9 @@
 "SELECT_SEAT": "اختر المقعد",
 "SELECTED": "محدد",
 "INACTIVE": "غير نشط",
-"YOU_CAN_CHOOSE_MAXIMUM_TWO_SEAT": "يمكنك اختيار مقعدين كحد أقصى"
-
+"YOU_CAN_CHOOSE_MAXIMUM_TWO_SEAT": "يمكنك اختيار مقعدين كحد أقصى",
+"TICKET_CANCELLATION_REQUEST": "طلب إلغاء التذكرة",
+"CANCELL_REQUEST": "إلغاء الطلب"
 
 
 
