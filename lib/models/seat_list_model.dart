@@ -157,7 +157,7 @@ class Bus {
   final String? status;
   final DateTime? createdAt;
   final DateTime? updatedAt;
-  final Branch? vendor;
+  final BusVendor? vendor;
   final Branch? driver;
   final Seats? seats;
   final BusBranch? branch;
@@ -202,7 +202,7 @@ class Bus {
     updatedAt: json["updated_at"] == null
         ? null
         : DateTime.parse(json["updated_at"]),
-    vendor: json["vendor"] == null ? null : Branch.fromJson(json["vendor"]),
+    vendor: json["vendor"] == null ? null : BusVendor.fromJson(json["vendor"]),
     driver: json["driver"] == null ? null : Branch.fromJson(json["driver"]),
     seats: json["seats"] == null ? null : Seats.fromJson(json["seats"]),
     branch: json["branch"] == null ? null : BusBranch.fromJson(json["branch"]),
@@ -523,6 +523,130 @@ class Seats {
     "columns": columns,
     "seats": List<dynamic>.from(seats!.map((x) => x.toJson())),
     "berth_type": berthType,
+    "created_at": createdAt!.toIso8601String(),
+    "updated_at": updatedAt!.toIso8601String(),
+  };
+}
+
+class BusVendor {
+  final int? id;
+  final String? shortName;
+  final String? longName;
+  final String? representativeName;
+  final String? representativePhone;
+  final String? representativeEmail;
+  final String? representativeNid;
+  final String? representativePosition;
+  final String? registrationNumber;
+  final String? licenseNumber;
+  final String? rating;
+  final String? agentComissionAmount;
+  final String? agentComissionType;
+  final String? adminComissionAmount;
+  final String? adminComissionType;
+  final String? settlementPeriod;
+  final String? description;
+  final String? logo;
+  final String? status;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+
+  BusVendor({
+    this.id,
+    this.shortName,
+    this.longName,
+    this.representativeName,
+    this.representativePhone,
+    this.representativeEmail,
+    this.representativeNid,
+    this.representativePosition,
+    this.registrationNumber,
+    this.licenseNumber,
+    this.rating,
+    this.agentComissionAmount,
+    this.agentComissionType,
+    this.adminComissionAmount,
+    this.adminComissionType,
+    this.settlementPeriod,
+    this.description,
+    this.logo,
+    this.status,
+    this.createdAt,
+    this.updatedAt,
+  });
+
+  factory BusVendor.fromJson(Map<String, dynamic> json) => BusVendor(
+    id: json["id"] == null ? null : json["id"],
+    shortName: json["short_name"] == null ? null : json["short_name"],
+    longName: json["long_name"] == null ? null : json["long_name"],
+    representativeName: json["representative_name"] == null
+        ? null
+        : json["representative_name"],
+    representativePhone: json["representative_phone"] == null
+        ? null
+        : json["representative_phone"],
+    representativeEmail: json["representative_email"] == null
+        ? null
+        : json["representative_email"],
+    representativeNid: json["representative_nid"] == null
+        ? null
+        : json["representative_nid"],
+    representativePosition: json["representative_position"] == null
+        ? null
+        : json["representative_position"],
+    registrationNumber: json["registration_number"] == null
+        ? null
+        : json["registration_number"],
+    licenseNumber: json["license_number"] == null
+        ? null
+        : json["license_number"],
+    rating: json["rating"] == null ? null : json["rating"],
+    agentComissionAmount: json["agent_comission_amount"] == null
+        ? null
+        : json["agent_comission_amount"],
+    agentComissionType: json["agent_comission_type"] == null
+        ? null
+        : json["agent_comission_type"],
+    adminComissionAmount: json["admin_comission_amount"] == null
+        ? null
+        : json["admin_comission_amount"],
+    adminComissionType: json["admin_comission_type"] == null
+        ? null
+        : json["admin_comission_type"],
+    settlementPeriod: json["settlement_period"] == null
+        ? null
+        : json["settlement_period"],
+    description: json["description"] == null ? null : json["description"],
+    logo: json["logo"] == null ? null : json["logo"],
+    status: json["status"] == null ? null : json["status"],
+    createdAt: json["created_at"] == null
+        ? null
+        : DateTime.parse(json["created_at"]),
+    updatedAt: json["updated_at"] == null
+        ? null
+        : DateTime.parse(json["updated_at"]),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "short_name": shortName,
+    "long_name": longName,
+    "representative_name": representativeName,
+    "representative_phone": representativePhone,
+    "representative_email": representativeEmail,
+    "representative_nid": representativeNid,
+    "representative_position": representativePosition,
+    "registration_number": registrationNumber,
+    "license_number": licenseNumber,
+    "rating": rating,
+    "agent_comission_amount": agentComissionAmount,
+    "agent_comission_type": agentComissionType,
+    "admin_comission_amount": adminComissionAmount,
+    "admin_comission_type": adminComissionType,
+    "settlement_period": settlementPeriod,
+    "description": description,
+    "logo": logo,
+    "status": status,
     "created_at": createdAt!.toIso8601String(),
     "updated_at": updatedAt!.toIso8601String(),
   };

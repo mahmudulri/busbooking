@@ -467,8 +467,13 @@
 "INACTIVE": "غير نشط",
 "YOU_CAN_CHOOSE_MAXIMUM_TWO_SEAT": "يمكنك اختيار مقعدين كحد أقصى",
 "TICKET_CANCELLATION_REQUEST": "طلب إلغاء التذكرة",
-"CANCELL_REQUEST": "إلغاء الطلب"
-
+"CANCELL_REQUEST": "إلغاء الطلب",
+"PASSENGER_CAPACITY": "سعة الركاب",
+"BOARDING_PLACE": "مكان الصعود",
+"DROP_OFF_LOCATION": "مكان النزول",
+"TICKET_PRICE": "سعر التذكرة",
+"SEAT_RESERVAATION": "حجز المقعد",
+"RETURN": "العودة"
 
 
 

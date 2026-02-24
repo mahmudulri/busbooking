@@ -665,141 +665,373 @@ class TripDetailDialog extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
       child: Container(
-        height: 500,
         width: screenWidth,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(20),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Obx(() {
-            if (tripDetailsController.isLoading.value) {
-              return Center(child: CircularProgressIndicator());
-            }
+        child: Obx(() {
+          if (tripDetailsController.isLoading.value) {
+            return Center(child: CircularProgressIndicator());
+          }
 
-            final data = tripDetailsController.allseatlist.value.body!;
-            final bus = data.item!.bus!;
+          final data = tripDetailsController.allseatlist.value.body!;
+          final bus = data.item!.bus!;
 
-            // Convert facilities string → List
-            final facilitiesList = (bus.facilities ?? "")
-                .split(",")
-                .map((e) => e.trim())
-                .where((e) => e.isNotEmpty)
-                .toList();
+          // Convert facilities string → List
+          final facilitiesList = (bus.facilities ?? "")
+              .split(",")
+              .map((e) => e.trim())
+              .where((e) => e.isNotEmpty)
+              .toList();
 
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Padding(
+                padding: EdgeInsets.all(12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CircleAvatar(
-                      radius: 20,
-                      backgroundColor: Colors.grey,
-                      backgroundImage: AssetImage("assets/images/bus2.png"),
+                    Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 20,
+                          backgroundColor: Colors.grey,
+                          backgroundImage: AssetImage("assets/images/bus2.png"),
+                        ),
+                        SizedBox(width: 8),
+                        Flexible(
+                          child: KText(
+                            text:
+                                "${bus.vendor!.longName} - ${bus.name} - ${bus.busNumber}",
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
                     ),
-                    SizedBox(width: 8),
-                    Flexible(
-                      child: KText(
-                        text:
-                            "${bus.branch!.vendor!.longName} - ${bus.name} - ${bus.busNumber}",
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                      ),
+
+                    SizedBox(height: 8),
+
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: facilitiesList.map((facility) {
+                        return Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 6,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Color(0xffE3F2FF),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: KText(
+                            text: facility,
+                            fontSize: 12,
+                            color: Color(0xff2094FF),
+                            fontWeight: FontWeight.w600,
+                          ),
+                        );
+                      }).toList(),
                     ),
-                  ],
-                ),
-
-                SizedBox(height: 12),
-
-                // Facilities UI
-                Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: facilitiesList.map((facility) {
-                    return Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 6,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Color(0xffE3F2FF),
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      child: KText(
-                        text: facility,
-                        fontSize: 12,
-                        color: Color(0xff2094FF),
-                        fontWeight: FontWeight.w600,
-                      ),
-                    );
-                  }).toList(),
-                ),
-                SizedBox(height: 12),
-
-                Card(
-                  color: Colors.white,
-                  child: Container(
-                    height: 180,
-                    width: screenWidth,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage(
-                          "assets/images/bus-booking-vector.png",
+                    SizedBox(height: 8),
+                    Card(
+                      color: Colors.white,
+                      child: Container(
+                        height: 180,
+                        width: screenWidth,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(
+                              "assets/images/bus-booking-vector.png",
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ),
-                SizedBox(height: 12),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    KText(
-                      text: data.item!.route!.originCity!.province!.name
-                          .toString(),
-                      color: Colors.grey.shade600,
-                      fontSize: 15,
-                    ),
-                    Icon(
-                      Icons.arrow_forward,
-                      size: 18,
-                      color: Colors.grey.shade600,
-                    ),
-                    KText(
-                      text: data.item!.route!.originCity!.name.toString(),
-                      color: Colors.grey.shade600,
-                      fontSize: 15,
-                    ),
+                    SizedBox(height: 8),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        KText(
+                          text: data.item!.route!.originCity!.province!.name
+                              .toString(),
+                          color: Colors.grey.shade600,
+                          fontSize: 15,
+                        ),
+                        Icon(
+                          Icons.arrow_forward,
+                          size: 18,
+                          color: Colors.grey.shade600,
+                        ),
+                        KText(
+                          text: data.item!.route!.originCity!.name.toString(),
+                          color: Colors.grey.shade600,
+                          fontSize: 15,
+                        ),
 
-                    Icon(
-                      Icons.arrow_forward,
-                      size: 18,
-                      color: Colors.grey.shade600,
+                        Icon(
+                          Icons.arrow_forward,
+                          size: 18,
+                          color: Colors.grey.shade600,
+                        ),
+                        SizedBox(width: 12),
+                        KText(
+                          text: data
+                              .item!
+                              .route!
+                              .destinationCity!
+                              .province!
+                              .name
+                              .toString(),
+                          color: Colors.grey.shade600,
+                          fontSize: 15,
+                        ),
+                        Icon(
+                          Icons.arrow_forward,
+                          size: 18,
+                          color: Colors.grey.shade600,
+                        ),
+                        KText(
+                          text: data.item!.route!.destinationCity!.name
+                              .toString(),
+                          color: Colors.grey.shade600,
+                          fontSize: 15,
+                        ),
+                      ],
                     ),
-                    SizedBox(width: 12),
-                    KText(
-                      text: data.item!.route!.destinationCity!.province!.name
-                          .toString(),
-                      color: Colors.grey.shade600,
-                      fontSize: 15,
+                    SizedBox(height: 8),
+                    Row(
+                      children: [
+                        KText(
+                          text: languagesController.tr("PASSENGER_CAPACITY"),
+                          color: AppColors.defaultFontColor,
+                          fontSize: 13,
+                        ),
+                        Text(
+                          " : ",
+                          style: TextStyle(color: AppColors.defaultFontColor),
+                        ),
+                        Text(
+                          data.item!.totalSeats.toString(),
+                          style: TextStyle(
+                            color: AppColors.defaultFontColor,
+                            fontSize: 13,
+                          ),
+                        ),
+                      ],
                     ),
-                    Icon(
-                      Icons.arrow_forward,
-                      size: 18,
-                      color: Colors.grey.shade600,
+                    SizedBox(height: 8),
+                    Container(
+                      height: 90,
+                      width: screenWidth,
+
+                      // color: Colors.cyan,
+                      child: Column(
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: Container(
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  KText(
+                                    text: languagesController.tr("ORIGIN"),
+                                    color: AppColors.defaultFontColor,
+                                  ),
+                                  KText(
+                                    text: languagesController.tr("DESTINATION"),
+                                    color: AppColors.defaultFontColor,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Container(
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  KText(
+                                    text: data.item!.route!.originCity!.name
+                                        .toString(),
+                                    color: AppColors.boldfontColor,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  Image.asset(
+                                    "assets/images/goingicon.png",
+                                    height: 20,
+                                  ),
+                                  KText(
+                                    text: data
+                                        .item!
+                                        .route!
+                                        .destinationCity!
+                                        .name
+                                        .toString(),
+                                    color: AppColors.boldfontColor,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Container(
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  KText(
+                                    text: convertToLocalTime(
+                                      data.item!.departureTime.toString(),
+                                    ),
+                                    fontSize: 13,
+                                    color: AppColors.primaryColor,
+                                  ),
+                                  KText(
+                                    text: convertToLocalTime(
+                                      data.item!.arrivalTime.toString(),
+                                    ),
+                                    fontSize: 13,
+                                    color: AppColors.primaryColor,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    KText(
-                      text: data.item!.route!.destinationCity!.name.toString(),
-                      color: Colors.grey.shade600,
-                      fontSize: 15,
+                    SizedBox(height: 8),
+                    Row(
+                      children: [
+                        KText(
+                          text: languagesController.tr("BOARDING_PLACE"),
+                          color: AppColors.defaultFontColor,
+                          fontSize: 14,
+                        ),
+                        Text(
+                          " : ",
+                          style: TextStyle(color: AppColors.defaultFontColor),
+                        ),
+                        KText(
+                          text: data.item!.route!.originStation!.name
+                              .toString(),
+                          color: AppColors.defaultFontColor,
+                          fontSize: 14,
+                        ),
+                      ],
                     ),
+                    SizedBox(height: 8),
+                    Row(
+                      children: [
+                        KText(
+                          text: languagesController.tr("DROP_OFF_LOCATION"),
+                          color: AppColors.defaultFontColor,
+                          fontSize: 14,
+                        ),
+                        Text(
+                          " : ",
+                          style: TextStyle(color: AppColors.defaultFontColor),
+                        ),
+                        KText(
+                          text: data.item!.route!.destinationStation!.name
+                              .toString(),
+                          color: AppColors.defaultFontColor,
+                          fontSize: 14,
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 12),
+                    Row(
+                      children: [
+                        KText(
+                          text: languagesController.tr("TICKET_PRICE"),
+                          color: AppColors.defaultFontColor,
+                        ),
+                        Text(
+                          " : ",
+                          style: TextStyle(color: AppColors.defaultFontColor),
+                        ),
+                        KText(
+                          text: data.item!.ticketPrice.toString(),
+                          color: AppColors.boldfontColor,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 12),
                   ],
                 ),
-              ],
-            );
-          }),
-        ),
+              ),
+              Divider(indent: 0, endIndent: 0, color: Colors.grey.shade200),
+
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 12),
+                child: Container(
+                  height: 50,
+                  width: screenWidth,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: 3,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.green,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Center(
+                            child: KText(
+                              text: languagesController.tr("SEAT_RESERVAATION"),
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 10),
+
+                      Expanded(
+                        flex: 2,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(
+                                width: 1,
+                                color: AppColors.borderColor,
+                              ),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Center(
+                              child: KText(
+                                text: languagesController.tr("CLOSE"),
+                                color: AppColors.boldfontColor,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          );
+        }),
       ),
     );
   }

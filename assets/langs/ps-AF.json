@@ -466,8 +466,13 @@
 "INACTIVE": "غیر فعال",
 "YOU_CAN_CHOOSE_MAXIMUM_TWO_SEAT": "تاسو کولی شئ تر دوو څوکيو پورې وټاکئ",
 "TICKET_CANCELLATION_REQUEST": "د ټکټ لغوه کولو غوښتنه",
-"CANCELL_REQUEST": "غوښتنه لغوه کړئ"
-
+"CANCELL_REQUEST": "غوښتنه لغوه کړئ",
+"PASSENGER_CAPACITY": "د مسافرو ظرفیت",
+"BOARDING_PLACE": "د پورته کېدو ځای",
+"DROP_OFF_LOCATION": "د کوزېدو ځای",
+"TICKET_PRICE": "د ټکټ بیه",
+"SEAT_RESERVAATION": "د څوکۍ ریزرف",
+"RETURN": "بېرته ستنیدل"
 
 
 

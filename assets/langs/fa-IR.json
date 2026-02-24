@@ -466,8 +466,13 @@
 "INACTIVE": "غیرفعال",
 "YOU_CAN_CHOOSE_MAXIMUM_TWO_SEAT": "می‌توانید حداکثر دو صندلی انتخاب کنید",
 "TICKET_CANCELLATION_REQUEST": "درخواست لغو بلیت",
-"CANCELL_REQUEST": "لغو درخواست"
-
+"CANCELL_REQUEST": "لغو درخواست",
+"PASSENGER_CAPACITY": "ظرفیت مسافر",
+"BOARDING_PLACE": "محل سوار شدن",
+"DROP_OFF_LOCATION": "محل پیاده شدن",
+"TICKET_PRICE": "قیمت بلیط",
+"SEAT_RESERVAATION": "رزرو صندلی",
+"RETURN": "بازگشت"
 
 
 

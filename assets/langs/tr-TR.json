@@ -466,8 +466,13 @@
 "INACTIVE": "Pasif",
 "YOU_CAN_CHOOSE_MAXIMUM_TWO_SEAT": "En fazla iki koltuk seçebilirsiniz",
 "TICKET_CANCELLATION_REQUEST": "Bilet iptal talebi",
-"CANCELL_REQUEST": "Talebi iptal et"
-
+"CANCELL_REQUEST": "Talebi iptal et",
+"PASSENGER_CAPACITY": "Yolcu Kapasitesi",
+"BOARDING_PLACE": "Biniş Noktası",
+"DROP_OFF_LOCATION": "İniş Noktası",
+"TICKET_PRICE": "Bilet Fiyatı",
+"SEAT_RESERVAATION": "Koltuk Rezervasyonu",
+"RETURN": "İade"
 
 
 
