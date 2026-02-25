@@ -94,10 +94,12 @@ class MyAuthTextfield extends StatelessWidget {
       ),
       child: Center(
         child: TextField(
+          keyboardType: keyboardType,
           controller: controller,
           decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(
-              vertical: box.read("direction") == "rtl" ? 12 : 20,
+              // vertical: box.read("direction") == "rtl" ? 12 : 20,
+              vertical: box.read("direction") == "rtl" ? 12 : 15,
               horizontal: 12,
             ),
             border: InputBorder.none,

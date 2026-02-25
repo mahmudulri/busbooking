@@ -12,6 +12,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
+import '../controllers/common_recharge_controller.dart';
+import '../controllers/common_rechargelist_controller.dart';
 import '../controllers/customer_bookinglist_controller.dart';
 import '../controllers/search_bus_controller.dart';
 import '../draft.dart';
@@ -34,12 +36,25 @@ class _CreditTransferScreenState extends State<CreditTransferScreen> {
     CustomerBookinglistController(),
   );
 
+  final CommonRechargelistController commonRechargelistController = Get.put(
+    CommonRechargelistController(),
+  );
+
+  final CommonRechargeController commonRechargeController = Get.put(
+    CommonRechargeController(),
+  );
+
   final box = GetStorage();
   String selectedValue = "with";
+
+  final Set<int> expandedIndexes = {};
 
   @override
   void initState() {
     super.initState();
+    commonRechargelistController.finalList.clear();
+    commonRechargelistController.initialpage = 1;
+    commonRechargelistController.fetchrechargelist();
   }
 
   TextEditingController phoneNumberController = TextEditingController();
@@ -317,7 +332,6 @@ class _CreditTransferScreenState extends State<CreditTransferScreen> {
                       padding: EdgeInsets.all(0),
                       children: [
                         Container(
-                          height: 275,
                           width: screenWidth,
                           decoration: BoxDecoration(
                             color: Colors.white,
@@ -339,8 +353,9 @@ class _CreditTransferScreenState extends State<CreditTransferScreen> {
                             padding: EdgeInsets.all(12.0),
                             child: Column(
                               children: [
-                                AuthTextfield(
+                                MyAuthTextfield(
                                   height: 55,
+                                  keyboardType: TextInputType.phone,
 
                                   controller: phoneNumberController,
                                   hint: languagesController.tr(
@@ -349,9 +364,10 @@ class _CreditTransferScreenState extends State<CreditTransferScreen> {
                                 ),
                                 SizedBox(height: 5),
 
-                                AuthTextfield(
+                                MyAuthTextfield(
+                                  keyboardType: TextInputType.phone,
                                   height: 55,
-                                  controller: phoneNumberController,
+                                  controller: amountController,
                                   hint: languagesController.tr(
                                     "TRANSFER_AMOUNT",
                                   ),
@@ -422,174 +438,241 @@ class _CreditTransferScreenState extends State<CreditTransferScreen> {
                           ),
                         ),
                         SizedBox(height: 10),
+                        SizedBox(height: 10),
                         Container(
+                          height: 700,
                           width: screenWidth,
-                          color: Colors.white,
-                          child: Column(
-                            children: [
-                              Container(
-                                height: 80,
-                                width: screenWidth,
-                                color: Colors.white,
-                                child: Row(
+                          decoration: BoxDecoration(
+                            color: Color(0xffEEF4FF),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.all(12.0),
+                            child: Column(
+                              children: [
+                                Row(
                                   children: [
-                                    Image.asset(
-                                      "assets/icons/comfort.png",
-                                      width: 80,
-                                    ),
-                                    Expanded(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          KText(
-                                            text: languagesController.tr(
-                                              "COMFORT_OF_TRAVEL",
-                                            ),
-                                            color: Color(0xff1890FF),
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                          Expanded(
-                                            child: KText(
-                                              text: languagesController.tr(
-                                                "COMFORT_TITLE",
-                                              ),
-                                              fontSize: 10,
-                                              color: Color(0xff637381),
-                                            ),
-                                          ),
-                                        ],
+                                    CircleAvatar(
+                                      backgroundColor: Color(0xff00CED1),
+                                      radius: 8,
+                                      child: CircleAvatar(
+                                        backgroundColor: Colors.white,
+                                        radius: 3,
                                       ),
+                                    ),
+                                    SizedBox(width: 5),
+                                    KText(
+                                      text: languagesController.tr(
+                                        "TRANSFER_HISTORY",
+                                      ),
+                                      color: AppColors.boldfontColor,
+                                      fontWeight: FontWeight.w700,
                                     ),
                                   ],
                                 ),
-                              ),
+                                SizedBox(height: 8),
+                                Container(
+                                  height: 150,
+                                  width: screenWidth,
+                                  color: Colors.white,
+                                ),
+                                SizedBox(height: 8),
+                                Expanded(
+                                  child: Container(
+                                    // color: Colors.red,
+                                    child: Obx(
+                                      () =>
+                                          commonRechargelistController
+                                                  .isLoading
+                                                  .value ==
+                                              false
+                                          ? ListView.builder(
+                                              padding: EdgeInsets.zero,
+                                              itemCount:
+                                                  commonRechargelistController
+                                                      .finalList
+                                                      .length,
+                                              itemBuilder: (context, index) {
+                                                final data =
+                                                    commonRechargelistController
+                                                        .finalList[index];
+                                                final isExpanded =
+                                                    expandedIndexes.contains(
+                                                      index,
+                                                    );
 
-                              Container(
-                                height: 80,
-                                width: screenWidth,
-                                color: Colors.white,
-                                child: Row(
-                                  children: [
-                                    Image.asset(
-                                      "assets/icons/paymentsystem.png",
-                                      width: 80,
-                                    ),
-                                    Expanded(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          KText(
-                                            text: languagesController.tr(
-                                              "FAST_AND_EASY_PAYMENT",
-                                            ),
-                                            color: Color(0xff00AB55),
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                          Expanded(
-                                            child: KText(
-                                              text: languagesController.tr(
-                                                "PAYMENT_SYSTEM_TITLE",
-                                              ),
-                                              fontSize: 10,
-                                              color: Color(0xff637381),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                                                return Container(
+                                                  margin: EdgeInsets.only(
+                                                    bottom: 5,
+                                                  ),
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                          10,
+                                                        ),
+                                                  ),
+                                                  child: Column(
+                                                    children: [
+                                                      // HEADER
+                                                      ListTile(
+                                                        title: Text(
+                                                          data.mobile
+                                                              .toString(),
+                                                        ),
+                                                        trailing: Row(
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          children: [
+                                                            KText(
+                                                              text: isExpanded
+                                                                  ? ''
+                                                                  : languagesController.tr(
+                                                                      "VIEW_DETAILS",
+                                                                    ),
+                                                              fontSize: 11,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                            ),
+                                                            const SizedBox(
+                                                              width: 6,
+                                                            ),
+                                                            Icon(
+                                                              isExpanded
+                                                                  ? Icons
+                                                                        .keyboard_arrow_up
+                                                                  : Icons
+                                                                        .keyboard_arrow_down,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        onTap: () {
+                                                          if (isExpanded) {
+                                                            expandedIndexes
+                                                                .remove(index);
+                                                          } else {
+                                                            expandedIndexes.add(
+                                                              index,
+                                                            );
+                                                          }
+                                                          (context as Element)
+                                                              .markNeedsBuild();
+                                                        },
+                                                      ),
 
-                              Container(
-                                height: 80,
-                                width: screenWidth,
-                                color: Colors.white,
-                                child: Row(
-                                  children: [
-                                    Image.asset(
-                                      "assets/icons/24hours.png",
-                                      width: 80,
-                                    ),
-                                    Expanded(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          KText(
-                                            text: languagesController.tr(
-                                              "24_HOURS_SUPPORT",
-                                            ),
-                                            color: Color(0xffFF4842),
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                          Expanded(
-                                            child: KText(
-                                              text: languagesController.tr(
-                                                "24_SUPPORT_TITLE",
-                                              ),
-                                              fontSize: 10,
-                                              color: Color(0xff637381),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                                                      // EXPANDED CONTENT
+                                                      if (isExpanded)
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets.all(
+                                                                12.0,
+                                                              ),
+                                                          child: Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                children: [
+                                                                  KText(
+                                                                    text:
+                                                                        "${languagesController.tr("STATUS")}",
+                                                                  ),
+                                                                  KText(
+                                                                    text:
+                                                                        "${data.status ?? ''}",
+                                                                  ),
+                                                                ],
+                                                              ),
 
-                              Container(
-                                height: 80,
-                                width: screenWidth,
-                                color: Colors.white,
-                                child: Row(
-                                  children: [
-                                    Image.asset(
-                                      "assets/icons/refundpolicy.png",
-                                      width: 80,
-                                    ),
-                                    Expanded(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          KText(
-                                            text: languagesController.tr(
-                                              "REFUND_POLICY",
+                                                              Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                children: [
+                                                                  KText(
+                                                                    text:
+                                                                        "${languagesController.tr("AMOUNT")}",
+                                                                  ),
+                                                                  KText(
+                                                                    text:
+                                                                        "${data.amount ?? ''}",
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                children: [
+                                                                  KText(
+                                                                    text:
+                                                                        "${languagesController.tr("DATE")}",
+                                                                  ),
+                                                                  KText(
+                                                                    text: convertToDate(
+                                                                      data.createdAt
+                                                                          .toString(),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+
+                                                              const SizedBox(
+                                                                height: 12,
+                                                              ),
+
+                                                              // CLOSE BUTTON BELOW
+                                                              Align(
+                                                                alignment: Alignment
+                                                                    .centerRight,
+                                                                child: TextButton(
+                                                                  onPressed: () {
+                                                                    expandedIndexes
+                                                                        .remove(
+                                                                          index,
+                                                                        );
+                                                                    (context
+                                                                            as Element)
+                                                                        .markNeedsBuild();
+                                                                  },
+                                                                  child: KText(
+                                                                    text: languagesController
+                                                                        .tr(
+                                                                          "CLOSE",
+                                                                        ),
+                                                                    fontSize:
+                                                                        11,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                    ],
+                                                  ),
+                                                );
+                                              },
+                                            )
+                                          : Center(
+                                              child:
+                                                  CircularProgressIndicator(),
                                             ),
-                                            color: Color(0xff00CED1),
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                          Expanded(
-                                            child: KText(
-                                              text: languagesController.tr(
-                                                "REFUND_TITLE",
-                                              ),
-                                              fontSize: 10,
-                                              color: Color(0xff637381),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
                                     ),
-                                  ],
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(height: 8),
 
                         SizedBox(height: 20),
                       ],
