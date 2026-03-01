@@ -478,10 +478,20 @@
 "WITH_COMMISSION": "কমিশনসহ",
 "WITHOUT_COMMISSION": "কমিশন ছাড়া",
 "TRANSFER_HISTORY": "ট্রান্সফার ইতিহাস",
-"TRANSFER_DATE": "ট্রান্সফারের তারিখ"
-
-
-
+"TRANSFER_DATE": "ট্রান্সফারের তারিখ",
+"SEND_TO_DESTINATION": "গন্তব্যে পাঠান",
+"MYSELF": "নিজের জন্য",
+"OTHERS": "অন্যদের জন্য",
+"RESERVE_FOR": "সংরক্ষণ করুন",
+"GET_TICKET_NOW": "এখনই টিকিট নিন",
+"GET_A_TICKET": "একটি টিকিট নিন",
+"BOOK_NOW": "এখনই বুক করুন",
+"GET_NOW": "এখনই নিন",
+"BOOKING_SUCCESSFULL": "বুকিং সফল হয়েছে",
+"BOOKING_FAILED": "বুকিং ব্যর্থ হয়েছে",
+"FAILED": "ব্যর্থ",
+"PLEASE": "অনুগ্রহ করে",
+"SELECT_A_SEAT_FIRST": "প্রথমে একটি সিট নির্বাচন করুন"
 
 
 }

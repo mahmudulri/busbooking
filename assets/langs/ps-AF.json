@@ -478,9 +478,19 @@
 "WITH_COMMISSION": "د کمېسیون سره",
 "WITHOUT_COMMISSION": "بې له کمېسیون",
 "TRANSFER_HISTORY": "د لېږد تاریخچه",
-"TRANSFER_DATE": "د لېږد نېټه"
-
-
-
+"TRANSFER_DATE": "د لېږد نېټه",
+"SEND_TO_DESTINATION": "مقصد ته لېږل",
+"MYSELF": "ځان لپاره",
+"OTHERS": "نور",
+"RESERVE_FOR": "ریزرف دپاره",
+"GET_TICKET_NOW": "همدا اوس ټکټ واخلئ",
+"GET_A_TICKET": "ټکټ واخلئ",
+"BOOK_NOW": "همدا اوس بوک کړئ",
+"GET_NOW": "همدا اوس واخلئ",
+"BOOKING_SUCCESSFULL": "بکینګ په بریالیتوب سره ترسره شو",
+"BOOKING_FAILED": "بکینګ ناکام شو",
+"FAILED": "ناکام",
+"PLEASE": "مهرباني وکړئ",
+"SELECT_A_SEAT_FIRST": "لومړی یوه څوکۍ وټاکئ"
 
 }

@@ -478,8 +478,18 @@
 "WITH_COMMISSION": "Komisyonlu",
 "WITHOUT_COMMISSION": "Komisyonsuz",
 "TRANSFER_HISTORY": "Transfer Geçmişi",
-"TRANSFER_DATE": "Transfer Tarihi"
-
-
-
+"TRANSFER_DATE": "Transfer Tarihi",
+"SEND_TO_DESTINATION": "Hedefe Gönder",
+"MYSELF": "Kendim",
+"OTHERS": "Başkaları",
+"RESERVE_FOR": "Şunun İçin Ayır",
+"GET_TICKET_NOW": "Hemen Bilet Al",
+"GET_A_TICKET": "Bilet Al",
+"BOOK_NOW": "Şimdi Rezervasyon Yap",
+"GET_NOW": "Hemen Al",
+"BOOKING_SUCCESSFULL": "Rezervasyon Başarılı",
+"BOOKING_FAILED": "Rezervasyon Başarısız",
+"FAILED": "Başarısız",
+"PLEASE": "Lütfen",
+"SELECT_A_SEAT_FIRST": "Önce Bir Koltuk Seçin"
 }

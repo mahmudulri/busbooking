@@ -479,9 +479,20 @@
 "WITH_COMMISSION": "مع العمولة",
 "WITHOUT_COMMISSION": "بدون عمولة",
 "TRANSFER_HISTORY": "سجل التحويلات",
-"TRANSFER_DATE": "تاريخ التحويل"
-
-
+"TRANSFER_DATE": "تاريخ التحويل",
+"SEND_TO_DESTINATION": "إرسال إلى الوجهة",
+"MYSELF": "نفسي",
+"OTHERS": "الآخرين",
+"RESERVE_FOR": "الحجز لـ",
+"GET_TICKET_NOW": "احصل على التذكرة الآن",
+"GET_A_TICKET": "احصل على تذكرة",
+"BOOK_NOW": "احجز الآن",
+"GET_NOW": "احصل الآن",
+"BOOKING_SUCCESSFULL": "تم الحجز بنجاح",
+"BOOKING_FAILED": "فشل الحجز",
+"FAILED": "فشل",
+"PLEASE": "من فضلك",
+"SELECT_A_SEAT_FIRST": "يرجى اختيار مقعد أولاً"
 
 
 

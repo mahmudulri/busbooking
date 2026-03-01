@@ -479,9 +479,20 @@
 "WITH_COMMISSION": "With Commission",
 "WITHOUT_COMMISSION": "Without Commission",
 "TRANSFER_HISTORY": "Transfer History",
-"TRANSFER_DATE": "Transfer Date"
-
-
+"TRANSFER_DATE": "Transfer Date",
+"SEND_TO_DESTINATION": "Send to Destination",
+"MYSELF": "Myself",
+"OTHERS": "Others",
+"RESERVE_FOR": "Reserve For",
+"GET_TICKET_NOW": "Get Ticket Now",
+"GET_A_TICKET": "Get a Ticket",
+"BOOK_NOW": "Book Now",
+"GET_NOW": "Get Now",
+"BOOKING_SUCCESSFULL": "Booking Successful",
+"BOOKING_FAILED": "Booking Failed",
+"FAILED": "Failed",
+"PLEASE": "Please",
+"SELECT_A_SEAT_FIRST": "Select a Seat First"
 
 
 

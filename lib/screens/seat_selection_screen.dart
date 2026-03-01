@@ -1,20 +1,25 @@
 import 'package:busbooking/controllers/seat_plan_controller.dart';
+import 'package:busbooking/utils/colors.dart';
+import 'package:busbooking/widgets/auth_textfield.dart';
+import 'package:busbooking/widgets/default_button.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
+import '../controllers/create_ticket_controller.dart';
+import '../controllers/customer_profile_controller.dart';
 import '../controllers/seat_select_controller.dart';
 import '../globalcontroller/languages_controller.dart';
 import '../globalcontroller/page_controller.dart';
 import '../widgets/custom_text.dart';
 
-const double kSeatSize = 52;
-const double kSeatGap = 8;
+double kSeatSize = 52;
+double kSeatGap = 8;
 
 class SeatSelectionScreen extends StatefulWidget {
-  const SeatSelectionScreen({super.key, this.tripId});
+  SeatSelectionScreen({super.key, this.tripId});
   final String? tripId;
 
   @override
@@ -26,15 +31,22 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
   final SeatSelectionController seatSelectionController = Get.put(
     SeatSelectionController(),
   );
+
   final SeatPlanController seatPlanController = Get.put(SeatPlanController());
+
+  CreateTicketController createTicketController = Get.put(
+    CreateTicketController(),
+  );
   final languagesController = Get.find<LanguagesController>();
   final box = GetStorage();
 
   @override
   void initState() {
     super.initState();
+
+    createTicketController.tickets.clear();
+
     seatSelectionController.clearSelection();
-    seatPlanController.fetchallseat(widget.tripId);
   }
 
   // ───────────────── Seat layout config ─────────────────
@@ -66,6 +78,10 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
       orElse: () => null,
     );
 
+    final int? seatPriceId = seatPriceObj != null
+        ? seatPriceObj["id"] as int?
+        : null;
+
     final bool isBooked =
         seatPriceObj != null &&
         (seatPriceObj["status"] != "available" ||
@@ -74,14 +90,24 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
     final bool isSelected = seatSelectionController.isSelected(seatLabel);
 
     return GestureDetector(
-      onTap: isBooked
-          ? null
-          : () {
-              seatSelectionController.toggleSeat(
-                seatLabel: seatLabel,
-                price: seatPrice,
-              );
-            },
+      onTap: () {
+        if (isBooked) return;
+
+        seatSelectionController.toggleSeat(
+          seatLabel: seatLabel,
+          price: seatPrice,
+        );
+
+        if (isSelected) {
+          // DESELECT
+          createTicketController.removeSeat(seatPriceId!);
+        } else {
+          // SELECT
+          createTicketController.addSeat(seatPriceId!);
+        }
+
+        print(createTicketController.tickets.toJson());
+      },
       child: Container(
         width: kSeatSize,
         height: kSeatSize,
@@ -101,9 +127,7 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
         child: Text(
           seatLabel,
           style: TextStyle(
-            color: (isBooked || isSelected)
-                ? Colors.white
-                : const Color(0xff8576FF),
+            color: (isBooked || isSelected) ? Colors.white : Color(0xff8576FF),
             fontWeight: FontWeight.bold,
             fontSize: 12,
           ),
@@ -119,14 +143,14 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
     final rightCount = count - leftCount;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6),
+      padding: EdgeInsets.symmetric(vertical: 6),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
             children: List.generate(left, (i) {
               if (i >= leftCount) {
-                return const SizedBox(width: kSeatSize);
+                return SizedBox(width: kSeatSize);
               }
               return Padding(
                 padding: EdgeInsets.only(right: i < left - 1 ? kSeatGap : 0),
@@ -138,7 +162,7 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
           Row(
             children: List.generate(right, (i) {
               if (i >= rightCount) {
-                return const SizedBox(width: kSeatSize);
+                return SizedBox(width: kSeatSize);
               }
               return Padding(
                 padding: EdgeInsets.only(left: i > 0 ? kSeatGap : 0),
@@ -220,11 +244,14 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
                                 color: Colors.white,
                               ),
                             ),
-                            KText(
-                              text: languagesController.tr("SELECT_SEAT"),
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w700,
+                            GestureDetector(
+                              onTap: () {},
+                              child: KText(
+                                text: languagesController.tr("SELECT_SEAT"),
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w700,
+                              ),
                             ),
                             GestureDetector(
                               onTap: () {
@@ -290,41 +317,23 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
                                                 Locale locale;
                                                 switch (languageISO) {
                                                   case "fa":
-                                                    locale = const Locale(
-                                                      "fa",
-                                                      "IR",
-                                                    );
+                                                    locale = Locale("fa", "IR");
                                                     break;
                                                   case "ar":
-                                                    locale = const Locale(
-                                                      "ar",
-                                                      "AE",
-                                                    );
+                                                    locale = Locale("ar", "AE");
                                                     break;
                                                   case "ps":
-                                                    locale = const Locale(
-                                                      "ps",
-                                                      "AF",
-                                                    );
+                                                    locale = Locale("ps", "AF");
                                                     break;
                                                   case "tr":
-                                                    locale = const Locale(
-                                                      "tr",
-                                                      "TR",
-                                                    );
+                                                    locale = Locale("tr", "TR");
                                                     break;
                                                   case "bn":
-                                                    locale = const Locale(
-                                                      "bn",
-                                                      "BD",
-                                                    );
+                                                    locale = Locale("bn", "BD");
                                                     break;
                                                   case "en":
                                                   default:
-                                                    locale = const Locale(
-                                                      "en",
-                                                      "US",
-                                                    );
+                                                    locale = Locale("en", "US");
                                                 }
 
                                                 setState(() {
@@ -390,7 +399,7 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
                   ),
                 ),
               ),
-              // ───────── Seat container ─────────
+              // ───────── Seat area container ─────────
               Positioned(
                 top: 120,
                 left: 0,
@@ -400,7 +409,7 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
                   height: screenHeight,
                   width: screenWidth,
                   padding: EdgeInsets.fromLTRB(18, 18, 18, 0),
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.vertical(
                       top: Radius.circular(40),
@@ -408,7 +417,7 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
                   ),
                   child: Obx(() {
                     if (seatPlanController.isLoading.value) {
-                      return const Center(child: CircularProgressIndicator());
+                      return Center(child: CircularProgressIndicator());
                     }
 
                     final int column =
@@ -446,7 +455,7 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
                     });
 
                     return SingleChildScrollView(
-                      physics: const BouncingScrollPhysics(),
+                      physics: BouncingScrollPhysics(),
                       child: Column(children: buildSeatGrid(seats, column)),
                     );
                   }),
@@ -582,12 +591,27 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) {
-                                return AlertDialog(content: BookingDialogBox());
-                              },
-                            );
+                            if (createTicketController.tickets.isNotEmpty) {
+                              createTicketController.amount.value =
+                                  seatSelectionController.totalAmount
+                                      .toStringAsFixed(0);
+                              createTicketController.tripId.value = widget
+                                  .tripId
+                                  .toString();
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return BookingDialogBox();
+                                },
+                              );
+                            } else {
+                              Get.snackbar(
+                                backgroundColor: Colors.white,
+
+                                languagesController.tr("PLEASE"),
+                                languagesController.tr("SELECT_A_SEAT_FIRST"),
+                              );
+                            }
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -625,17 +649,195 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
   }
 }
 
-class BookingDialogBox extends StatelessWidget {
+class BookingDialogBox extends StatefulWidget {
   BookingDialogBox({super.key});
 
   @override
+  State<BookingDialogBox> createState() => _BookingDialogBoxState();
+}
+
+class _BookingDialogBoxState extends State<BookingDialogBox>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+  final languagesController = Get.find<LanguagesController>();
+
+  String bookingType = "myself"; // radio state
+
+  CreateTicketController createTicketController = Get.put(
+    CreateTicketController(),
+  );
+
+  @override
+  void initState() {
+    super.initState();
+
+    _tabController = TabController(length: 2, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  void _onRadioChanged(String value) {
+    setState(() {
+      bookingType = value;
+      _tabController.index = value == "myself" ? 0 : 1;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    var screenHeight = MediaQuery.of(context).size.height;
     var screenWidth = MediaQuery.of(context).size.width;
+
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+      child: Material(
+        color: Colors.transparent,
+        child: Container(
+          width: screenWidth,
+          padding: EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 10),
+
+              /// 🔹 Header
+              Row(
+                children: [
+                  CircleAvatar(
+                    backgroundColor: Color(0xff00CED1),
+                    radius: 8,
+                    child: CircleAvatar(
+                      backgroundColor: Colors.white,
+                      radius: 3,
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                  GestureDetector(
+                    onTap: () {
+                      print(createTicketController.tripId.toString());
+                      print(createTicketController.amount.toString());
+                      print(createTicketController.tickets.toString());
+                    },
+                    child: KText(
+                      text: languagesController.tr("RESERVE_FOR"),
+                      fontSize: 15,
+                      color: AppColors.boldfontColor,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ],
+              ),
+
+              SizedBox(height: 20),
+
+              /// ✅ RADIO BUTTONS (KEPT)
+              RadioGroup<String>(
+                groupValue: bookingType,
+                onChanged: (value) => _onRadioChanged(value!),
+                child: Row(
+                  children: [
+                    Radio<String>(
+                      activeColor: Colors.green,
+                      value: "myself",
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      visualDensity: VisualDensity.compact,
+                    ),
+                    KText(text: languagesController.tr("MYSELF"), fontSize: 14),
+                    SizedBox(width: 40),
+                    Radio<String>(
+                      value: "others",
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      visualDensity: VisualDensity.compact,
+                    ),
+                    KText(text: languagesController.tr("OTHERS"), fontSize: 14),
+                  ],
+                ),
+              ),
+
+              SizedBox(height: 15),
+
+              /// ✅ TAB CONTENT (NO TAB BAR)
+              SizedBox(
+                height: 120,
+                child: TabBarView(
+                  controller: _tabController,
+                  physics: NeverScrollableScrollPhysics(),
+                  children: [_myselfContainer(), _othersContainer()],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _myselfContainer() {
     return Container(
-      height: 500,
-      width: screenWidth,
-      decoration: BoxDecoration(color: Colors.red),
+      padding: EdgeInsets.all(0),
+      // decoration: BoxDecoration(color: Colors.cyan),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          MyAuthTextfield(
+            keyboardType: TextInputType.phone,
+            controller: createTicketController.numberController,
+            hint: languagesController.tr("PHONE_NUMBER"),
+            hintTxtColor: Colors.grey,
+            fontWeight: FontWeight.w600,
+            borderRadius: 10,
+            length: 10,
+            txtfontWeight: FontWeight.w500,
+          ),
+          SizedBox(height: 10),
+          Obx(
+            () => DefaultButton(
+              backgroundColor: createTicketController.isPhoneValid.value
+                  ? Colors.green
+                  : Colors.grey,
+              onTap: () {
+                createTicketController.isPhoneValid.value
+                    ? createTicketController.createnow(context)
+                    : null;
+              },
+              height: 50,
+              child: KText(
+                text: createTicketController.isLoading.value == false
+                    ? languagesController.tr("GET_TICKET_NOW")
+                    : languagesController.tr("PLEASE_WAIT"),
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _othersContainer() {
+    return Container(
+      padding: EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.grey.shade100,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("Other Person Name"),
+          SizedBox(height: 10),
+          Text("Other Person Phone"),
+        ],
+      ),
     );
   }
 }

@@ -1,5 +1,5 @@
 class ApiEndPoints {
-  static String baseUrl = "https://api.milliekit.com/api/v1/";
+  static String baseUrl = "https://bus-booking-api-v2.milliekit.com/api/v1/";
 
   static OtherendPoints otherendpoints = OtherendPoints();
 }

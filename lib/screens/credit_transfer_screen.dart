@@ -60,6 +60,8 @@ class _CreditTransferScreenState extends State<CreditTransferScreen> {
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController amountController = TextEditingController();
 
+  final languagesController = Get.find<LanguagesController>();
+
   @override
   Widget build(BuildContext context) {
     var screenHeight = MediaQuery.of(context).size.height;

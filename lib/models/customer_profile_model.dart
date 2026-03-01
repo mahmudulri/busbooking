@@ -32,21 +32,14 @@ class CustomerProfileModel {
 
 class Body {
   final String? token;
-  final List<Profile>? profile;
+  final Profile? profile;
 
   Body({this.token, this.profile});
 
-  factory Body.fromJson(Map<String, dynamic> json) => Body(
-    token: json["token"],
-    profile: List<Profile>.from(
-      json["profile"].map((x) => Profile.fromJson(x)),
-    ),
-  );
+  factory Body.fromJson(Map<String, dynamic> json) =>
+      Body(profile: Profile.fromJson(json["profile"]));
 
-  Map<String, dynamic> toJson() => {
-    "token": token,
-    "profile": List<dynamic>.from(profile!.map((x) => x.toJson())),
-  };
+  Map<String, dynamic> toJson() => {"profile": profile!.toJson()};
 }
 
 class Profile {

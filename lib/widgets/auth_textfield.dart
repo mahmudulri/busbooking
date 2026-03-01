@@ -66,6 +66,10 @@ class MyAuthTextfield extends StatelessWidget {
   final double height;
   final double borderRadius;
   final TextInputType keyboardType;
+  final Color? hintTxtColor;
+  final FontWeight? fontWeight;
+  final FontWeight? txtfontWeight;
+  final int? length;
   MyAuthTextfield({
     super.key,
     required this.controller,
@@ -75,6 +79,10 @@ class MyAuthTextfield extends StatelessWidget {
     this.height = 55,
     this.borderRadius = 12,
     this.keyboardType = TextInputType.text,
+    this.hintTxtColor,
+    this.fontWeight,
+    this.length,
+    this.txtfontWeight,
   });
 
   final box = GetStorage();
@@ -90,13 +98,16 @@ class MyAuthTextfield extends StatelessWidget {
           width: 1,
           color: borderColor ?? Colors.grey.shade300,
         ),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(borderRadius),
       ),
       child: Center(
         child: TextField(
+          maxLength: length ?? 500,
           keyboardType: keyboardType,
           controller: controller,
+          style: TextStyle(fontWeight: txtfontWeight ?? null),
           decoration: InputDecoration(
+            counterText: '',
             contentPadding: EdgeInsets.symmetric(
               // vertical: box.read("direction") == "rtl" ? 12 : 20,
               vertical: box.read("direction") == "rtl" ? 12 : 15,
@@ -104,10 +115,13 @@ class MyAuthTextfield extends StatelessWidget {
             ),
             border: InputBorder.none,
             hintText: hint,
+
             hintStyle: TextStyle(
               fontFamily: box.read("language").toString() == "Fa"
                   ? Get.find<FontController>().currentFont
                   : null,
+              color: hintTxtColor ?? null,
+              fontWeight: fontWeight ?? null,
             ),
           ),
         ),

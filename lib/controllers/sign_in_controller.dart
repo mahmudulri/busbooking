@@ -39,7 +39,7 @@ class SignInController extends GetxController {
       //   'password': passwordController.text,
       // };
 
-      Map body = {'email_or_mobile': "ab@gmail.com", 'password': "123456"};
+      Map body = {'email_or_mobile': "mahmudul@site.com", 'password': "123456"};
 
       print("Request Body: $body");
 

@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import '../controllers/search_bus_controller.dart';
 import '../controllers/seat_plan_controller.dart';
 import '../draft.dart';
@@ -196,30 +197,20 @@ class _BusSearchResultScreenState extends State<BusSearchResultScreen> {
                                 tripDetailsController.fetchallseat(
                                   data.id.toString(),
                                 );
-                                showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return TripDetailDialog();
-                                  },
-                                );
-                                // showDialog(
-                                //   context: context,
-                                //   builder: (context) {
-                                //     return AlertDialog(
-                                //       insetPadding:
-                                //           EdgeInsets.zero, // important
-                                //       contentPadding: EdgeInsets.zero,
-                                //       content: TripDetailDialog(),
-                                //     );
-                                //   },
-                                // );
-
                                 // mypagecontroller.changePage(
                                 //   SeatSelectionScreen(
                                 //     tripId: data.id.toString(),
                                 //   ),
                                 //   isMainPage: false,
                                 // );
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return TripDetailDialog(
+                                      tripID: data.id.toString(),
+                                    );
+                                  },
+                                );
                               },
                               child: Container(
                                 margin: EdgeInsets.only(bottom: 8),
@@ -650,13 +641,19 @@ class _BusSearchResultScreenState extends State<BusSearchResultScreen> {
 }
 
 class TripDetailDialog extends StatelessWidget {
-  TripDetailDialog({super.key});
+  TripDetailDialog({super.key, this.tripID});
 
   // final Item? data;
+
+  final String? tripID;
 
   final SeatPlanController tripDetailsController = Get.put(
     SeatPlanController(),
   );
+
+  final box = GetStorage();
+
+  final mypagecontroller = Get.find<Mypagecontroller>();
 
   @override
   Widget build(BuildContext context) {
@@ -982,17 +979,33 @@ class TripDetailDialog extends StatelessWidget {
                     children: [
                       Expanded(
                         flex: 3,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.green,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Center(
-                            child: KText(
-                              text: languagesController.tr("SEAT_RESERVAATION"),
-                              color: Colors.white,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 14,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                            tripDetailsController.fetchallseat(
+                              tripID.toString(),
+                            );
+                            box.write("tripId", tripID.toString());
+
+                            mypagecontroller.changePage(
+                              SeatSelectionScreen(tripId: tripID.toString()),
+                              isMainPage: false,
+                            );
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.green,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Center(
+                              child: KText(
+                                text: languagesController.tr(
+                                  "SEAT_RESERVAATION",
+                                ),
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14,
+                              ),
                             ),
                           ),
                         ),

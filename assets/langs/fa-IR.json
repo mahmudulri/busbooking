@@ -478,8 +478,18 @@
 "WITH_COMMISSION": "با کارمزد",
 "WITHOUT_COMMISSION": "بدون کارمزد",
 "TRANSFER_HISTORY": "تاریخچه انتقال",
-"TRANSFER_DATE": "تاریخ انتقال"
-
-
-
+"TRANSFER_DATE": "تاریخ انتقال",
+"SEND_TO_DESTINATION": "ارسال به مقصد",
+"MYSELF": "خودم",
+"OTHERS": "دیگران",
+"RESERVE_FOR": "رزرو برای",
+"GET_TICKET_NOW": "دریافت بلیط اکنون",
+"GET_A_TICKET": "دریافت بلیط",
+"BOOK_NOW": "همین حالا رزرو کنید",
+"GET_NOW": "دریافت اکنون",
+"BOOKING_SUCCESSFULL": "رزرو با موفقیت انجام شد",
+"BOOKING_FAILED": "رزرو ناموفق بود",
+"FAILED": "ناموفق",
+"PLEASE": "لطفاً",
+"SELECT_A_SEAT_FIRST": "ابتدا یک صندلی انتخاب کنید"
 }

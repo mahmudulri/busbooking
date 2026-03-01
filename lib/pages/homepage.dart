@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
+import '../controllers/customer_profile_controller.dart';
 import '../controllers/search_bus_controller.dart';
 import '../controllers/wallet_controller.dart';
 import '../globalcontroller/languages_controller.dart';
@@ -32,10 +33,15 @@ class _HomepageState extends State<Homepage> {
   final walletcontroller = Get.find<WalletController>();
   final citylistController = Get.find<CityListController>();
 
+  CustomerProfileController customerProfileController = Get.put(
+    CustomerProfileController(),
+  );
+
   int currentIndex = 0;
   @override
   void initState() {
     super.initState();
+    customerProfileController.fetchProfile();
     walletcontroller.fetchWallet();
   }
 
