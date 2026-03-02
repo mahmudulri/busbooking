@@ -11,6 +11,7 @@ import 'package:get_storage/get_storage.dart';
 import '../controllers/customer_profile_controller.dart';
 import '../controllers/search_bus_controller.dart';
 import '../controllers/wallet_controller.dart';
+import '../draftpage/sampleticketwidget.dart';
 import '../globalcontroller/languages_controller.dart';
 import '../globalcontroller/page_controller.dart';
 import '../globalcontroller/scaffold_controller.dart';
@@ -277,6 +278,7 @@ class _HomepageState extends State<Homepage> {
                               onTap: () {
                                 // walletcontroller.fetchWallet();
                                 // citylistController.fetchallcities();
+                                Get.to(() => TicketDemoScreen());
                               },
                               child: KText(
                                 text: languagesController.tr("ACCOUNT_CREDIT"),

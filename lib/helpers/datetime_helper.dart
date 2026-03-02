@@ -27,3 +27,23 @@ String convertToLocalTime(String utcTimeString) {
     return "";
   }
 }
+
+String getDistanceTime(String departureUtc, String arrivalUtc) {
+  try {
+    DateTime departure = DateTime.parse(departureUtc).toLocal();
+    DateTime arrival = DateTime.parse(arrivalUtc).toLocal();
+
+    Duration difference = arrival.difference(departure);
+
+    if (difference.isNegative) {
+      difference = difference.abs(); // safety (if arrival < departure)
+    }
+
+    int hours = difference.inHours;
+    int minutes = difference.inMinutes.remainder(60);
+
+    return "$hours hours $minutes minutes";
+  } catch (e) {
+    return "";
+  }
+}

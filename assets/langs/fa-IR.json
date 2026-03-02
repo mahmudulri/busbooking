@@ -491,5 +491,19 @@
 "BOOKING_FAILED": "رزرو ناموفق بود",
 "FAILED": "ناموفق",
 "PLEASE": "لطفاً",
-"SELECT_A_SEAT_FIRST": "ابتدا یک صندلی انتخاب کنید"
+"SELECT_A_SEAT_FIRST": "ابتدا یک صندلی انتخاب کنید",
+"ISSUED_TITLE": "بلیط شما با موفقیت صادر شد، سفر خوشی داشته باشید.",
+"DELAY_NOTICE": "در صورت تأخیر بیش از ۱۰ دقیقه قبل از حرکت، بلیط شما باطل خواهد شد.",
+"TOTAL_SEAT": "تعداد کل صندلی‌ها",
+"SHOW_THIS_BARCODE": "این بارکد را نمایش دهید",
+"IDENTIFICATION_NUMBER": "شماره شناسایی",
+"ORIGIN_TERMINAL": "پایانه مبدأ",
+"DEPARTURE_TIME": "زمان حرکت"
+
+
+
+
+
+
+
 }

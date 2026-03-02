@@ -11,8 +11,10 @@ import 'package:get_storage/get_storage.dart';
 import '../controllers/create_ticket_controller.dart';
 import '../controllers/customer_profile_controller.dart';
 import '../controllers/seat_select_controller.dart';
+import '../draftpage/draftticketviewscreen.dart';
 import '../globalcontroller/languages_controller.dart';
 import '../globalcontroller/page_controller.dart';
+import '../pdftemplate/default_template.dart';
 import '../widgets/custom_text.dart';
 
 double kSeatSize = 52;
@@ -245,7 +247,17 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
                               ),
                             ),
                             GestureDetector(
-                              onTap: () {},
+                              onTap: () async {
+                                final DefaultTemplate defaultTemplate =
+                                    DefaultTemplate();
+                                final pdfBytes = await defaultTemplate
+                                    .generatePDF();
+
+                                Get.to(
+                                  () =>
+                                      Draftticketviewscreen(pdfBytes: pdfBytes),
+                                );
+                              },
                               child: KText(
                                 text: languagesController.tr("SELECT_SEAT"),
                                 color: Colors.white,

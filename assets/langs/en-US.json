@@ -492,8 +492,14 @@
 "BOOKING_FAILED": "Booking Failed",
 "FAILED": "Failed",
 "PLEASE": "Please",
-"SELECT_A_SEAT_FIRST": "Select a Seat First"
-
+"SELECT_A_SEAT_FIRST": "Select a Seat First",
+"ISSUED_TITLE": "Your ticket has been issued successfully. Have a safe trip.",
+"DELAY_NOTICE": "If you are delayed more than 10 minutes before departure, your ticket will be invalidated.",
+"TOTAL_SEAT": "Total Seats",
+"SHOW_THIS_BARCODE": "Show This Barcode",
+"IDENTIFICATION_NUMBER": "Identification Number",
+"ORIGIN_TERMINAL": "Origin Terminal",
+"DEPARTURE_TIME": "Departure Time"
 
 
 

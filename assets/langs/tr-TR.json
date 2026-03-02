@@ -491,5 +491,22 @@
 "BOOKING_FAILED": "Rezervasyon Başarısız",
 "FAILED": "Başarısız",
 "PLEASE": "Lütfen",
-"SELECT_A_SEAT_FIRST": "Önce Bir Koltuk Seçin"
+"SELECT_A_SEAT_FIRST": "Önce Bir Koltuk Seçin",
+"ISSUED_TITLE": "Biletiniz başarıyla düzenlendi, iyi yolculuklar.",
+"DELAY_NOTICE": "Kalkıştan önce 10 dakikadan fazla gecikmeniz durumunda biletiniz geçersiz olacaktır.",
+"TOTAL_SEAT": "Toplam Koltuk",
+"SHOW_THIS_BARCODE": "Bu Barkodu Göster",
+"IDENTIFICATION_NUMBER": "Kimlik Numarası",
+"ORIGIN_TERMINAL": "Çıkış Terminali",
+"DEPARTURE_TIME": "Kalkış Saati"
+
+
+
+
+
+
+
+
+
+
 }

@@ -17,6 +17,7 @@ import '../draft.dart';
 import '../globalcontroller/languages_controller.dart';
 import '../globalcontroller/page_controller.dart';
 import '../helpers/datetime_helper.dart';
+import '../widgets/ticket_view_widget.dart';
 import 'bus_search_result_screen.dart';
 
 class BusReserveScreen extends StatefulWidget {
@@ -835,14 +836,13 @@ class _BusReserveScreenState extends State<BusReserveScreen> {
                                           .items![index];
                                       return GestureDetector(
                                         onTap: () {
-                                          print(
-                                            bookinglistController
-                                                .allbookinglist
-                                                .value
-                                                .body!
-                                                .items!
-                                                .length
-                                                .toString(),
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return ViewTicketWidget(
+                                                ticketID: data.id.toString(),
+                                              );
+                                            },
                                           );
                                         },
                                         child: Container(

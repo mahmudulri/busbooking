@@ -11,6 +11,7 @@ import '../utils/api_endpoints.dart';
 import 'customer_profile_controller.dart';
 import 'seat_plan_controller.dart';
 import 'seat_select_controller.dart';
+import 'ticket_response_controller.dart';
 
 class CreateTicketController extends GetxController {
   TextEditingController numberController = TextEditingController();
@@ -24,6 +25,10 @@ class CreateTicketController extends GetxController {
 
   SeatSelectionController seatSelectionController = Get.put(
     SeatSelectionController(),
+  );
+  final TicketResponseController ticketResponseController = Get.put(
+    TicketResponseController(),
+    permanent: true,
   );
   final box = GetStorage();
 
@@ -100,10 +105,12 @@ class CreateTicketController extends GetxController {
       );
 
       final orderResults = jsonDecode(response.body);
-      print(response.statusCode.toString());
-      print(response.body.toString());
+      // print(response.statusCode.toString());
+      // print(response.body.toString());
       if (response.statusCode == 200 && orderResults["success"] == true) {
         isLoading.value = false;
+
+        ticketResponseController.setResponse(orderResults);
 
         numberController.clear();
         seatSelectionController.clearSelection();
