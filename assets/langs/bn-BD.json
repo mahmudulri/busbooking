@@ -498,7 +498,10 @@
 "SHOW_THIS_BARCODE": "এই বারকোডটি দেখান",
 "IDENTIFICATION_NUMBER": "পরিচয় নম্বর",
 "ORIGIN_TERMINAL": "যাত্রা শুরুর টার্মিনাল",
-"DEPARTURE_TIME": "যাত্রার সময়"
+"DEPARTURE_TIME": "যাত্রার সময়",
+"LANGUAGES": "ভাষাসমূহ",
+"FAQ": "প্রশ্নোত্তর",
+"CONTACT_US": "যোগাযোগ করুন"
 
 
 

@@ -15,6 +15,7 @@ import '../draft.dart';
 
 import '../globalcontroller/languages_controller.dart';
 import '../globalcontroller/page_controller.dart';
+import '../globalcontroller/scaffold_controller.dart';
 import '../models/bus_list_model.dart';
 import '../widgets/dottedline.dart';
 import 'draftseatscreen.dart';
@@ -38,6 +39,8 @@ class _BusSearchResultScreenState extends State<BusSearchResultScreen> {
   );
 
   TextEditingController fromController = TextEditingController();
+
+  final scaffoldController = Get.find<ScaffoldController>();
 
   @override
   Widget build(BuildContext context) {
@@ -105,17 +108,22 @@ class _BusSearchResultScreenState extends State<BusSearchResultScreen> {
                                 fontSize: 18,
                                 fontWeight: FontWeight.w700,
                               ),
-                              Container(
-                                height: 40,
-                                width: 40,
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    width: 1,
-                                    color: Colors.white,
+                              GestureDetector(
+                                onTap: () {
+                                  scaffoldController.openDrawer();
+                                },
+                                child: Container(
+                                  height: 40,
+                                  width: 40,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      width: 1,
+                                      color: Colors.white,
+                                    ),
+                                    shape: BoxShape.circle,
                                   ),
-                                  shape: BoxShape.circle,
+                                  child: Icon(Icons.menu, color: Colors.white),
                                 ),
-                                child: Icon(Icons.menu, color: Colors.white),
                               ),
                             ],
                           ),

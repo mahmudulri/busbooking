@@ -498,8 +498,10 @@
 "SHOW_THIS_BARCODE": "این بارکد را نمایش دهید",
 "IDENTIFICATION_NUMBER": "شماره شناسایی",
 "ORIGIN_TERMINAL": "پایانه مبدأ",
-"DEPARTURE_TIME": "زمان حرکت"
-
+"DEPARTURE_TIME": "زمان حرکت",
+"LANGUAGES": "زبان‌ها",
+"FAQ": "سؤالات متداول",
+"CONTACT_US": "تماس با ما"
 
 
 

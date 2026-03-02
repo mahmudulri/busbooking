@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:busbooking/widgets/ticket_view_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -11,6 +12,7 @@ import '../utils/api_endpoints.dart';
 import 'customer_profile_controller.dart';
 import 'seat_plan_controller.dart';
 import 'seat_select_controller.dart';
+import 'ticket_details_controller.dart';
 import 'ticket_response_controller.dart';
 
 class CreateTicketController extends GetxController {
@@ -29,6 +31,10 @@ class CreateTicketController extends GetxController {
   final TicketResponseController ticketResponseController = Get.put(
     TicketResponseController(),
     permanent: true,
+  );
+
+  TicketDetailsController ticketDetailsController = Get.put(
+    TicketDetailsController(),
   );
   final box = GetStorage();
 
@@ -113,6 +119,8 @@ class CreateTicketController extends GetxController {
         ticketResponseController.setResponse(orderResults);
 
         numberController.clear();
+
+        tripId.value = '';
         seatSelectionController.clearSelection();
         tickets.clear();
         tripDetailsController.fetchallseat(box.read("tripId"));
@@ -136,54 +144,17 @@ class CreateTicketController extends GetxController {
   void showSuccessDialog(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
 
-    numberController.clear();
-    tripId.value = '';
-
     showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(17),
-          ),
-          contentPadding: EdgeInsets.zero,
-          content: Container(
-            height: 350,
-            width: screenWidth,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(17),
-              color: Colors.white,
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(languagesController.tr("SUCCESS")),
-                SizedBox(height: 15),
-                Text(
-                  languagesController.tr("BOOKING_SUCCESSFULL"),
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.green,
-                  ),
-                ),
-                SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context); // Close success dialog
-                    Navigator.pop(context); // Close main dialog
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
-                  ),
-                  child: Text(
-                    languagesController.tr("CLOSE"),
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-              ],
-            ),
-          ),
+        return ViewTicketWidget(
+          ticketID: ticketResponseController
+              .ticketResponse
+              .value!
+              .body!
+              .item!
+              .id
+              .toString(),
         );
       },
     );
