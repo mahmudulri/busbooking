@@ -501,7 +501,11 @@
 "DEPARTURE_TIME": "زمان حرکت",
 "LANGUAGES": "زبان‌ها",
 "FAQ": "سؤالات متداول",
-"CONTACT_US": "تماس با ما"
+"CONTACT_US": "تماس با ما",
+"DEPOSIT_AMOUNT": "مبلغ واریز",
+"RECEIVE_AMOUNT": "مبلغ دریافتی",
+"FROM_DATE": "از تاریخ",
+"TO_DATE": "تا تاریخ"
 
 
 

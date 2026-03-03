@@ -3,14 +3,14 @@ import 'dart:convert';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 
-import '../models/common_recharge_model.dart';
+import '../models/transaction_model.dart';
 import '../utils/api_endpoints.dart';
 
-class CommonrechagrlistApi {
+class CustomerTranstionApi {
   final box = GetStorage();
-  Future<CommonRechargeModel> fetchlist() async {
+  Future<TransactionsModel> fetchlist() async {
     final url = Uri.parse(
-      ApiEndPoints.baseUrl + ApiEndPoints.otherendpoints.commonrecharges,
+      ApiEndPoints.baseUrl + ApiEndPoints.otherendpoints.customertransactions,
     );
     print("url $url");
 
@@ -22,11 +22,11 @@ class CommonrechagrlistApi {
     if (response.statusCode == 200) {
       // print(response.body.toString());
 
-      final rechargelistModel = CommonRechargeModel.fromJson(
+      final transactionModel = TransactionsModel.fromJson(
         json.decode(response.body),
       );
 
-      return rechargelistModel;
+      return transactionModel;
     } else {
       throw Exception('Failed to fetch gateway');
     }

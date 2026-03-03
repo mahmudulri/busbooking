@@ -19,6 +19,7 @@ import '../controllers/search_bus_controller.dart';
 import '../draft.dart';
 import '../globalcontroller/languages_controller.dart';
 import '../globalcontroller/page_controller.dart';
+import '../globalcontroller/scaffold_controller.dart';
 import '../helpers/datetime_helper.dart';
 import 'bus_search_result_screen.dart';
 
@@ -61,6 +62,7 @@ class _CreditTransferScreenState extends State<CreditTransferScreen> {
   TextEditingController amountController = TextEditingController();
 
   final languagesController = Get.find<LanguagesController>();
+  final scaffoldController = Get.find<ScaffoldController>();
 
   @override
   Widget build(BuildContext context) {
@@ -138,155 +140,7 @@ class _CreditTransferScreenState extends State<CreditTransferScreen> {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return AlertDialog(
-                                        title: KText(
-                                          text: languagesController.tr(
-                                            "LANGUAGES",
-                                          ),
-                                          fontSize: 15,
-                                        ),
-                                        content: SizedBox(
-                                          height: 350,
-                                          width: MediaQuery.of(
-                                            context,
-                                          ).size.width,
-                                          child: ListView.builder(
-                                            shrinkWrap: true,
-                                            itemCount: languagesController
-                                                .alllanguagedata
-                                                .length,
-                                            itemBuilder: (context, index) {
-                                              final data = languagesController
-                                                  .alllanguagedata[index];
-
-                                              return GestureDetector(
-                                                onTap: () {
-                                                  final languageName =
-                                                      data["name"].toString();
-
-                                                  final matched =
-                                                      languagesController
-                                                          .alllanguagedata
-                                                          .firstWhere(
-                                                            (lang) =>
-                                                                lang["name"] ==
-                                                                languageName,
-                                                            orElse: () => {
-                                                              "isoCode": "en",
-                                                              "direction":
-                                                                  "ltr",
-                                                            },
-                                                          );
-
-                                                  final languageISO =
-                                                      matched["isoCode"]!;
-                                                  final languageDirection =
-                                                      matched["direction"]!;
-
-                                                  // Save & apply
-                                                  languagesController
-                                                      .changeLanguage(
-                                                        languageName,
-                                                      );
-                                                  box.write(
-                                                    "language",
-                                                    languageName,
-                                                  );
-                                                  box.write(
-                                                    "direction",
-                                                    languageDirection,
-                                                  );
-
-                                                  // Map iso → Locale
-                                                  Locale locale;
-                                                  switch (languageISO) {
-                                                    case "fa":
-                                                      locale = const Locale(
-                                                        "fa",
-                                                        "IR",
-                                                      );
-                                                      break;
-                                                    case "ar":
-                                                      locale = const Locale(
-                                                        "ar",
-                                                        "AE",
-                                                      );
-                                                      break;
-                                                    case "ps":
-                                                      locale = const Locale(
-                                                        "ps",
-                                                        "AF",
-                                                      );
-                                                      break;
-                                                    case "tr":
-                                                      locale = const Locale(
-                                                        "tr",
-                                                        "TR",
-                                                      );
-                                                      break;
-                                                    case "bn":
-                                                      locale = const Locale(
-                                                        "bn",
-                                                        "BD",
-                                                      );
-                                                      break;
-                                                    case "en":
-                                                    default:
-                                                      locale = const Locale(
-                                                        "en",
-                                                        "US",
-                                                      );
-                                                  }
-
-                                                  setState(() {
-                                                    EasyLocalization.of(
-                                                      context,
-                                                    )!.setLocale(locale);
-                                                  });
-
-                                                  Navigator.pop(context);
-                                                  debugPrint(
-                                                    "🌐 Language: $languageName ($languageISO), dir: $languageDirection",
-                                                  );
-                                                },
-                                                child: Container(
-                                                  margin: EdgeInsets.only(
-                                                    bottom: 5,
-                                                  ),
-                                                  height: 45,
-                                                  decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                      width: 1,
-                                                      color:
-                                                          Colors.grey.shade300,
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                          8,
-                                                        ),
-                                                  ),
-                                                  padding: EdgeInsets.symmetric(
-                                                    horizontal: 10,
-                                                  ),
-                                                  alignment:
-                                                      Alignment.centerLeft,
-                                                  child: Text(
-                                                    data["fullname"].toString(),
-                                                    style: TextStyle(
-                                                      fontSize: 14,
-                                                    ),
-                                                  ),
-                                                ),
-                                              );
-                                            },
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  );
+                                  scaffoldController.openDrawer();
                                 },
                                 child: Container(
                                   height: 40,
@@ -417,13 +271,7 @@ class _CreditTransferScreenState extends State<CreditTransferScreen> {
                                   ),
                                 ),
                                 DefaultButton(
-                                  onTap: () {
-                                    mypagecontroller.changePage(
-                                      BusSearchResultScreen(),
-                                      isMainPage: false,
-                                    );
-                                    searchBusController.fetchBusTrip();
-                                  },
+                                  onTap: () {},
                                   child: Center(
                                     child: KText(
                                       text: languagesController.tr(

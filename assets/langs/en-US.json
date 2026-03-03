@@ -502,7 +502,11 @@
 "DEPARTURE_TIME": "Departure Time",
 "LANGUAGES": "Languages",
 "FAQ": "FAQ",
-"CONTACT_US": "Contact Us"
+"CONTACT_US": "Contact Us",
+"DEPOSIT_AMOUNT": "Deposit Amount",
+"RECEIVE_AMOUNT": "Receive Amount",
+"FROM_DATE": "From Date",
+"TO_DATE": "To Date"
 
 
 

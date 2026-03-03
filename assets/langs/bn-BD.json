@@ -501,7 +501,11 @@
 "DEPARTURE_TIME": "যাত্রার সময়",
 "LANGUAGES": "ভাষাসমূহ",
 "FAQ": "প্রশ্নোত্তর",
-"CONTACT_US": "যোগাযোগ করুন"
+"CONTACT_US": "যোগাযোগ করুন",
+"DEPOSIT_AMOUNT": "জমার পরিমাণ",
+"RECEIVE_AMOUNT": "প্রাপ্তির পরিমাণ",
+"FROM_DATE": "শুরুর তারিখ",
+"TO_DATE": "শেষ তারিখ"
 
 
 

@@ -501,7 +501,11 @@
 "DEPARTURE_TIME": "د روانېدو وخت",
 "LANGUAGES": "ژبې",
 "FAQ": "عامې پوښتنې",
-"CONTACT_US": "موږ سره اړیکه"
+"CONTACT_US": "موږ سره اړیکه",
+"DEPOSIT_AMOUNT": "د اېښودلو اندازه",
+"RECEIVE_AMOUNT": "د ترلاسه کولو اندازه",
+"FROM_DATE": "له نېټې",
+"TO_DATE": "تر نېټې"
 
 
 

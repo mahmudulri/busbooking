@@ -501,7 +501,11 @@
 "DEPARTURE_TIME": "Kalkış Saati",
 "LANGUAGES": "Diller",
 "FAQ": "SSS",
-"CONTACT_US": "Bize Ulaşın"
+"CONTACT_US": "Bize Ulaşın",
+"DEPOSIT_AMOUNT": "Yatırılan Tutar",
+"RECEIVE_AMOUNT": "Alınan Tutar",
+"FROM_DATE": "Başlangıç Tarihi",
+"TO_DATE": "Bitiş Tarihi"
 
 
 
