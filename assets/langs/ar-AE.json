@@ -506,8 +506,8 @@
 "DEPOSIT_AMOUNT": "مبلغ الإيداع",
 "RECEIVE_AMOUNT": "المبلغ المستلم",
 "FROM_DATE": "من تاريخ",
-"TO_DATE": "إلى تاريخ"
-
+"TO_DATE": "إلى تاريخ",
+"ORDER_IDENTIFIER": "معرّف الطلب"
 
 
 

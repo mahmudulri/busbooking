@@ -506,8 +506,8 @@
 "DEPOSIT_AMOUNT": "Deposit Amount",
 "RECEIVE_AMOUNT": "Receive Amount",
 "FROM_DATE": "From Date",
-"TO_DATE": "To Date"
-
+"TO_DATE": "To Date",
+"ORDER_IDENTIFIER": "Order Identifier"
 
 
 

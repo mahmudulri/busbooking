@@ -505,8 +505,8 @@
 "DEPOSIT_AMOUNT": "Yatırılan Tutar",
 "RECEIVE_AMOUNT": "Alınan Tutar",
 "FROM_DATE": "Başlangıç Tarihi",
-"TO_DATE": "Bitiş Tarihi"
-
+"TO_DATE": "Bitiş Tarihi",
+"ORDER_IDENTIFIER": "Sipariş Kimliği"
 
 
 

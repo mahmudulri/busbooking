@@ -505,8 +505,8 @@
 "DEPOSIT_AMOUNT": "مبلغ واریز",
 "RECEIVE_AMOUNT": "مبلغ دریافتی",
 "FROM_DATE": "از تاریخ",
-"TO_DATE": "تا تاریخ"
-
+"TO_DATE": "تا تاریخ",
+"ORDER_IDENTIFIER": "شناسه سفارش"
 
 
 

@@ -310,14 +310,6 @@ class _TransactionPageState extends State<TransactionPage> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(height: 5),
-
-                                MyAuthTextfield(
-                                  keyboardType: TextInputType.phone,
-                                  height: 50,
-                                  controller: amountController,
-                                  hint: languagesController.tr("SEARCH"),
-                                ),
 
                                 SizedBox(height: 5),
                                 Row(

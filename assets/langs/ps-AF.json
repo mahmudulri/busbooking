@@ -505,8 +505,8 @@
 "DEPOSIT_AMOUNT": "د اېښودلو اندازه",
 "RECEIVE_AMOUNT": "د ترلاسه کولو اندازه",
 "FROM_DATE": "له نېټې",
-"TO_DATE": "تر نېټې"
-
+"TO_DATE": "تر نېټې",
+"ORDER_IDENTIFIER": "د امر پېژندونکی"
 
 
 
