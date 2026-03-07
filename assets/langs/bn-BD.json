@@ -506,7 +506,8 @@
 "RECEIVE_AMOUNT": "প্রাপ্তির পরিমাণ",
 "FROM_DATE": "শুরুর তারিখ",
 "TO_DATE": "শেষ তারিখ",
-"ORDER_IDENTIFIER": "অর্ডার শনাক্তকারী"
+"ORDER_IDENTIFIER": "অর্ডার শনাক্তকারী",
+"ACCOUNT_BALANCE": "অ্যাকাউন্ট ব্যালেন্স"
 
 
 

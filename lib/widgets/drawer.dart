@@ -6,6 +6,8 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import '../controllers/customer_profile_controller.dart';
+import '../globalcontroller/page_controller.dart';
+import '../screens/profile_screen.dart';
 
 class DrawerWidget extends StatefulWidget {
   DrawerWidget({super.key});
@@ -18,6 +20,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
   CustomerProfileController controller = Get.put(CustomerProfileController());
 
   final box = GetStorage();
+  final mypagecontroller = Get.find<Mypagecontroller>();
 
   @override
   Widget build(BuildContext context) {
@@ -40,26 +43,45 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   child: Center(child: Icon(Icons.person, size: 30)),
                 ),
                 SizedBox(width: 10),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    KText(
-                      text:
-                          controller.profileData.value.body!.profile!.firstName
-                              .toString() +
-                          " " +
-                          controller.profileData.value.body!.profile!.lastName
-                              .toString(),
-                      color: Colors.white,
-                    ),
-                    KText(
-                      text: controller.profileData.value.body!.profile!.email
-                          .toString(),
-                      color: Colors.grey,
-                      fontSize: 11,
-                    ),
-                  ],
+                Obx(
+                  () => controller.isLoading.value == false
+                      ? Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            KText(
+                              text:
+                                  controller
+                                      .profileData
+                                      .value
+                                      .body!
+                                      .profile!
+                                      .firstName
+                                      .toString() +
+                                  " " +
+                                  controller
+                                      .profileData
+                                      .value
+                                      .body!
+                                      .profile!
+                                      .lastName
+                                      .toString(),
+                              color: Colors.white,
+                            ),
+                            KText(
+                              text: controller
+                                  .profileData
+                                  .value
+                                  .body!
+                                  .profile!
+                                  .email
+                                  .toString(),
+                              color: Colors.grey,
+                              fontSize: 11,
+                            ),
+                          ],
+                        )
+                      : SizedBox(),
                 ),
               ],
             ),
@@ -67,6 +89,10 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             ProfileMenuBox(
               menuName: languagesController.tr("PROFILE"),
               imglink: "assets/icons/profile11.png",
+              onpressed: () {
+                mypagecontroller.changePage(ProfileScreen(), isMainPage: false);
+                Navigator.pop(context);
+              },
             ),
 
             ProfileMenuBox(

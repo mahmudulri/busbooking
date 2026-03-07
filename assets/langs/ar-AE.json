@@ -507,7 +507,8 @@
 "RECEIVE_AMOUNT": "المبلغ المستلم",
 "FROM_DATE": "من تاريخ",
 "TO_DATE": "إلى تاريخ",
-"ORDER_IDENTIFIER": "معرّف الطلب"
+"ORDER_IDENTIFIER": "معرّف الطلب",
+"ACCOUNT_BALANCE": "رصيد الحساب"
 
 
 

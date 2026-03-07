@@ -507,7 +507,8 @@
 "RECEIVE_AMOUNT": "Receive Amount",
 "FROM_DATE": "From Date",
 "TO_DATE": "To Date",
-"ORDER_IDENTIFIER": "Order Identifier"
+"ORDER_IDENTIFIER": "Order Identifier",
+"ACCOUNT_BALANCE": "Account Balance"
 
 
 

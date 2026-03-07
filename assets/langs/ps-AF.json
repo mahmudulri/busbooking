@@ -506,7 +506,8 @@
 "RECEIVE_AMOUNT": "د ترلاسه کولو اندازه",
 "FROM_DATE": "له نېټې",
 "TO_DATE": "تر نېټې",
-"ORDER_IDENTIFIER": "د امر پېژندونکی"
+"ORDER_IDENTIFIER": "د امر پېژندونکی",
+"ACCOUNT_BALANCE": "موجودی حساب"
 
 
 

@@ -506,7 +506,8 @@
 "RECEIVE_AMOUNT": "مبلغ دریافتی",
 "FROM_DATE": "از تاریخ",
 "TO_DATE": "تا تاریخ",
-"ORDER_IDENTIFIER": "شناسه سفارش"
+"ORDER_IDENTIFIER": "شناسه سفارش",
+"ACCOUNT_BALANCE": "موجودی حساب"
 
 
 
